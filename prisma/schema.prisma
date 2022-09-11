@@ -55,6 +55,22 @@ model User {
     sessions      Session[]
 }
 
+model RegisteredUser {
+    id             String   @id @default(cuid())
+    name           String
+    email          String   @unique
+    cpf            String   @unique
+    cep            String
+    age            Int
+    deficiency     String?
+    prev_knowledge String
+    sex            String
+    school_level   String
+    occupation     String
+    approved       Boolean  @default(false)
+    created_at     DateTime @default(now())
+}
+
 model VerificationToken {
     identifier String
     token      String   @unique

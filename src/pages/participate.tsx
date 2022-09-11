@@ -12,7 +12,7 @@ export const Participate = () => {
           maxW="1200px"
           mx="auto"
           gap="1rem"
-          gridTemplateColumns={['1fr', 'repeat(2, 1fr)']}
+          gridTemplateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
           pt="7.5rem"
         >
           <Box>Participate</Box>

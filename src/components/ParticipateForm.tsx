@@ -2,20 +2,24 @@
 // Enum is not being able detect it's being used, so I'm manually
 // removing unused vars warning
 import {
+  Button,
   Center,
+  Checkbox,
   Divider,
   FormLabel,
   Heading,
   Select,
-  Button,
   Stack,
+  Text,
   useColorModeValue,
+  useToast,
 } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../components/Input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useEffect } from 'react'
+import { trpc } from '../utils/trpc'
 
 const inputs = [
   'name',
@@ -63,12 +67,16 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export const ParticipateForm = () => {
+  const registerMutation = trpc.useMutation(['user.register'])
+  const toast = useToast()
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
+
   const {
     register,
     handleSubmit,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -94,6 +102,33 @@ export const ParticipateForm = () => {
   function handleRegister(data: FormData) {
     console.log('Received', data)
     // save to the list of registered users
+    registerMutation.mutate(data, {
+      onError: (err: any) => {
+        toast({
+          title: 'Erro.',
+          description: err.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+          colorScheme: 'purple',
+        })
+        console.log({ err })
+      },
+      onSuccess: () => {
+        toast({
+          title: 'Registrado.',
+          description:
+            'Você entrou na lista de espera e será avaliado para a pesquisa, agora é só esperar que retornaremos assim que possível',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+          colorScheme: 'purple',
+        })
+        console.log('Successfully registered new client')
+      },
+    })
   }
 
   return (
@@ -120,6 +155,7 @@ export const ParticipateForm = () => {
               bg={inputBg}
               error={errors[input]}
               key={input}
+              isRequired
               {...register(input, {
                 valueAsNumber: true,
               })}
@@ -132,6 +168,7 @@ export const ParticipateForm = () => {
             bg={inputBg}
             error={errors[input]}
             key={input}
+            isRequired={INPUTS_ENUM[input] !== 'Possui alguma Deficiência?'}
             {...register(input)}
           />
         )
@@ -152,19 +189,26 @@ export const ParticipateForm = () => {
         <option value="estudante">Estudante</option>
         <option value="profissional">Profissional</option>
       </Select>
+      <Checkbox
+        onChange={() => setHasAcceptedTerms((prev) => !prev)}
+        justifyContent="start"
+        alignItems="start"
+        py="4"
+      >
+        <Text fontSize="sm" color="gray.400" lineHeight="1.2">
+          Ao continuar, você concorda com os termos de consentimento do uso de
+          seus dados
+        </Text>
+      </Checkbox>
       <Button
-        display={{
-          base: 'none',
-          md: 'flex',
-        }}
+        type="submit"
         alignItems="center"
         transition="all 0.3s"
         colorScheme={'purple'}
         size={'lg'}
         _hover={{ bg: 'purple.500' }}
         bg={'purple.400'}
-        type="submit"
-        isDisabled
+        isDisabled={!hasAcceptedTerms || !isValid}
         _disabled={{
           bg: useColorModeValue('blackAlpha.300', 'whiteAlpha.200'),
           _hover: {
@@ -173,8 +217,7 @@ export const ParticipateForm = () => {
           cursor: 'not-allowed',
         }}
       >
-        Ainda não pronto para envio
-        {/* Participar */}
+        Participar
       </Button>
     </Stack>
   )

@@ -168,7 +168,7 @@ export const ParticipateForm = () => {
             bg={inputBg}
             error={errors[input]}
             key={input}
-            isRequired={INPUTS_ENUM[input] !== 'Possui alguma Deficiência?'}
+            isRequired={input !== 'disabilities'}
             {...register(input)}
           />
         )

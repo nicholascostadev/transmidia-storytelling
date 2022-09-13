@@ -1,50 +1,41 @@
 import {
   Box,
+  Button,
+  chakra,
+  Flex,
+  Heading,
   IconButton,
   useColorMode,
   useColorModeValue,
   useDisclosure,
-  chakra,
-  Flex,
-  Heading,
-  Button,
 } from '@chakra-ui/react'
+import { useScroll } from 'framer-motion'
+import { signOut } from 'next-auth/react'
 import NextLink from 'next/link'
-import { FaMoon, FaSun } from 'react-icons/fa'
+import { useEffect, useRef, useState } from 'react'
 import { AiOutlineMenu } from 'react-icons/ai'
+import { FaMoon, FaSun } from 'react-icons/fa'
 import { MobileNavContent } from './MobileNavContent'
-import { MdOutlineReadMore } from 'react-icons/md'
 
-export const Header = () => {
+export const DashboardHeader = () => {
   const mobileNav = useDisclosure()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
-
-  const SponsorButton = (
-    <NextLink href={'/participate'} passHref>
-      <Button
-        display={{
-          base: 'none',
-          md: 'flex',
-        }}
-        alignItems="center"
-        transition="all 0.3s"
-        colorScheme={'purple'}
-        leftIcon={<MdOutlineReadMore />}
-        size={'md'}
-        bg={'purple.400'}
-        _hover={{ bg: 'purple.500' }}
-      >
-        Participar
-      </Button>
-    </NextLink>
-  )
+  const ref = useRef(null)
+  const [y, setY] = useState(0)
+  // @ts-ignore
+  const height = ref.current ? ref.current.getBoundingClientRect() : 0
+  const { scrollY } = useScroll()
+  useEffect(() => {
+    return scrollY.onChange(() => setY(scrollY.get()))
+  }, [scrollY])
 
   return (
     <Box pos="relative">
       <chakra.header
-        shadow="sm"
+        ref={ref}
+        shadow={y > height ? 'sm' : undefined}
         transition="box-shadow 0.2s"
         borderTopColor="brand.400"
         w="full"
@@ -88,7 +79,9 @@ export const Header = () => {
                   onClick={toggleMode}
                   icon={<SwitchIcon />}
                 />
-                {SponsorButton}
+                <Button colorScheme="purple" onClick={() => signOut()}>
+                  Sign Out
+                </Button>
                 <IconButton
                   aria-label={'Open menu'}
                   display={{

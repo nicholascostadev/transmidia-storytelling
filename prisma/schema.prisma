@@ -53,6 +53,7 @@ model User {
     emailVerified DateTime?
     image         String?
     permission    String    @default("none")
+    // USE ENUM LATER WHEN ON Production
     accounts      Account[]
     sessions      Session[]
 }

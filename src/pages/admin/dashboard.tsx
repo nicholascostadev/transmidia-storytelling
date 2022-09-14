@@ -1,23 +1,32 @@
 import {
   Button,
+  ButtonGroup,
   Center,
   Icon,
   Link as ChakraLink,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
   Spinner,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
-  Tooltip,
   Tr,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { CaretRight, PencilLine } from 'phosphor-react'
+import { CaretRight, Check, PencilLine } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
@@ -161,20 +170,65 @@ export default function Dashboard() {
                       </ChakraLink>
                     </Link>
                   </Td>
-                  <Td isNumeric>
-                    <Tooltip
-                      label="Alterar entre aprovado ou não aprovado"
-                      rounded="md"
-                      colorScheme="pink"
-                    >
-                      <Button
-                        leftIcon={<PencilLine />}
-                        onClick={handleToggleApproval(user.id, user.approved)}
-                        colorScheme="pink"
-                      >
-                        Trocar
-                      </Button>
-                    </Tooltip>
+                  <Td>
+                    <Popover closeOnBlur={false}>
+                      {({ onClose }) => (
+                        <>
+                          <PopoverTrigger>
+                            <Button
+                              leftIcon={<PencilLine />}
+                              colorScheme="pink"
+                            >
+                              Trocar
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>Confirmation!</PopoverHeader>
+                            <PopoverBody as="span">
+                              Tem certeza que deseja alterar o status do
+                              <Text>
+                                usuário para{' '}
+                                <Text
+                                  as="span"
+                                  color="red.500"
+                                  fontWeight="bold"
+                                >
+                                  {formatApproval(!user.approved)}
+                                </Text>
+                                ?
+                              </Text>{' '}
+                            </PopoverBody>
+                            <PopoverFooter
+                              display="flex"
+                              justifyContent="flex-end"
+                            >
+                              <ButtonGroup size="sm">
+                                <Button
+                                  variant="outline"
+                                  colorScheme="red"
+                                  onClick={onClose}
+                                >
+                                  Cancelar
+                                </Button>
+                                <Button
+                                  leftIcon={<Check />}
+                                  colorScheme="purple"
+                                  onClick={handleToggleApproval(
+                                    user.id,
+                                    user.approved,
+                                  )}
+                                  isLoading={toggleApprovalMutation.isLoading}
+                                >
+                                  Sim
+                                </Button>
+                              </ButtonGroup>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </>
+                      )}
+                    </Popover>
                   </Td>
                 </Tr>
               ))}

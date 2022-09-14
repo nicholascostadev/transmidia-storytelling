@@ -1,8 +1,18 @@
 import {
+  Button,
+  ButtonGroup,
   Center,
   Flex,
   Grid,
   IconButton,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
   Stack,
   Text,
   Tooltip,
@@ -13,7 +23,7 @@ import { RegisteredUser } from '@prisma/client'
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { useRouter } from 'next/router'
-import { CaretLeft, PencilLine } from 'phosphor-react'
+import { CaretLeft, Check, PencilLine } from 'phosphor-react'
 import { useState } from 'react'
 import { DashboardHeader } from '../../../components/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../../components/NotAllowed'
@@ -193,16 +203,66 @@ export default function Answers() {
                         <Text padding="2">
                           {String(formatApproval(userInfo[key]))}
                         </Text>
-                        <IconButton
-                          variant="ghost"
-                          colorScheme="pink"
-                          aria-label="Toggle Approval"
-                          icon={<PencilLine />}
-                          onClick={handleToggleApproval(
-                            userInfo.id,
-                            userInfo[key],
+                        <Popover closeOnBlur={false} placement="top">
+                          {({ onClose }) => (
+                            <>
+                              <PopoverTrigger>
+                                <IconButton
+                                  variant="ghost"
+                                  icon={<PencilLine />}
+                                  colorScheme="pink"
+                                  aria-label="Change user's approval status"
+                                >
+                                  Trocar
+                                </IconButton>
+                              </PopoverTrigger>
+                              <PopoverContent>
+                                <PopoverArrow />
+                                <PopoverCloseButton />
+                                <PopoverHeader>Confirmation!</PopoverHeader>
+                                <PopoverBody>
+                                  Tem certeza que deseja alterar o status do
+                                  usuário para{' '}
+                                  <Text
+                                    as="span"
+                                    color="red.500"
+                                    fontWeight="bold"
+                                  >
+                                    {formatApproval(!userInfo[key])}
+                                  </Text>
+                                  ?
+                                </PopoverBody>
+                                <PopoverFooter
+                                  display="flex"
+                                  justifyContent="flex-end"
+                                >
+                                  <ButtonGroup size="sm">
+                                    <Button
+                                      variant="outline"
+                                      colorScheme="red"
+                                      onClick={onClose}
+                                    >
+                                      Cancelar
+                                    </Button>
+                                    <Button
+                                      leftIcon={<Check />}
+                                      colorScheme="purple"
+                                      onClick={handleToggleApproval(
+                                        userInfo.id,
+                                        userInfo.approved,
+                                      )}
+                                      isLoading={
+                                        toggleApprovalMutation.isLoading
+                                      }
+                                    >
+                                      Sim
+                                    </Button>
+                                  </ButtonGroup>
+                                </PopoverFooter>
+                              </PopoverContent>
+                            </>
                           )}
-                        />
+                        </Popover>
                       </Flex>
                     )
                   }

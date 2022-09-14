@@ -20,6 +20,8 @@ import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { trpc } from '../../utils/trpc'
 
+type TUserPossiblePermissions = 'admin' | 'none'
+
 export default function ManageUsers() {
   const { data, status } = useSession()
   const toast = useToast()
@@ -42,7 +44,14 @@ export default function ManageUsers() {
     return <NotAllowed />
   }
 
-  function handleChangePermission(userId: string, permission: string) {
+  const formatPermission = (permission: string) => {
+    return permission === 'admin' ? 'Administrador' : 'Nenhuma'
+  }
+
+  function handleChangePermission(
+    userId: string,
+    permission: TUserPossiblePermissions,
+  ) {
     console.log('Called with: ', { userId, permission })
     permissionMutate.mutate(
       {
@@ -63,7 +72,11 @@ export default function ManageUsers() {
         onSuccess: (response) => {
           toast({
             title: 'Alterado.',
-            description: `A permissão do usuário foi alterada para ${response.permission} com sucesso`,
+            description: `A permissão do usuário ${
+              response.name
+            } foi alterada para ${formatPermission(
+              response.permission,
+            )} com sucesso`,
             status: 'success',
             duration: 3000,
             isClosable: true,
@@ -113,11 +126,14 @@ export default function ManageUsers() {
                       <Select
                         defaultValue={user.permission}
                         onChange={(e) =>
-                          handleChangePermission(user.id, e.target.value)
+                          handleChangePermission(
+                            user.id,
+                            e.target.value as TUserPossiblePermissions,
+                          )
                         }
                       >
-                        <option value="none">none</option>
-                        <option value="admin">admin</option>
+                        <option value="none">Nenhuma</option>
+                        <option value="admin">Administrador</option>
                       </Select>
                     </Td>
                   </Tr>

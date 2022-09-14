@@ -3,7 +3,7 @@ import { createRouter } from './context'
 import superjson from 'superjson'
 
 import { exampleRouter } from './example'
-import { protectedUserRouter } from './getUsers'
+import { protectedUserRouter } from './protectedUserRouter'
 import { userRouter } from './user'
 import { dashboardRouter } from './dashboardRouter'
 

@@ -1,5 +1,5 @@
 import { createProtectedRouter } from './context'
-import z from 'zod';
+import z from 'zod'
 
 // Example router with queries that can only be hit if the user requesting is signed in
 export const protectedUserRouter = createProtectedRouter()
@@ -8,19 +8,19 @@ export const protectedUserRouter = createProtectedRouter()
       return ctx.prisma.user.findMany()
     },
   })
-  .mutation("changeUserPermission", {
+  .mutation('changeUserPermission', {
     input: z.object({
       id: z.string(),
-      newPermission: z.string()
+      newPermission: z.enum(['admin', 'none']),
     }),
-    async resolve({input,ctx}) {
+    async resolve({ input, ctx }) {
       return await ctx.prisma.user.update({
         where: {
-          id: input.id
+          id: input.id,
         },
         data: {
-          permission: input.newPermission
-        }
+          permission: input.newPermission,
+        },
       })
-    }
+    },
   })

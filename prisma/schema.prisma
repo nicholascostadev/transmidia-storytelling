@@ -65,7 +65,7 @@ model RegisteredUser {
     cep            String
     age            Int
     deficiency     String?
-    prev_knowledge String
+    prev_knowledge String?
     sex            String
     school_level   String
     occupation     String

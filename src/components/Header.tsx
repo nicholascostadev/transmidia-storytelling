@@ -1,25 +1,25 @@
 import {
   Box,
+  Button,
+  chakra,
+  Flex,
+  Heading,
   IconButton,
   useColorMode,
   useColorModeValue,
   useDisclosure,
-  chakra,
-  Flex,
-  Heading,
-  Button,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import { FaMoon, FaSun } from 'react-icons/fa'
+import { Moon, Sun } from 'phosphor-react'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { MobileNavContent } from './MobileNavContent'
 import { MdOutlineReadMore } from 'react-icons/md'
+import { MobileNavContent } from './MobileNavContent'
 
 export const Header = () => {
   const mobileNav = useDisclosure()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
-  const SwitchIcon = useColorModeValue(FaMoon, FaSun)
+  const SwitchIcon = useColorModeValue(Moon, Sun)
 
   const SponsorButton = (
     <NextLink href={'/participate'} passHref>

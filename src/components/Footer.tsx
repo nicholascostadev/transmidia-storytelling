@@ -45,7 +45,6 @@ const SocialButton = ({
 export const Footer = () => {
   return (
     <Box
-      mt={8}
       bg={useColorModeValue('gray.100', 'gray.900')}
       color={useColorModeValue('gray.700', 'gray.200')}
     >

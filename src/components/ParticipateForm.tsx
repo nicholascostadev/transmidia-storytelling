@@ -137,6 +137,7 @@ export const ParticipateForm = () => {
       bg={useColorModeValue('white', 'gray.900')}
       p={'3rem'}
       rounded={'lg'}
+      zIndex={1000}
     >
       <Center display={'flex'} flexDir="column" pb="2" gap="2">
         <Heading>Cadastro</Heading>

@@ -75,7 +75,6 @@ export default function Dashboard() {
               duration: 3000,
               isClosable: true,
               position: 'top-right',
-              colorScheme: 'purple',
             })
             setUsersToShow((users) =>
               users?.map((user) => {
@@ -100,7 +99,6 @@ export default function Dashboard() {
               duration: 3000,
               isClosable: true,
               position: 'top-right',
-              colorScheme: 'purple',
             })
           },
         },

@@ -19,7 +19,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { CaretRight, PencilLine } from 'phosphor-react'
 import { useEffect, useState } from 'react'
-import { DashboardHeader } from '../../components/DashboardHeader'
+import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { formatApproval } from '../../utils/formatters'
 import { trpc } from '../../utils/trpc'
@@ -113,7 +113,7 @@ export default function Dashboard() {
   }, [registeredUsers])
 
   if (
-    userInfo.data?.permission !== 'admin' ||
+    (userInfo.data?.permission !== 'admin' && status !== 'loading') ||
     (!data && status !== 'loading')
   ) {
     return <NotAllowed />

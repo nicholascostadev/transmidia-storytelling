@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   chakra,
+  DarkMode,
   Flex,
   Heading,
   HStack,
@@ -95,13 +96,11 @@ export const DashboardHeader = () => {
                   icon={<AiOutlineMenu />}
                   onClick={mobileNav.onOpen}
                 />
-                <Button
-                  variant="outline"
-                  colorScheme="pink"
-                  onClick={() => signOut()}
-                >
-                  Sign Out
-                </Button>
+                <DarkMode>
+                  <Button colorScheme="pink" onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                </DarkMode>
               </HStack>
             </Flex>
             <DashboardMobileNavContent

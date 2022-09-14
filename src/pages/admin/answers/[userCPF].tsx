@@ -79,7 +79,6 @@ export default function Answers() {
               duration: 3000,
               isClosable: true,
               position: 'top-right',
-              colorScheme: 'purple',
             })
 
             setUserInfo((oldUserInfo) => {
@@ -101,7 +100,6 @@ export default function Answers() {
               duration: 3000,
               isClosable: true,
               position: 'top-right',
-              colorScheme: 'purple',
             })
           },
         },

@@ -53,13 +53,8 @@ const schema = z.object({
     .number()
     .min(18, 'A idade mínima para participar da pesquisa é de 18 anos'),
   disabilities: z.string().optional(),
-  previousKnowledge: z
-    .string()
-    .min(
-      1,
-      'É necessário informar se possui algum conhecimento prévio na área da ciência',
-    ),
-  gender: z.enum(['M', 'F']),
+  previousKnowledge: z.string().optional(),
+  sex: z.enum(['M', 'F']),
   academic: z.enum(['ensino-fundamental', 'ensino-medio', 'ensino-superior']),
   occupation: z.enum(['estudante', 'profissional']),
 })
@@ -106,12 +101,12 @@ export const ParticipateForm = () => {
       onError: (err: any) => {
         toast({
           title: 'Erro.',
-          description: err.message,
+          description:
+            'Erro ao registrar. Você está se registrando novamente sem querer?',
           status: 'error',
           duration: 9000,
           isClosable: true,
           position: 'top-right',
-          colorScheme: 'purple',
         })
         console.log({ err })
       },
@@ -124,12 +119,12 @@ export const ParticipateForm = () => {
           duration: 9000,
           isClosable: true,
           position: 'top-right',
-          colorScheme: 'purple',
         })
-        console.log('Successfully registered new client')
       },
     })
   }
+
+  const notRequiredInputs = ['disabilities', 'previousKnowledge']
 
   return (
     <Stack
@@ -168,13 +163,13 @@ export const ParticipateForm = () => {
             bg={inputBg}
             error={errors[input]}
             key={input}
-            isRequired={input !== 'disabilities'}
+            isRequired={!notRequiredInputs.find((item) => item === input)}
             {...register(input)}
           />
         )
       })}
       <FormLabel>Sexo</FormLabel>
-      <Select {...register('gender')} variant="outline">
+      <Select {...register('sex')} variant="outline">
         <option value="M">Masculino</option>
         <option value="F">Feminino</option>
       </Select>
@@ -191,6 +186,7 @@ export const ParticipateForm = () => {
       </Select>
       <Checkbox
         onChange={() => setHasAcceptedTerms((prev) => !prev)}
+        isRequired
         justifyContent="start"
         alignItems="start"
         py="4"
@@ -208,7 +204,7 @@ export const ParticipateForm = () => {
         size={'lg'}
         _hover={{ bg: 'purple.500' }}
         bg={'purple.400'}
-        isDisabled={!hasAcceptedTerms || !isValid}
+        isDisabled={!hasAcceptedTerms && !isValid}
         _disabled={{
           bg: useColorModeValue('blackAlpha.300', 'whiteAlpha.200'),
           _hover: {
@@ -216,6 +212,7 @@ export const ParticipateForm = () => {
           },
           cursor: 'not-allowed',
         }}
+        isLoading={registerMutation.isLoading}
       >
         Participar
       </Button>

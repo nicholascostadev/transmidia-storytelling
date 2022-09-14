@@ -4,16 +4,20 @@ import z from 'zod'
 export const userRouter = createRouter()
   .mutation('register', {
     input: z.object({
-      name: z.string(),
-      email: z.string(),
-      cpf: z.string(),
-      cep: z.string(),
-      age: z.number(),
+      name: z.string().min(1),
+      email: z.string().min(1).email(),
+      cpf: z.string().min(11).max(11),
+      cep: z.string().length(8).trim(),
+      age: z.number().min(18),
       disabilities: z.string().optional(),
-      previousKnowledge: z.string(),
-      gender: z.string(),
-      academic: z.string(),
-      occupation: z.string(),
+      previousKnowledge: z.string().optional(),
+      sex: z.enum(['M', 'F']),
+      academic: z.enum([
+        'ensino-fundamental',
+        'ensino-medio',
+        'ensino-superior',
+      ]),
+      occupation: z.enum(['estudante', 'profissional']),
     }),
     async resolve({ input, ctx }) {
       return await ctx.prisma.registeredUser.create({
@@ -25,7 +29,7 @@ export const userRouter = createRouter()
           age: input.age,
           deficiency: input.disabilities,
           prev_knowledge: input.previousKnowledge,
-          sex: input.gender,
+          sex: input.sex,
           school_level: input.academic,
           occupation: input.occupation,
         },

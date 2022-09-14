@@ -58,7 +58,6 @@ export default function ManageUsers() {
             duration: 3000,
             isClosable: true,
             position: 'top-right',
-            colorScheme: 'purple',
           })
         },
         onSuccess: (response) => {
@@ -69,7 +68,6 @@ export default function ManageUsers() {
             duration: 3000,
             isClosable: true,
             position: 'top-right',
-            colorScheme: 'purple',
           })
         },
       },

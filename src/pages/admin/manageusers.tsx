@@ -121,7 +121,11 @@ export default function ManageUsers() {
                     <Td maxW="20">
                       <Avatar name={user.name ?? ''} src={user?.image ?? ''} />
                     </Td>
-                    <Td>{user.email}</Td>
+                    <Td>
+                      {user.email === data?.user?.email
+                        ? user.email + '(você)'
+                        : user.email}
+                    </Td>
                     <Td>
                       <Select
                         defaultValue={user.permission}

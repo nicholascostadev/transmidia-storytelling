@@ -95,7 +95,6 @@ export const ParticipateForm = () => {
   const inputBg = useColorModeValue('initial', 'gray.800')
 
   function handleRegister(data: FormData) {
-    console.log('Received', data)
     // save to the list of registered users
     registerMutation.mutate(data, {
       onError: (err: any) => {

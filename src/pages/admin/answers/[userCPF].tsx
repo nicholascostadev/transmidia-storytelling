@@ -70,7 +70,6 @@ export default function Answers() {
   const [userInfo, setUserInfo] = useState<RegisteredUser | null>(
     data as RegisteredUser,
   )
-  console.log(userInfo)
   const router = useRouter()
 
   const backgroundColor = useColorModeValue('white', '')

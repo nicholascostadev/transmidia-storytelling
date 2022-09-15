@@ -45,8 +45,6 @@ export default function AdminSignIn() {
     }
   }, [data, router, status, userInfo.data])
 
-  console.log(userInfo.data?.permission)
-
   return (
     <Center height="100vh">
       <Stack as="form" w="96" onSubmit={handleSignIn}>

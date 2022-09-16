@@ -18,7 +18,7 @@ import { RegisteredUser } from '@prisma/client'
 
 import { useSession } from 'next-auth/react'
 
-import { CaretLeft, CaretRight } from 'phosphor-react'
+import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 
 import { useEffect, useState } from 'react'
 
@@ -138,6 +138,17 @@ export default function Dashboard() {
               </NumberInputStepper>
             </NumberInput>
           </Flex>
+
+          <IconButton
+            size="sm"
+            icon={<ArrowCounterClockwise />}
+            aria-label="Refetch data"
+            justifySelf="flex-end"
+            ml="auto"
+            mr="2"
+            onClick={() => infiniteUsers.refetch()}
+            isLoading={infiniteUsers.isRefetching}
+          />
 
           <ButtonGroup size="sm">
             <IconButton

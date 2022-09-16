@@ -24,8 +24,8 @@ import {
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
-import { CaretLeft, CaretRight } from 'phosphor-react'
-import { useState, useEffect } from 'react'
+import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
+import { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { trpc } from '../../utils/trpc'
@@ -84,6 +84,13 @@ export default function ManageUsers() {
     userId: string,
     permission: TUserPossiblePermissions,
   ) {
+    if (userId === data?.user?.id) {
+      return toast({
+        status: 'error',
+        title: 'Você não pode alterar suas próprias permissões',
+      })
+    }
+
     permissionMutate.mutate(
       {
         id: userId,
@@ -196,6 +203,17 @@ export default function ManageUsers() {
               </NumberInputStepper>
             </NumberInput>
           </Flex>
+          <IconButton
+            size="sm"
+            icon={<ArrowCounterClockwise />}
+            aria-label="Refetch data"
+            justifySelf="flex-end"
+            ml="auto"
+            mr="2"
+            onClick={() => infiniteUsers.refetch()}
+            isLoading={infiniteUsers.isRefetching}
+          />
+
           <ButtonGroup size="sm">
             <IconButton
               as={CaretLeft}

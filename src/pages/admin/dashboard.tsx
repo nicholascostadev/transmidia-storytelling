@@ -71,15 +71,11 @@ export default function Dashboard() {
         infiniteUsers.data?.pages[page - 1]?.items as RegisteredUser[],
       )
     }
-
-    console.log({ currentPage: page })
   }, [infiniteUsers.data?.pages, page])
 
   const [usersToShow, setUsersToShow] = useState<RegisteredUser[]>(
     infiniteUsers.data?.pages[0]?.items as RegisteredUser[],
   )
-
-  console.log(infiniteUsers.data)
 
   const toggleApprovalMutation = trpc.useMutation([
     'dashboard.toggleUserApproval',
@@ -162,10 +158,6 @@ export default function Dashboard() {
               cursor="pointer"
               onClick={() => {
                 infiniteUsers.fetchNextPage()
-
-                console.log('Has next page: ', infiniteUsers.hasNextPage)
-
-                console.log('Next available page: ', lastAvailablePage)
 
                 if (hasMorePages) {
                   setPage((page) => page + 1)

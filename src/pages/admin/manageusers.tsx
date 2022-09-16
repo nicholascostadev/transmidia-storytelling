@@ -61,7 +61,6 @@ export default function ManageUsers() {
     if (page > 0) {
       setUsers(infiniteUsers.data?.pages[page - 1]?.items as User[])
     }
-    console.log({ currentPage: page })
   }, [infiniteUsers.data?.pages, page])
 
   const permissionMutate = trpc.useMutation(['auth.changeUserPermission'])
@@ -85,7 +84,6 @@ export default function ManageUsers() {
     userId: string,
     permission: TUserPossiblePermissions,
   ) {
-    console.log('Called with: ', { userId, permission })
     permissionMutate.mutate(
       {
         id: userId,
@@ -216,8 +214,7 @@ export default function ManageUsers() {
               cursor="pointer"
               onClick={() => {
                 infiniteUsers.fetchNextPage()
-                console.log('Has next page: ', infiniteUsers.hasNextPage)
-                console.log('Next available page: ', lastAvailablePage)
+
                 if (hasMorePages) {
                   setPage((page) => page + 1)
                   setLastAvailablePage(page + 1)

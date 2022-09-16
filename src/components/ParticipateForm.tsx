@@ -108,7 +108,7 @@ export const ParticipateForm = () => {
           isClosable: true,
           position: 'top-right',
         })
-        console.log({ err })
+        console.error({ err })
       },
       onSuccess: () => {
         toast({

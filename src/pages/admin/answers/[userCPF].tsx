@@ -71,7 +71,7 @@ export default function Answers() {
         setUserInfo(data)
       },
       onError: (error) => {
-        console.log(error)
+        console.error(error)
       },
       refetchOnWindowFocus: false,
     },
@@ -97,9 +97,6 @@ export default function Answers() {
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
     return () => {
-      console.log('a')
-
-      // Make this work
       setUserInfo((oldUserInfo) => {
         if (oldUserInfo) {
           return {

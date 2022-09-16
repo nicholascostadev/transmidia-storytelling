@@ -30,7 +30,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import Link from 'next/link'
 import { CaretRight, Check, Swap } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
-import { formatApproval } from '../../utils/formatters'
+import { formatApproval } from '../../../utils/formatters'
 
 interface DashboardTableProps {
   usersToShow: RegisteredUser[]

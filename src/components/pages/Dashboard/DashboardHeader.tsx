@@ -14,8 +14,8 @@ import {
 } from '@chakra-ui/react'
 import { signOut, useSession } from 'next-auth/react'
 import { AiOutlineMenu } from 'react-icons/ai'
-import { DashboardMobileNavContent } from '../../components/Dashboard/DashboardMobileNavContent'
-import { trpc } from '../../utils/trpc'
+import { DashboardMobileNavContent } from './DashboardMobileNavContent'
+import { trpc } from '../../../utils/trpc'
 import Link from 'next/link'
 import { Sun, Moon } from 'phosphor-react'
 

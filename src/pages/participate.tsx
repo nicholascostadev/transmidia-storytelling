@@ -2,7 +2,7 @@ import { Box, Grid, useColorModeValue } from '@chakra-ui/react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { ParticipateForm } from '../components/ParticipateForm'
-import teachingIllutration from '../../src/assets/teaching.svg'
+import teachingIllustration from '../../src/assets/teaching.svg'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
 
 export const Participate = () => {
@@ -16,7 +16,7 @@ export const Participate = () => {
       <Box bgGradient={bgColor}>
         <Box pb={8}>
           <ChakraCustomImage
-            src={teachingIllutration}
+            src={teachingIllustration}
             width={960}
             height={960}
             w={['20', '20', '550px', '600px', '650px', '100%']}

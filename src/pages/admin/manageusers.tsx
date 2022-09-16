@@ -1,5 +1,4 @@
 import {
-  Avatar,
   ButtonGroup,
   Center,
   Flex,
@@ -10,32 +9,23 @@ import {
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  Select,
   Spinner,
   Stack,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-  useColorModeValue,
-  useToast,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 import { useEffect, useState } from 'react'
-import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
+import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
+import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsersTable'
 import { Search } from '../../components/Search'
 import { TFilter } from '../../types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 
-type TUserPossiblePermissions = 'admin' | 'none'
+export type TUserPossiblePermissions = 'admin' | 'none'
 
 export default function ManageUsers() {
   const { data, status } = useSession()
@@ -50,7 +40,6 @@ export default function ManageUsers() {
   // Allows for reloading the page to see the same search results & to link to it
   const q = stringOrNull(router.query.q)?.trim()
 
-  const toast = useToast()
   const userInfo = trpc.useQuery([
     'user.getUserInfo',
     { id: String(data?.user?.id) },
@@ -98,9 +87,7 @@ export default function ManageUsers() {
     return () => clearTimeout(delayDebounceFn)
   }, [query, router])
 
-  const permissionMutation = trpc.useMutation(['auth.changeUserPermission'])
-  const backgroundColor = useColorModeValue('white', '')
-  const borderColor = useColorModeValue('gray.100', 'gray.700')
+  const permissionMutate = trpc.useMutation(['auth.changeUserPermission'])
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
@@ -111,54 +98,6 @@ export default function ManageUsers() {
     return <NotAllowed />
   }
 
-  const formatPermission = (permission: string) => {
-    return permission === 'admin' ? 'Administrador' : 'Nenhuma'
-  }
-
-  function handleChangePermission(
-    userId: string,
-    permission: TUserPossiblePermissions,
-  ) {
-    if (userId === data?.user?.id) {
-      return toast({
-        status: 'error',
-        title: 'Você não pode alterar suas próprias permissões',
-      })
-    }
-
-    permissionMutation.mutate(
-      {
-        id: userId,
-        newPermission: permission,
-      },
-      {
-        onError: (error) => {
-          toast({
-            title: 'Erro.',
-            description: error.message,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          })
-        },
-        onSuccess: (response) => {
-          toast({
-            title: 'Alterado.',
-            description: `A permissão do usuário ${
-              response.name
-            } foi alterada para ${formatPermission(
-              response.permission,
-            )} com sucesso`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          })
-        },
-      },
-    )
-  }
   function handleQueryChange(newQuery: string) {
     setQuery(newQuery)
   }
@@ -186,51 +125,8 @@ export default function ManageUsers() {
             filter={filter}
             changeFilter={handleFilterChange}
           />
-          <TableContainer
-            maxW="100%"
-            w="1200px"
-            border="1px"
-            rounded="md"
-            borderColor={borderColor}
-          >
-            <Table variant="simple" overflow="scroll" bg={backgroundColor}>
-              <Thead>
-                <Tr>
-                  <Th maxW="20">User Profile Image</Th>
-                  <Th>Email</Th>
-                  <Th>Permissões</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {users?.map((user) => (
-                  <Tr key={user.id}>
-                    <Td maxW="20">
-                      <Avatar name={user.name ?? ''} src={user?.image ?? ''} />
-                    </Td>
-                    <Td>
-                      {user.email === data?.user?.email
-                        ? user.email + '(você)'
-                        : user.email}
-                    </Td>
-                    <Td>
-                      <Select
-                        defaultValue={user.permission}
-                        onChange={(e) =>
-                          handleChangePermission(
-                            user.id,
-                            e.target.value as TUserPossiblePermissions,
-                          )
-                        }
-                      >
-                        <option value="none">Nenhuma</option>
-                        <option value="admin">Administrador</option>
-                      </Select>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
+
+          <ManageUsersTable users={users} permissionMutate={permissionMutate} />
 
           <Flex justify="space-between" w="1200px" maxW="100%">
             <Flex justify="center" alignItems="center">

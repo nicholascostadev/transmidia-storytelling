@@ -8,7 +8,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import NextImage from 'next/image'
-import mediasImage from '../assets/medias.svg'
+import mediasImage from '../../../assets/medias.svg'
 
 export const Explanation = () => {
   return (

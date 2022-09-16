@@ -24,9 +24,9 @@ import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 
 import { useEffect, useState } from 'react'
 
-import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
+import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 
-import { DashboardTable } from '../../components/Dashboard/DashboardTable'
+import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 
 import { NotAllowed } from '../../components/NotAllowed'
 import { Search } from '../../components/Search'

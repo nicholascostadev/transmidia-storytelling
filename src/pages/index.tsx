@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Explanation } from '../components/Explanation'
-import { FinalCTA } from '../components/FinalCTA'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { Hero } from '../components/Hero'
-import { Motivation } from '../components/Motivation'
+import { Explanation } from '../components/pages/Home/Explanation'
+import { FinalCTA } from '../components/pages/Home/FinalCTA'
+import { Hero } from '../components/pages/Home/Hero'
+import { Motivation } from '../components/pages/Home/Motivation'
 
 const Home: NextPage = () => {
   // const { data } = trpc.useQuery(['example.hello', { text: 'from tRPC' }])

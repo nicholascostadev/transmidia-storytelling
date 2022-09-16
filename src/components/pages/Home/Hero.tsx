@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import heroImage from '../assets/share.svg'
+import heroImage from '../../../assets/share.svg'
 import { Link } from 'react-scroll'
 import NextLink from 'next/link'
 import Image from 'next/image'

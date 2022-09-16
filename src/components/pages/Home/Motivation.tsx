@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import readBooks from '../assets/readbooks.svg'
+import readBooks from '../../../assets/readbooks.svg'
 import NextImage from 'next/image'
 
 export const Motivation = () => {

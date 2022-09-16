@@ -22,10 +22,12 @@ import { Sun, Moon } from 'phosphor-react'
 export const DashboardHeader = () => {
   const mobileNav = useDisclosure()
   const { data: userSession } = useSession()
-  const { data } = trpc.useQuery([
-    'user.getUserInfo',
-    { id: String(userSession?.user?.id) },
-  ])
+  const { data } = trpc.useQuery(
+    ['user.getUserInfo', { id: String(userSession?.user?.id) }],
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    },
+  )
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const textColor = useColorModeValue('gray.600', '')

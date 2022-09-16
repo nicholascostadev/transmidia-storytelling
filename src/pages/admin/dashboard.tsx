@@ -49,11 +49,12 @@ export default function Dashboard() {
 
   const q = stringOrNull(router.query.q)?.trim()
 
-  const userInfo = trpc.useQuery([
-    'user.getUserInfo',
-
-    { id: String(data?.user?.id) },
-  ])
+  const userInfo = trpc.useQuery(
+    ['user.getUserInfo', { id: String(data?.user?.id) }],
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    },
+  )
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
 

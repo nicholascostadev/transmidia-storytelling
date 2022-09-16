@@ -13,6 +13,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Spinner,
   Stack,
   Text,
   Tooltip,
@@ -22,10 +23,12 @@ import {
 import { RegisteredUser } from '@prisma/client'
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { CaretLeft, Check, PencilLine } from 'phosphor-react'
 import { useState } from 'react'
 import { DashboardHeader } from '../../../components/Dashboard/DashboardHeader'
+import { GeneralizedErrorPage } from '../../../components/GeneralizedErrorPage'
 import { NotAllowed } from '../../../components/NotAllowed'
 import { formatApproval } from '../../../utils/formatters'
 import { trpc } from '../../../utils/trpc'
@@ -49,13 +52,19 @@ const TABLE_TITLES = {
 export default function Answers() {
   const { query } = useRouter()
   const { userCPF } = query
-  const [error, setError] = useState('' as any)
+  const { data, status } = useSession()
+
+  const loggedUserInfo = trpc.useQuery([
+    'user.getUserInfo',
+
+    { id: String(data?.user?.id) },
+  ])
 
   const toggleApprovalMutation = trpc.useMutation([
     'dashboard.toggleUserApproval',
   ])
   const toast = useToast()
-  const { data } = trpc.useQuery(
+  const { isLoading, error } = trpc.useQuery(
     ['dashboard.getUserAnswers', { cpf: String(userCPF) }],
     {
       onSuccess: (data) => {
@@ -63,20 +72,27 @@ export default function Answers() {
       },
       onError: (error) => {
         console.log(error)
-        setError(error)
       },
+      refetchOnWindowFocus: false,
     },
   )
   const [userInfo, setUserInfo] = useState<RegisteredUser | null>(
-    data as RegisteredUser,
+    {} as RegisteredUser,
   )
   const router = useRouter()
 
   const backgroundColor = useColorModeValue('white', '')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
 
-  if (error.message === 'UNAUTHORIZED') {
+  if (
+    (loggedUserInfo.data?.permission !== 'admin' && status !== 'loading') ||
+    (!data && status !== 'loading')
+  ) {
     return <NotAllowed />
+  }
+
+  if (error && error.message !== 'UNAUTHORIZED') {
+    return <GeneralizedErrorPage />
   }
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
@@ -130,6 +146,16 @@ export default function Answers() {
         },
       )
     }
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <Center h="calc(100vh - 72px)">
+          <Spinner />
+        </Center>
+      </>
+    )
   }
 
   return (
@@ -192,11 +218,11 @@ export default function Answers() {
                           new Date(
                             String(userInfo[key as keyof RegisteredUser]),
                           ) || new Date(),
-                          'PPP',
+                          'PPPp',
                           {
                             locale: ptBR,
                           },
-                        )}
+                        )}{' '}
                         (
                         {formatDistanceToNow(new Date(String(userInfo[key])), {
                           locale: ptBR,
@@ -293,9 +319,16 @@ export default function Answers() {
                           key={String(userInfo[key as keyof RegisteredUser])}
                           padding="2"
                         >
-                          {String(
-                            userInfo[key as keyof RegisteredUser] || 'Nenhuma',
-                          )}
+                          {key === 'sex'
+                            ? String(
+                                userInfo[key as keyof RegisteredUser] === 'M'
+                                  ? 'Masculino'
+                                  : 'Feminino',
+                              )
+                            : String(
+                                userInfo[key as keyof RegisteredUser] ||
+                                  'Nenhuma',
+                              )}
                         </Text>
                       </Flex>
                     </>

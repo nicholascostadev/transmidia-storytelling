@@ -1,5 +1,6 @@
 import { createProtectedRouter } from './context'
 import z from 'zod'
+import { User } from '@prisma/client'
 
 // Example router with queries that can only be hit if the user requesting is signed in
 export const protectedUserRouter = createProtectedRouter()
@@ -7,14 +8,30 @@ export const protectedUserRouter = createProtectedRouter()
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),
       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+      query: z.string().nullish(),
+      filter: z.enum(['email', 'name']),
     }),
     async resolve({ input, ctx }) {
       const limit = input.limit ?? 50
       const { cursor } = input
-      const items = await ctx.prisma.user.findMany({
-        take: limit + 1, // get an extra item at the end which we'll use as next cursor
-        cursor: cursor ? { id: cursor } : undefined,
-      })
+
+      let items: User[]
+      if (input.query) {
+        items = await ctx.prisma.user.findMany({
+          take: limit + 1, // get an extra item at the end which we'll use as next cursor
+          cursor: cursor ? { id: cursor } : undefined,
+          where: {
+            [input.filter]: {
+              contains: input.query,
+            },
+          },
+        })
+      } else {
+        items = await ctx.prisma.user.findMany({
+          take: limit + 1, // get an extra item at the end which we'll use as next cursor
+          cursor: cursor ? { id: cursor } : undefined,
+        })
+      }
       let nextCursor: typeof cursor | undefined
       if (items.length > limit) {
         const nextItem = items.pop()

@@ -8,6 +8,7 @@ import {
   Divider,
   FormLabel,
   Heading,
+  Link as ChakraLink,
   Select,
   Stack,
   Text,
@@ -15,6 +16,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
@@ -194,9 +196,12 @@ export const ParticipateForm = () => {
         alignItems="start"
         py="4"
       >
-        <Text fontSize="sm" color="gray.400" lineHeight="1.2">
-          Ao continuar, você concorda com os termos de consentimento do uso de
-          seus dados
+        <Text fontSize="sm" color="gray.500" lineHeight="1.2">
+          Ao continuar, você concorda com os{' '}
+          <Link href="/participate/terms" passHref>
+            <ChakraLink color="blue.400">termos de consentimento</ChakraLink>
+          </Link>{' '}
+          do uso de seus dados para a confecção da pesquisa.
         </Text>
       </Checkbox>
       <Button

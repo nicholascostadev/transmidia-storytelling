@@ -1,9 +1,15 @@
 import {
   Box,
-  Button,
   ButtonGroup,
   Center,
+  Flex,
+  FormLabel,
   IconButton,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Spinner,
   useColorModeValue,
 } from '@chakra-ui/react'
@@ -20,6 +26,7 @@ import { trpc } from '../../utils/trpc'
 export default function Dashboard() {
   const { data, status } = useSession()
   const [page, setPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(5)
   const userInfo = trpc.useQuery([
     'user.getUserInfo',
     { id: String(data?.user?.id) },
@@ -27,7 +34,7 @@ export default function Dashboard() {
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
 
   const infiniteUsers = trpc.useInfiniteQuery(
-    ['dashboard.infinteUsers', { limit: 5 }],
+    ['dashboard.infinteUsers', { limit: itemsPerPage }],
     {
       refetchOnWindowFocus: false,
       onSuccess: (lastPage) => {
@@ -95,40 +102,55 @@ export default function Dashboard() {
             usersToShow={usersToShow}
           />
         </Box>
-        <ButtonGroup
-          mt="2"
-          size="sm"
-          maxW="100%"
-          w="1200px"
-          justifyContent="space-between"
-        >
-          <IconButton
-            as={CaretLeft}
-            disabled={page === 1}
-            cursor="pointer"
-            onClick={() => {
-              setPage((page) => {
-                return page > 1 ? page - 1 : page
-              })
-            }}
-            aria-label="Previous page icon"
-          />
-          <IconButton
-            as={CaretRight}
-            disabled={!hasMorePages}
-            cursor="pointer"
-            onClick={() => {
-              infiniteUsers.fetchNextPage()
-              console.log('Has next page: ', infiniteUsers.hasNextPage)
-              console.log('Next available page: ', lastAvailablePage)
-              if (hasMorePages) {
-                setPage((page) => page + 1)
-                setLastAvailablePage(page + 1)
+        <Flex justify="space-between" w="1200px" maxW="100%" mt="2">
+          <Flex justify="center" alignItems="center">
+            <FormLabel>Itens por página</FormLabel>
+            <NumberInput
+              w="20"
+              defaultValue={itemsPerPage}
+              min={5}
+              max={20}
+              value={itemsPerPage}
+              onChange={(value, valueAsNumber) =>
+                setItemsPerPage(valueAsNumber)
               }
-            }}
-            aria-label="Next page icon"
-          />
-        </ButtonGroup>
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Flex>
+          <ButtonGroup size="sm">
+            <IconButton
+              as={CaretLeft}
+              disabled={page === 1}
+              cursor="pointer"
+              onClick={() => {
+                setPage((page) => {
+                  return page > 1 ? page - 1 : page
+                })
+              }}
+              aria-label="Previous page icon"
+            />
+            <IconButton
+              as={CaretRight}
+              disabled={!hasMorePages}
+              cursor="pointer"
+              onClick={() => {
+                infiniteUsers.fetchNextPage()
+                console.log('Has next page: ', infiniteUsers.hasNextPage)
+                console.log('Next available page: ', lastAvailablePage)
+                if (hasMorePages) {
+                  setPage((page) => page + 1)
+                  setLastAvailablePage(page + 1)
+                }
+              }}
+              aria-label="Next page icon"
+            />
+          </ButtonGroup>
+        </Flex>
       </Center>
     </>
   )

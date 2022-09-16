@@ -72,6 +72,7 @@ export const ParticipateForm = () => {
     control,
     setValue,
     formState: { errors, isValid },
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -121,6 +122,8 @@ export const ParticipateForm = () => {
         })
       },
     })
+
+    reset()
   }
 
   const notRequiredInputs = ['disabilities', 'previousKnowledge']

@@ -13,36 +13,52 @@ import {
   Spinner,
   useColorModeValue,
 } from '@chakra-ui/react'
+
 import { RegisteredUser } from '@prisma/client'
+
 import { useSession } from 'next-auth/react'
+
 import { CaretLeft, CaretRight } from 'phosphor-react'
+
 import { useEffect, useState } from 'react'
 
 import { DashboardHeader } from '../../components/Dashboard/DashboardHeader'
+
 import { DashboardTable } from '../../components/Dashboard/DashboardTable'
+
 import { NotAllowed } from '../../components/NotAllowed'
+
 import { trpc } from '../../utils/trpc'
 
 export default function Dashboard() {
   const { data, status } = useSession()
+
   const [page, setPage] = useState(1)
+
   const [itemsPerPage, setItemsPerPage] = useState(5)
+
   const userInfo = trpc.useQuery([
     'user.getUserInfo',
+
     { id: String(data?.user?.id) },
   ])
+
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
 
   const infiniteUsers = trpc.useInfiniteQuery(
     ['dashboard.infinteUsers', { limit: itemsPerPage }],
+
     {
       refetchOnWindowFocus: false,
+
       onSuccess: (lastPage) => {
         if (page === 1) {
           setUsersToShow(lastPage.pages[0]?.items as RegisteredUser[])
         }
       },
+
       getNextPageParam: (lastPage) => lastPage.nextCursor,
+
       keepPreviousData: true,
     },
   )
@@ -55,6 +71,7 @@ export default function Dashboard() {
         infiniteUsers.data?.pages[page - 1]?.items as RegisteredUser[],
       )
     }
+
     console.log({ currentPage: page })
   }, [infiniteUsers.data?.pages, page])
 
@@ -88,6 +105,7 @@ export default function Dashboard() {
   return (
     <>
       <DashboardHeader />
+
       <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
         <Box
           maxW="100%"
@@ -102,9 +120,11 @@ export default function Dashboard() {
             usersToShow={usersToShow}
           />
         </Box>
+
         <Flex justify="space-between" w="1200px" maxW="100%" mt="2">
           <Flex justify="center" alignItems="center">
             <FormLabel>Itens por página</FormLabel>
+
             <NumberInput
               w="20"
               defaultValue={itemsPerPage}
@@ -116,12 +136,15 @@ export default function Dashboard() {
               }
             >
               <NumberInputField />
+
               <NumberInputStepper>
                 <NumberIncrementStepper />
+
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
           </Flex>
+
           <ButtonGroup size="sm">
             <IconButton
               as={CaretLeft}
@@ -134,16 +157,21 @@ export default function Dashboard() {
               }}
               aria-label="Previous page icon"
             />
+
             <IconButton
               as={CaretRight}
               disabled={!hasMorePages}
               cursor="pointer"
               onClick={() => {
                 infiniteUsers.fetchNextPage()
+
                 console.log('Has next page: ', infiniteUsers.hasNextPage)
+
                 console.log('Next available page: ', lastAvailablePage)
+
                 if (hasMorePages) {
                   setPage((page) => page + 1)
+
                   setLastAvailablePage(page + 1)
                 }
               }}
@@ -155,7 +183,3 @@ export default function Dashboard() {
     </>
   )
 }
-
-//   <Link href={`/admin/answers/${user.cpf}`}>
-//   <ChakraLink>Respostas</ChakraLink>
-// </Link>

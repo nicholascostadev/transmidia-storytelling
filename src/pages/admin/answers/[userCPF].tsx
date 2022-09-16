@@ -30,20 +30,20 @@ import { NotAllowed } from '../../../components/NotAllowed'
 import { formatApproval } from '../../../utils/formatters'
 import { trpc } from '../../../utils/trpc'
 
-enum TABLE_TITLES_ENUM {
-  id = 'id',
-  name = 'Nome',
-  email = 'Email',
-  cpf = 'CPF',
-  cep = 'CEP',
-  age = 'Idade',
-  deficiency = 'Deficiência',
-  prev_knowledge = 'Conhecimento prévio',
-  school_level = 'Nível escolar',
-  occupation = 'Ocupação',
-  approved = 'Estado de Aprovação',
-  created_at = 'Data de registro',
-  sex = 'Sexo',
+const TABLE_TITLES = {
+  id: 'id',
+  name: 'Nome',
+  email: 'Email',
+  cpf: 'CPF',
+  cep: 'CEP',
+  age: 'Idade',
+  deficiency: 'Deficiência',
+  prev_knowledge: 'Conhecimento prévio',
+  school_level: 'Nível escolar',
+  occupation: 'Ocupação',
+  approved: 'Estado de Aprovação',
+  created_at: 'Data de registro',
+  sex: 'Sexo',
 }
 
 export default function Answers() {
@@ -171,7 +171,7 @@ export default function Answers() {
                   padding="2"
                   borderColor={borderColor}
                 >
-                  {TABLE_TITLES_ENUM[key as keyof RegisteredUser]}
+                  {TABLE_TITLES[key as keyof RegisteredUser]}
                 </Text>
               )
             })}

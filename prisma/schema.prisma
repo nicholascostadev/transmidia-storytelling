@@ -65,10 +65,11 @@ model RegisteredUser {
     name           String
     email          String   @unique
     cpf            String   @unique
-    cep            String
+    city           String
+    state          String
     age            Int
-    deficiency     String?
-    prev_knowledge String?
+    disabilities   String   @default("Nenhuma")
+    prev_knowledge String   @default("Nenhum")
     sex            String
     school_level   String
     occupation     String

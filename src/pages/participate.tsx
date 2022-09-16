@@ -23,6 +23,7 @@ export const Participate = () => {
             display={['none', 'none', 'flex', 'flex', 'flex']}
             position="absolute"
             top="200"
+            left="0"
             alt=""
             zIndex={1}
           />

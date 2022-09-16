@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-vars */
 // Enum is not being able detect it's being used, so I'm manually
 // removing unused vars warning
+import statesCities from '../utils/city-states.json'
 import {
   Button,
   Center,
   Checkbox,
   Divider,
+  Flex,
+  FormControl,
   FormLabel,
   Heading,
   Link as ChakraLink,
@@ -18,26 +21,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../components/Input'
 import { trpc } from '../utils/trpc'
 
-const inputs = [
-  'name',
-  'email',
-  'cpf',
-  'cep',
-  'age',
-  'disabilities',
-  'previousKnowledge',
-] as const
+const inputs = ['age', 'disabilities', 'previousKnowledge'] as const
 
 enum INPUTS_ENUM {
-  name = 'Nome',
-  email = 'Email',
-  cpf = 'CPF',
-  cep = 'CEP',
   age = 'Idade',
   disabilities = 'Possui alguma Deficiência?',
   previousKnowledge = 'Possui conhecimento prévio na área da ciência?',
@@ -50,7 +41,8 @@ const schema = z.object({
     .string()
     .min(11, 'CPF deve que ter 11 dígitos')
     .max(11, 'CPF deve ter 11 dígitos'),
-  cep: z.string().length(8, 'CEP deve ter 8 dígitos').trim(),
+  city: z.string().min(1, 'Cidade deve ser informada'),
+  state: z.string().min(1, 'Seu estado deve ser informado'),
   age: z
     .number()
     .min(18, 'A idade mínima para participar da pesquisa é de 18 anos'),
@@ -63,44 +55,49 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
+export interface Estado {
+  sigla: string
+  nome: string
+  cidades: string[]
+}
+
+export interface StatesAndCities {
+  estados: Estado[]
+}
+
+const parsedStates = JSON.parse(JSON.stringify(statesCities))
+  .estados as StatesAndCities['estados']
+
 export const ParticipateForm = () => {
   const registerMutation = trpc.useMutation(['user.register'])
   const toast = useToast()
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
+  const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
 
   const {
     register,
     handleSubmit,
-    control,
-    setValue,
-    formState: { errors, isValid },
+    formState: { errors, dirtyFields, isDirty },
     reset,
+    watch,
+    control,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       age: 18,
+      state: 'AC',
+      city: 'Acrelândia',
     },
   })
-  const cpfFormatted = useWatch({
-    control,
-    name: 'cpf',
-  })
 
-  function formatCPF(currentCPF: string) {
-    return currentCPF?.replaceAll(/[^0-9]/g, '')
-  }
-
-  const output = formatCPF(cpfFormatted)
-  useEffect(() => {
-    setValue('cpf', output)
-  }, [cpfFormatted, output, setValue])
+  console.log({ isDirty, dirtyFields })
 
   const inputBg = useColorModeValue('initial', 'gray.800')
 
   function handleRegister(data: FormData) {
     // save to the list of registered users
     registerMutation.mutate(data, {
-      onError: (err: any) => {
+      onError: (err) => {
         toast({
           title: 'Erro.',
           description:
@@ -122,13 +119,22 @@ export const ParticipateForm = () => {
           isClosable: true,
           position: 'top-right',
         })
+
+        reset()
       },
     })
-
-    reset()
   }
 
   const notRequiredInputs = ['disabilities', 'previousKnowledge']
+
+  const currentState = watch('state')
+
+  useEffect(() => {
+    const result = parsedStates.filter((state) => {
+      return state.sigla === currentState
+    })
+    setPossibleCities(result[0]?.cidades as string[])
+  }, [currentState])
 
   return (
     <Stack
@@ -147,6 +153,61 @@ export const ParticipateForm = () => {
         <Heading>Cadastro</Heading>
         <Divider />
       </Center>
+
+      <Input
+        label="Nome"
+        bg={inputBg}
+        error={errors.name}
+        isRequired
+        flex="1"
+        {...register('name')}
+      />
+      <Input
+        label="Email"
+        bg={inputBg}
+        error={errors.email}
+        isRequired
+        flex="1"
+        {...register('email')}
+      />
+      <Input
+        label="CPF"
+        bg={inputBg}
+        error={errors.cpf}
+        isRequired
+        flex="1"
+        {...register('cpf')}
+      />
+      <Flex gap="2">
+        <Controller
+          name="state"
+          control={control}
+          render={({ field: { onChange, value } }) => {
+            return (
+              <FormControl isInvalid={!!errors.state} isRequired>
+                <FormLabel>Estado</FormLabel>
+                <Select onChange={onChange} value={value}>
+                  {parsedStates.map((state) => (
+                    <option key={state.sigla} value={state.sigla}>
+                      {state.nome}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            )
+          }}
+        />
+        <FormControl isInvalid={!!errors.state} isRequired>
+          <FormLabel>Cidade</FormLabel>
+          <Select {...register('city')}>
+            {possibleCities?.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+      </Flex>
       {inputs.map((input) => {
         if (input === 'age') {
           return (
@@ -212,7 +273,7 @@ export const ParticipateForm = () => {
         size={'lg'}
         _hover={{ bg: 'purple.500' }}
         bg={'purple.400'}
-        isDisabled={!hasAcceptedTerms && !isValid}
+        isDisabled={!hasAcceptedTerms}
         _disabled={{
           bg: useColorModeValue('blackAlpha.300', 'whiteAlpha.200'),
           _hover: {

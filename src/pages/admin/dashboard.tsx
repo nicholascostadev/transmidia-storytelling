@@ -178,6 +178,7 @@ export default function Dashboard() {
                 onChange={(value, valueAsNumber) =>
                   setItemsPerPage(valueAsNumber)
                 }
+                size="sm"
               >
                 <NumberInputField />
                 <NumberInputStepper>

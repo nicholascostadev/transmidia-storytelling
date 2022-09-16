@@ -142,6 +142,7 @@ export default function ManageUsers() {
                 onChange={(value, valueAsNumber) =>
                   setItemsPerPage(valueAsNumber)
                 }
+                size="sm"
               >
                 <NumberInputField />
                 <NumberInputStepper>

@@ -136,10 +136,8 @@ export default function Dashboard() {
               }
             >
               <NumberInputField />
-
               <NumberInputStepper>
                 <NumberIncrementStepper />
-
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>

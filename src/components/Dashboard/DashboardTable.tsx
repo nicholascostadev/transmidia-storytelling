@@ -25,6 +25,8 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { RegisteredUser } from '@prisma/client'
+import { format } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 import Link from 'next/link'
 import { CaretRight, Check, Swap } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
@@ -116,6 +118,7 @@ export const DashboardTable = ({
             <Th>Email</Th>
             <Th>Status de aprovação</Th>
             <Th>Respostas</Th>
+            <Th>Data de Registro</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -198,6 +201,7 @@ export const DashboardTable = ({
                   </ChakraLink>
                 </Link>
               </Td>
+              <Td>{format(user?.created_at, 'Pp', { locale: ptBR })}</Td>
             </Tr>
           ))}
         </Tbody>

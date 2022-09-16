@@ -64,7 +64,7 @@ export const dashboardRouter = createProtectedRouter()
       let nextCursor: typeof cursor | undefined
       if (items.length > limit) {
         const nextItem = items.pop()
-        nextCursor = nextItem!.cpf
+        nextCursor = nextItem?.cpf
       }
       return {
         items,

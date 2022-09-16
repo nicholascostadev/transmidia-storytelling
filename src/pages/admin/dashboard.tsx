@@ -196,7 +196,7 @@ export default function Dashboard() {
               ml="auto"
               mr="2"
               onClick={() => infiniteUsers.refetch()}
-              isLoading={infiniteUsers.isRefetching}
+              isLoading={infiniteUsers.isRefetching || infiniteUsers.isLoading}
             />
 
             <ButtonGroup size="sm">

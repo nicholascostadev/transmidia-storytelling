@@ -1,11 +1,12 @@
-import { Button, Center, Stack, Text } from '@chakra-ui/react'
+import { Button, Center, Divider, Flex, Stack, Text } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { GoogleLogo } from 'phosphor-react'
 import { SyntheticEvent, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
+import { Header } from '../../components/Header'
 import { Input } from '../../components/Input'
 import { trpc } from '../../utils/trpc'
 
@@ -46,36 +47,47 @@ export default function AdminSignIn() {
   }, [data, router, status, userInfo.data])
 
   return (
-    <Center height="100vh">
-      <Stack as="form" w="96" onSubmit={handleSignIn}>
-        <Input
-          label="Usuário"
-          colorScheme="purple"
-          error={errors.username}
-          {...register('username')}
-        />
-        <Input
-          label="Senha"
-          colorScheme="purple"
-          error={errors.password}
-          {...register('password')}
-        />
-        <Button type="submit" colorScheme="purple">
-          Entrar
-        </Button>
-        <Button
-          colorScheme="red"
-          w={'full'}
-          maxW={'md'}
-          variant={'outline'}
-          leftIcon={<GoogleLogo />}
-          onClick={() => signIn('google')}
-        >
-          <Center>
-            <Text>Sign in with Google</Text>
-          </Center>
-        </Button>
-      </Stack>
-    </Center>
+    <>
+      <Header />
+      <Center height="calc(100vh - 72px)">
+        <Stack as="form" w="96" onSubmit={handleSignIn}>
+          <Input
+            label="Usuário"
+            colorScheme="purple"
+            error={errors.username}
+            {...register('username')}
+            isDisabled
+          />
+          <Input
+            label="Senha"
+            colorScheme="purple"
+            error={errors.password}
+            {...register('password')}
+            isDisabled
+          />
+          <Button type="submit" colorScheme="purple" isDisabled>
+            Entrar
+          </Button>
+          <Text variant=""></Text>
+          <Flex justify="center" alignItems="center" gap="2" py="3">
+            <Divider />
+            <Text>OU</Text>
+            <Divider />
+          </Flex>
+          <Button
+            w={'full'}
+            maxW={'md'}
+            variant={'outline'}
+            leftIcon={<FcGoogle />}
+            colorScheme="red"
+            onClick={() => signIn('google')}
+          >
+            <Center>
+              <Text>Entrar com sua conta Google</Text>
+            </Center>
+          </Button>
+        </Stack>
+      </Center>
+    </>
   )
 }

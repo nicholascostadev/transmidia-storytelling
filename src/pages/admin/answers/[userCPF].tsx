@@ -70,7 +70,6 @@ export default function Answers() {
   const [userInfo, setUserInfo] = useState<RegisteredUser | null>(
     data as RegisteredUser,
   )
-  console.log(userInfo)
   const router = useRouter()
 
   const backgroundColor = useColorModeValue('white', '')
@@ -289,8 +288,11 @@ export default function Answers() {
                         borderLeft="1px"
                         borderColor={borderColor}
                       >
-                        {/* @ts-ignore */}
-                        <Text flex="1" key={String(userInfo[key])} padding="2">
+                        <Text
+                          flex="1"
+                          key={String(userInfo[key as keyof RegisteredUser])}
+                          padding="2"
+                        >
                           {String(
                             userInfo[key as keyof RegisteredUser] || 'Nenhuma',
                           )}

@@ -72,6 +72,7 @@ export const ParticipateForm = () => {
     control,
     setValue,
     formState: { errors, isValid },
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -95,7 +96,6 @@ export const ParticipateForm = () => {
   const inputBg = useColorModeValue('initial', 'gray.800')
 
   function handleRegister(data: FormData) {
-    console.log('Received', data)
     // save to the list of registered users
     registerMutation.mutate(data, {
       onError: (err: any) => {
@@ -122,6 +122,8 @@ export const ParticipateForm = () => {
         })
       },
     })
+
+    reset()
   }
 
   const notRequiredInputs = ['disabilities', 'previousKnowledge']

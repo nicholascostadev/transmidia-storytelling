@@ -46,7 +46,7 @@ export const dashboardRouter = createProtectedRouter()
       })
     },
   })
-  .query('infinteUsers', {
+  .query('infiniteUsers', {
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),
       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type

@@ -46,7 +46,7 @@ export default function Dashboard() {
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
 
   const infiniteUsers = trpc.useInfiniteQuery(
-    ['dashboard.infinteUsers', { limit: itemsPerPage }],
+    ['dashboard.infiniteUsers', { limit: itemsPerPage }],
 
     {
       refetchOnWindowFocus: false,

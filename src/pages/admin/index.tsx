@@ -6,6 +6,7 @@ import {
   Link as ChakraLink,
   Stack,
   Text,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
@@ -16,8 +17,8 @@ import { SyntheticEvent, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
-import { Header } from '../../components/Header'
 import { Input } from '../../components/Input'
+import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { trpc } from '../../utils/trpc'
 
 const signInSchema = z.object({
@@ -45,6 +46,9 @@ export default function AdminSignIn() {
     resolver: zodResolver(signInSchema),
   })
 
+  const formBg = useColorModeValue('white', 'gray.900')
+  const shadow = useColorModeValue('md', 'none')
+
   const handleSignIn = (e: SyntheticEvent) => {
     e.preventDefault()
     signIn('email')
@@ -58,9 +62,17 @@ export default function AdminSignIn() {
 
   return (
     <>
-      <Header />
+      <DashboardHeader hasPermission={userInfo?.data?.permission === 'admin'} />
       <Center height="calc(100vh - 72px)">
-        <Stack as="form" w="96" onSubmit={handleSignIn}>
+        <Stack
+          as="form"
+          w="450px"
+          onSubmit={handleSignIn}
+          bg={formBg}
+          shadow={shadow}
+          p="5"
+          rounded="lg"
+        >
           <Input
             label="Usuário"
             colorScheme="purple"

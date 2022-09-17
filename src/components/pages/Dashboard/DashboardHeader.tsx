@@ -19,7 +19,11 @@ import { trpc } from '../../../utils/trpc'
 import Link from 'next/link'
 import { Sun, Moon } from 'phosphor-react'
 
-export const DashboardHeader = () => {
+export const DashboardHeader = ({
+  hasPermission,
+}: {
+  hasPermission: boolean
+}) => {
   const mobileNav = useDisclosure()
   const { data: userSession } = useSession()
   const { data } = trpc.useQuery(
@@ -58,52 +62,75 @@ export const DashboardHeader = () => {
                   </Heading>
                 </Link>
               </Flex>
+              {hasPermission && (
+                <HStack
+                  gap="2"
+                  justify="flex-end"
+                  w="full"
+                  maxW="824px"
+                  align="center"
+                  color="gray.400"
+                >
+                  <ButtonGroup color={textColor} variant="ghost" spacing="6">
+                    <Link href="/admin/dashboard" passHref>
+                      <Button as="a">Dashboard</Button>
+                    </Link>
+                    <Link href="/admin/manageusers" passHref>
+                      <Button as="a">Gerenciar</Button>
+                    </Link>
+                  </ButtonGroup>
 
-              <HStack
-                gap="2"
-                justify="flex-end"
-                w="full"
-                maxW="824px"
-                align="center"
-                color="gray.400"
-              >
-                <ButtonGroup color={textColor} variant="ghost" spacing="6">
-                  <Link href="/admin/dashboard" passHref>
-                    <Button as="a">Dashboard</Button>
-                  </Link>
-                  <Link href="/admin/manageusers" passHref>
-                    <Button as="a">Gerenciar</Button>
-                  </Link>
-                </ButtonGroup>
-
-                <IconButton
-                  size="md"
-                  fontSize="lg"
-                  aria-label={`Switch to ${text} mode`}
-                  variant="ghost"
-                  color="current"
-                  ml={{
-                    base: '0',
-                    md: '3',
-                  }}
-                  onClick={toggleMode}
-                  icon={<SwitchIcon />}
-                />
-                <IconButton
-                  aria-label={'Open menu'}
-                  display={{
-                    base: 'flex',
-                    md: 'none',
-                  }}
-                  icon={<AiOutlineMenu />}
-                  onClick={mobileNav.onOpen}
-                />
-                <DarkMode>
-                  <Button colorScheme="pink" onClick={() => signOut()}>
-                    Sign Out
-                  </Button>
-                </DarkMode>
-              </HStack>
+                  <IconButton
+                    size="md"
+                    fontSize="lg"
+                    aria-label={`Switch to ${text} mode`}
+                    variant="ghost"
+                    color="current"
+                    ml={{
+                      base: '0',
+                      md: '3',
+                    }}
+                    onClick={toggleMode}
+                    icon={<SwitchIcon />}
+                  />
+                  <IconButton
+                    aria-label={'Open menu'}
+                    display={{
+                      base: 'flex',
+                      md: 'none',
+                    }}
+                    icon={<AiOutlineMenu />}
+                    onClick={mobileNav.onOpen}
+                  />
+                  <DarkMode>
+                    <Button colorScheme="pink" onClick={() => signOut()}>
+                      Sign Out
+                    </Button>
+                  </DarkMode>
+                </HStack>
+              )}
+              {!hasPermission && (
+                <HStack>
+                  <IconButton
+                    size="md"
+                    fontSize="lg"
+                    aria-label={`Switch to ${text} mode`}
+                    variant="ghost"
+                    color="current"
+                    ml={{
+                      base: '0',
+                      md: '3',
+                    }}
+                    onClick={toggleMode}
+                    icon={<SwitchIcon />}
+                  />
+                  <DarkMode>
+                    <Button colorScheme="pink" onClick={() => signOut()}>
+                      Sign Out
+                    </Button>
+                  </DarkMode>
+                </HStack>
+              )}
             </Flex>
             <DashboardMobileNavContent
               hasPermission={data?.permission === 'admin'}

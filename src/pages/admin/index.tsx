@@ -1,7 +1,17 @@
-import { Button, Center, Divider, Flex, Stack, Text } from '@chakra-ui/react'
+import {
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Link as ChakraLink,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { CaretLeft } from 'phosphor-react'
 import { SyntheticEvent, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FcGoogle } from 'react-icons/fc'
@@ -21,10 +31,10 @@ const signInSchema = z.object({
 type TSignIn = z.infer<typeof signInSchema>
 
 export default function AdminSignIn() {
-  const { data, status } = useSession()
+  const { data: userSession, status } = useSession()
   const userInfo = trpc.useQuery([
     'user.getUserInfo',
-    { id: String(data?.user?.id) },
+    { id: String(userSession?.user?.id) },
   ])
   const router = useRouter()
 
@@ -44,7 +54,7 @@ export default function AdminSignIn() {
     if (userInfo.data?.permission === 'admin') {
       router.push('/admin/dashboard')
     }
-  }, [data, router, status, userInfo.data])
+  }, [userSession, router, status, userInfo.data])
 
   return (
     <>
@@ -80,12 +90,33 @@ export default function AdminSignIn() {
             variant={'outline'}
             leftIcon={<FcGoogle />}
             colorScheme="red"
+            isDisabled={!!userSession}
             onClick={() => signIn('google')}
           >
             <Center>
-              <Text>Entrar com sua conta Google</Text>
+              <Text>{'Entrar com sua conta Google'}</Text>
             </Center>
           </Button>
+          {userInfo?.data?.permission === 'none' && (
+            <Stack>
+              <Text color="red.400" textAlign="center">
+                Você já está logado, porém não tem permissões de administrador,
+                peça para um administrador lhe dar direitos ou você não deveria
+                estar aqui :D
+              </Text>
+              <Link href="/participate" passHref>
+                <ChakraLink
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  color="blue.400"
+                >
+                  <CaretLeft size={20} />
+                  Voltar para a tela de participação
+                </ChakraLink>
+              </Link>
+            </Stack>
+          )}
         </Stack>
       </Center>
     </>

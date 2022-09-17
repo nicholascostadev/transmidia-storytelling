@@ -59,7 +59,7 @@ export const DashboardMobileNavContent = ({
           </Button>
           <Button w="full" variant="ghost" leftIcon={<MdManageAccounts />}>
             <Link href="/admin/manageusers" passHref>
-              <ChakraLink>Gerenciar usuários</ChakraLink>
+              <ChakraLink>Gerenciar</ChakraLink>
             </Link>
           </Button>
         </>

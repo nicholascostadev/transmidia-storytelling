@@ -12,12 +12,13 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
-import NextLink from 'next/link'
+import Link from 'next/link'
 import { CaretLeft, Moon, SignOut, Sun } from 'phosphor-react'
 import { AiOutlineMenu } from 'react-icons/ai'
 export const NotAllowed = () => {
+  const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
   const SwitchIcon = useColorModeValue(Moon, Sun)
   const text = useColorModeValue('dark', 'light')
@@ -45,11 +46,11 @@ export const NotAllowed = () => {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <NextLink href="/" passHref>
+                  <Link href="/" passHref>
                     <Heading as={'a'} size={'md'}>
                       Transmídia StoryTelling
                     </Heading>
-                  </NextLink>
+                  </Link>
                 </Flex>
 
                 <Flex
@@ -73,13 +74,22 @@ export const NotAllowed = () => {
                     onClick={toggleMode}
                     icon={<SwitchIcon />}
                   />
-                  <Button
-                    rightIcon={<SignOut />}
-                    colorScheme="purple"
-                    onClick={() => signOut()}
-                  >
-                    Sign Out
-                  </Button>
+                  {userSession && (
+                    <Button
+                      rightIcon={<SignOut />}
+                      colorScheme="purple"
+                      onClick={() => signOut()}
+                    >
+                      Sign Out
+                    </Button>
+                  )}
+                  {!userSession && (
+                    <Link href="/admin" passHref>
+                      <Button as="a" variant="ghost" colorScheme="purple">
+                        Sign In
+                      </Button>
+                    </Link>
+                  )}
                   <IconButton
                     aria-label={'Open menu'}
                     display={{
@@ -99,7 +109,7 @@ export const NotAllowed = () => {
           <Text fontSize="xl" color="red.400">
             Você não tem permissões para acessar essa página
           </Text>
-          <NextLink href="/" passHref>
+          <Link href="/" passHref>
             <ChakraLink
               display="flex"
               justifyContent="start"
@@ -107,7 +117,7 @@ export const NotAllowed = () => {
             >
               <CaretLeft /> Voltar à página inicial
             </ChakraLink>
-          </NextLink>
+          </Link>
         </Stack>
       </Center>
     </>

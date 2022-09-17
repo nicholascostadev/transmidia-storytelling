@@ -103,14 +103,16 @@ export const DashboardHeader = ({
                     icon={<AiOutlineMenu />}
                     onClick={mobileNav.onOpen}
                   />
-                  <DarkMode>
-                    <Button colorScheme="pink" onClick={() => signOut()}>
-                      Sign Out
-                    </Button>
-                  </DarkMode>
+                  {userSession && (
+                    <DarkMode>
+                      <Button colorScheme="pink" onClick={() => signOut()}>
+                        Sign Out
+                      </Button>
+                    </DarkMode>
+                  )}
                 </HStack>
               )}
-              {!hasPermission && (
+              {!hasPermission && userSession && (
                 <HStack>
                   <IconButton
                     size="md"

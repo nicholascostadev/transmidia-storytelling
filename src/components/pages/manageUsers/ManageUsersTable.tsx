@@ -1,6 +1,8 @@
 import {
   Avatar,
+  Center,
   Select,
+  Spinner,
   Table,
   TableContainer,
   Tbody,
@@ -73,6 +75,19 @@ export const ManageUsersTable = ({
             duration: 3000,
             isClosable: true,
             position: 'top-right',
+          })
+        },
+        onSettled: () => {
+          toast({
+            title: 'Enviando...',
+            description: (
+              <Center>
+                <Spinner />
+              </Center>
+            ),
+            status: 'info',
+            duration: 3000,
+            isClosable: true,
           })
         },
       },

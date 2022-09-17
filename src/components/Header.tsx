@@ -19,6 +19,7 @@ export const Header = () => {
   const mobileNav = useDisclosure()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
+  const shadow = useColorModeValue('sm', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
   const SponsorButton = (
@@ -44,7 +45,7 @@ export const Header = () => {
   return (
     <Box pos="relative">
       <chakra.header
-        shadow="sm"
+        shadow={shadow}
         transition="box-shadow 0.2s"
         borderTopColor="brand.400"
         w="full"

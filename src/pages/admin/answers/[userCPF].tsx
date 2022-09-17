@@ -158,7 +158,9 @@ export default function Answers() {
 
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader
+        hasPermission={loggedUserInfo.data?.permission === 'admin'}
+      />
       <Center display="flex" flexDirection="column" minH="calc(100vh - 72px)">
         <Flex
           justify="space-between"

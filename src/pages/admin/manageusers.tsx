@@ -118,7 +118,7 @@ export default function ManageUsers() {
 
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
       <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
         <Stack>
           <Search

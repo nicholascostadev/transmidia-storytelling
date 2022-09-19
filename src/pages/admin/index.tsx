@@ -113,8 +113,8 @@ export default function AdminSignIn() {
             <Stack>
               <Text color="red.400" textAlign="center">
                 Você já está logado, porém não tem permissões de administrador,
-                peça para um administrador lhe dar direitos ou você não deveria
-                estar aqui :D
+                peça para um administrador lhe dar direitos ou você está no
+                lugar errado.
               </Text>
               <Link href="/participate" passHref>
                 <ChakraLink

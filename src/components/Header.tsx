@@ -13,7 +13,9 @@ import NextLink from 'next/link'
 import { Moon, Sun } from 'phosphor-react'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { MdOutlineReadMore } from 'react-icons/md'
+import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
+import healthLabLogo from '../assets/healtlab-logo.png'
 
 export const Header = () => {
   const mobileNav = useDisclosure()
@@ -62,8 +64,25 @@ export const Header = () => {
             >
               <Flex align="center">
                 <NextLink href="/" passHref>
-                  <Heading as={'a'} size={'md'}>
+                  <Heading
+                    as={'a'}
+                    size={'md'}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap="2"
+                  >
                     Transmídia StoryTelling
+                    <Box>
+                      <ChakraCustomImage
+                        lineHeight={0}
+                        src={healthLabLogo}
+                        alt=""
+                        layout="fixed"
+                        height={35}
+                        width={30}
+                      />
+                    </Box>
                   </Heading>
                 </NextLink>
               </Flex>

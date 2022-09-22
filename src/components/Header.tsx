@@ -52,20 +52,29 @@ export const Header = () => {
         w="full"
         overflowY="hidden"
       >
-        <chakra.div h="4.5rem" mx="auto" maxW="1200px">
+        <chakra.div
+          h="4.5rem"
+          p={['6', '0']}
+          mx="auto"
+          display="flex"
+          maxW="1200px"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <>
             <Flex
-              p={['6', '0']}
-              w="full"
               h="full"
               align="center"
               justify="space-between"
+              w="1200px"
+              maxW="full"
+              mx="auto"
             >
-              <Flex align="center">
+              <Flex>
                 <NextLink href="/" passHref>
                   <Heading
                     as={'a'}
-                    size={'md'}
+                    fontSize={['sm', 'sm', 'md', 'xl']}
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
@@ -85,39 +94,39 @@ export const Header = () => {
                   </Heading>
                 </NextLink>
               </Flex>
+            </Flex>
 
-              <Flex
-                gap="2"
-                justify="flex-end"
-                w="full"
-                maxW="824px"
-                align="center"
-                color="gray.400"
-              >
-                <IconButton
-                  size="md"
-                  fontSize="lg"
-                  aria-label={`Switch to ${text} mode`}
-                  variant="ghost"
-                  color="current"
-                  ml={{
-                    base: '0',
-                    md: '3',
-                  }}
-                  onClick={toggleMode}
-                  icon={<SwitchIcon />}
-                />
-                {SponsorButton}
-                <IconButton
-                  aria-label={'Open menu'}
-                  display={{
-                    base: 'flex',
-                    md: 'none',
-                  }}
-                  icon={<AiOutlineMenu />}
-                  onClick={mobileNav.onOpen}
-                />
-              </Flex>
+            <Flex
+              gap="2"
+              justify="flex-end"
+              w="full"
+              maxW="824px"
+              align="center"
+              color="gray.400"
+            >
+              <IconButton
+                size="md"
+                fontSize="lg"
+                aria-label={`Switch to ${text} mode`}
+                variant="ghost"
+                color="current"
+                ml={{
+                  base: '0',
+                  md: '3',
+                }}
+                onClick={toggleMode}
+                icon={<SwitchIcon />}
+              />
+              {SponsorButton}
+              <IconButton
+                aria-label={'Open menu'}
+                display={{
+                  base: 'flex',
+                  md: 'none',
+                }}
+                icon={<AiOutlineMenu />}
+                onClick={mobileNav.onOpen}
+              />
             </Flex>
             <MobileNavContent mobileNav={mobileNav} />
           </>

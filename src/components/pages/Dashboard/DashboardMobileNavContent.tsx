@@ -30,8 +30,9 @@ export const DashboardMobileNavContent = ({
       right={0}
       display={mobileNav.isOpen ? 'flex' : 'none'}
       flexDirection="column"
-      p={2}
-      pb={4}
+      p="2"
+      pb="4"
+      pt="12"
       m={2}
       bg={bg}
       spacing={3}
@@ -39,6 +40,9 @@ export const DashboardMobileNavContent = ({
       shadow="sm"
     >
       <CloseButton
+        position="absolute"
+        right="4"
+        top="4"
         aria-label="Close menu"
         justifySelf="self-start"
         onClick={mobileNav.onClose}
@@ -46,6 +50,7 @@ export const DashboardMobileNavContent = ({
       <Button
         w="full"
         variant="ghost"
+        colorScheme="pink"
         leftIcon={<SignOut style={{ transform: 'rotate(180deg)' }} />}
       >
         Sign Out

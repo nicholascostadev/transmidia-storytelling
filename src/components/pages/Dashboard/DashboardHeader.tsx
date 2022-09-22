@@ -15,9 +15,9 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { DashboardMobileNavContent } from './DashboardMobileNavContent'
-import { trpc } from '../../../utils/trpc'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { Sun, Moon } from 'phosphor-react'
+import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const DashboardHeader = ({
   hasPermission,
@@ -26,12 +26,6 @@ export const DashboardHeader = ({
 }) => {
   const mobileNav = useDisclosure()
   const { data: userSession } = useSession()
-  const { data } = trpc.useQuery(
-    ['user.getUserInfo', { id: String(userSession?.user?.id) }],
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    },
-  )
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const textColor = useColorModeValue('gray.600', '')
@@ -47,96 +41,149 @@ export const DashboardHeader = ({
         w="full"
         overflowY="hidden"
       >
-        <chakra.div h="4.5rem" mx="auto" maxW="1200px">
+        <chakra.div
+          h="4.5rem"
+          p={['6', '0']}
+          mx="auto"
+          display="flex"
+          maxW="1200px"
+          alignItems="center"
+          justifyContent="space-between"
+        >
           <>
             <Flex
-              p={['6', '0']}
-              w="full"
               h="full"
               align="center"
               justify="space-between"
+              w="1200px"
+              maxW="full"
+              mx="auto"
             >
-              <Flex align="center">
-                <Link href="/" passHref>
-                  <Heading as={'a'} size={'md'}>
+              <Flex>
+                <NextLink href="/" passHref>
+                  <Heading
+                    as={'a'}
+                    fontSize={['sm', 'sm', 'md', 'xl']}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    gap="2"
+                  >
                     Transmídia StoryTelling
+                    <Box>
+                      <ChakraCustomImage
+                        lineHeight={0}
+                        src="/healthlab-logo.png"
+                        alt=""
+                        layout="fixed"
+                        height={35}
+                        width={30}
+                      />
+                    </Box>
                   </Heading>
-                </Link>
+                </NextLink>
               </Flex>
-              {hasPermission && (
-                <HStack
-                  gap="2"
-                  justify="flex-end"
-                  w="full"
-                  maxW="824px"
-                  align="center"
-                  color="gray.400"
-                >
-                  <ButtonGroup color={textColor} variant="ghost" spacing="6">
-                    <Link href="/admin/dashboard" passHref>
-                      <Button as="a">Dashboard</Button>
-                    </Link>
-                    <Link href="/admin/manageusers" passHref>
-                      <Button as="a">Gerenciar</Button>
-                    </Link>
-                  </ButtonGroup>
+            </Flex>
 
-                  <IconButton
-                    size="md"
-                    fontSize="lg"
-                    aria-label={`Switch to ${text} mode`}
-                    variant="ghost"
-                    color="current"
-                    ml={{
-                      base: '0',
-                      md: '3',
-                    }}
-                    onClick={toggleMode}
-                    icon={<SwitchIcon />}
-                  />
-                  <IconButton
-                    aria-label={'Open menu'}
-                    display={{
-                      base: 'flex',
-                      md: 'none',
-                    }}
-                    icon={<AiOutlineMenu />}
-                    onClick={mobileNav.onOpen}
-                  />
-                  {userSession && (
-                    <DarkMode>
-                      <Button colorScheme="pink" onClick={() => signOut()}>
-                        Sign Out
-                      </Button>
-                    </DarkMode>
-                  )}
-                </HStack>
-              )}
-              {!hasPermission && userSession && (
-                <HStack>
-                  <IconButton
-                    size="md"
-                    fontSize="lg"
-                    aria-label={`Switch to ${text} mode`}
-                    variant="ghost"
-                    color="current"
-                    ml={{
-                      base: '0',
-                      md: '3',
-                    }}
-                    onClick={toggleMode}
-                    icon={<SwitchIcon />}
-                  />
+            {hasPermission && (
+              <HStack
+                gap="2"
+                justify="flex-end"
+                w="full"
+                maxW="824px"
+                align="center"
+                color="gray.400"
+              >
+                <ButtonGroup
+                  color={textColor}
+                  variant="ghost"
+                  spacing="6"
+                  display={['none', 'none', 'flex']}
+                >
+                  <NextLink href="/admin/dashboard" passHref>
+                    <Button as="a">Dashboard</Button>
+                  </NextLink>
+                  <NextLink href="/admin/manageusers" passHref>
+                    <Button as="a">Gerenciar</Button>
+                  </NextLink>
+                </ButtonGroup>
+
+                <IconButton
+                  size="md"
+                  fontSize="lg"
+                  aria-label={`Switch to ${text} mode`}
+                  variant="ghost"
+                  color="current"
+                  ml={{
+                    base: '0',
+                    md: '3',
+                  }}
+                  onClick={toggleMode}
+                  icon={<SwitchIcon />}
+                />
+                <IconButton
+                  aria-label={'Open menu'}
+                  display={{
+                    base: 'flex',
+                    md: 'none',
+                  }}
+                  icon={<AiOutlineMenu />}
+                  onClick={mobileNav.onOpen}
+                />
+                {userSession && (
                   <DarkMode>
-                    <Button colorScheme="pink" onClick={() => signOut()}>
+                    <Button
+                      display={['none', 'none', 'flex']}
+                      colorScheme="pink"
+                      onClick={() => signOut()}
+                    >
                       Sign Out
                     </Button>
                   </DarkMode>
-                </HStack>
-              )}
-            </Flex>
+                )}
+              </HStack>
+            )}
+            {!hasPermission && userSession && (
+              <HStack>
+                <IconButton
+                  size="md"
+                  fontSize="lg"
+                  aria-label={`Switch to ${text} mode`}
+                  variant="ghost"
+                  color="current"
+                  ml={{
+                    base: '0',
+                    md: '3',
+                  }}
+                  onClick={toggleMode}
+                  icon={<SwitchIcon />}
+                />
+                <DarkMode>
+                  <Button colorScheme="pink" onClick={() => signOut()}>
+                    Sign Out
+                  </Button>
+                </DarkMode>
+              </HStack>
+            )}
+            {!hasPermission && !userSession && (
+              <HStack>
+                <IconButton
+                  size="md"
+                  fontSize="lg"
+                  aria-label={`Switch to ${text} mode`}
+                  variant="ghost"
+                  color="current"
+                  ml={{
+                    base: '0',
+                    md: '3',
+                  }}
+                  onClick={toggleMode}
+                  icon={<SwitchIcon />}
+                />
+              </HStack>
+            )}
             <DashboardMobileNavContent
-              hasPermission={data?.permission === 'admin'}
+              hasPermission={hasPermission}
               mobileNav={mobileNav}
             />
           </>

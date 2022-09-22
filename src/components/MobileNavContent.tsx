@@ -5,8 +5,8 @@ import {
   UseDisclosureProps,
   VStack,
 } from '@chakra-ui/react'
-import { AiFillHome } from 'react-icons/ai'
-import { BsFillCameraVideoFill } from 'react-icons/bs'
+import Link from 'next/link'
+import { MdOutlineReadMore } from 'react-icons/md'
 
 interface MobileNavContentProps {
   mobileNav: UseDisclosureProps
@@ -23,25 +23,34 @@ export const MobileNavContent = ({ mobileNav }: MobileNavContentProps) => {
       right={0}
       display={mobileNav.isOpen ? 'flex' : 'none'}
       flexDirection="column"
-      p={2}
+      p="4"
+      pt="12"
       pb={4}
-      m={2}
       bg={bg}
       spacing={3}
       rounded="sm"
       shadow="sm"
     >
       <CloseButton
+        position="absolute"
+        right="4"
+        top="4"
         aria-label="Close menu"
         justifySelf="self-start"
         onClick={mobileNav.onClose}
       />
-      <Button w="full" variant="ghost" leftIcon={<AiFillHome />}>
-        Dashboard
-      </Button>
-      <Button w="full" variant="ghost" leftIcon={<BsFillCameraVideoFill />}>
-        Videos
-      </Button>
+      <Link href="/participate" passHref>
+        <Button
+          as="a"
+          w="full"
+          variant="ghost"
+          colorScheme="purple"
+          mt="4"
+          leftIcon={<MdOutlineReadMore />}
+        >
+          Participar
+        </Button>
+      </Link>
     </VStack>
   )
 }

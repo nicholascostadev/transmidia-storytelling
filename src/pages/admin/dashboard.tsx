@@ -75,9 +75,6 @@ export default function Dashboard() {
       keepPreviousData: true,
     },
   )
-
-  const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
-
   useEffect(() => {
     if (page > 0) {
       setUsersToShow(
@@ -125,9 +122,30 @@ export default function Dashboard() {
     setFilter(filter)
   }
 
+  const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
+
+  function handleGotoNextPage() {
+    infiniteUsers.fetchNextPage()
+
+    if (hasMorePages) {
+      setPage((page) => page + 1)
+
+      setLastAvailablePage(page + 1)
+    }
+  }
+
+  function handleGotoPrevPage() {
+    setPage((page) => {
+      if (page > 1) {
+        return page - 1
+      }
+      return page
+    })
+  }
+
   if (
-    (userInfo.data?.permission !== 'admin' && status !== 'loading') ||
-    (!data && status !== 'loading')
+    (userInfo.data?.permission !== 'admin' && status === 'authenticated') ||
+    status === 'unauthenticated'
   ) {
     return <NotAllowed />
   }
@@ -204,11 +222,7 @@ export default function Dashboard() {
                 as={CaretLeft}
                 disabled={page === 1}
                 cursor="pointer"
-                onClick={() => {
-                  setPage((page) => {
-                    return page > 1 ? page - 1 : page
-                  })
-                }}
+                onClick={handleGotoPrevPage}
                 aria-label="Previous page icon"
               />
 
@@ -216,15 +230,7 @@ export default function Dashboard() {
                 as={CaretRight}
                 disabled={!hasMorePages}
                 cursor="pointer"
-                onClick={() => {
-                  infiniteUsers.fetchNextPage()
-
-                  if (hasMorePages) {
-                    setPage((page) => page + 1)
-
-                    setLastAvailablePage(page + 1)
-                  }
-                }}
+                onClick={handleGotoNextPage}
                 aria-label="Next page icon"
               />
             </ButtonGroup>

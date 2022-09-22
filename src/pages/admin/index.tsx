@@ -47,7 +47,9 @@ export default function AdminSignIn() {
   })
 
   const formBg = useColorModeValue('white', 'gray.900')
-  const shadow = useColorModeValue('md', 'none')
+  const formBorder = useColorModeValue('1px', 'none')
+  const formBorderColor = useColorModeValue('gray.100', 'none')
+  const shadow = useColorModeValue('xl', 'none')
 
   const handleSignIn = (e: SyntheticEvent) => {
     e.preventDefault()
@@ -70,6 +72,8 @@ export default function AdminSignIn() {
           onSubmit={handleSignIn}
           bg={formBg}
           shadow={shadow}
+          border={formBorder}
+          borderColor={formBorderColor}
           p="5"
           rounded="lg"
         >

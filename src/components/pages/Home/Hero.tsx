@@ -14,9 +14,17 @@ import Image from 'next/image'
 
 export const Hero = () => {
   return (
-    <Container maxW={'5xl'}>
+    <Container
+      bgImage={`url("/wave.svg")`}
+      maxW="full"
+      display="flex"
+      justifyContent="center"
+      bgRepeat="no-repeat"
+      bgPosition="bottom"
+    >
       <Stack
         textAlign={'center'}
+        maxW="5xl"
         align={'center'}
         spacing={{ base: 8, md: 10 }}
         py={{ base: 20, md: 28 }}

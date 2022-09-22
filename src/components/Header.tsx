@@ -15,7 +15,6 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { MdOutlineReadMore } from 'react-icons/md'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
-import healthLabLogo from '../assets/healtlab-logo.png'
 
 export const Header = () => {
   const mobileNav = useDisclosure()
@@ -76,7 +75,7 @@ export const Header = () => {
                     <Box>
                       <ChakraCustomImage
                         lineHeight={0}
-                        src={healthLabLogo}
+                        src="/healthlab-logo.png"
                         alt=""
                         layout="fixed"
                         height={35}

@@ -162,7 +162,7 @@ export default function Dashboard() {
     <>
       <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
       <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
-        <Stack>
+        <Stack w="1200px" maxW="100%" mx="auto">
           <Search
             currentQuery={query}
             changeQuery={handleQueryChange}

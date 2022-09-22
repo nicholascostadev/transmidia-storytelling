@@ -33,6 +33,7 @@ export const Search = ({
     <Flex
       w="1200px"
       maxW="100%"
+      flexDir={['column', 'row']}
       justify="space-between"
       alignItems="end"
       gap="8"
@@ -55,6 +56,7 @@ export const Search = ({
         bg={backgroundColor}
         rounded="md"
         p="2"
+        w={['full', 'auto']}
       >
         <Text>Filtro:</Text>
         <RadioGroup

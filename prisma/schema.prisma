@@ -70,7 +70,7 @@ model RegisteredUser {
     age            Int
     disabilities   String   @default("Nenhuma")
     prev_knowledge String   @default("Nenhum")
-    sex            String
+    gender         String
     school_level   String
     occupation     String
     approved       Boolean  @default(false)

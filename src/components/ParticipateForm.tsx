@@ -2,6 +2,7 @@
 // Enum is not being able detect it's being used, so I'm manually
 // removing unused vars warning
 import statesCities from '../utils/city-states.json'
+import { validation } from '../types/formValidation'
 import {
   Button,
   Center,
@@ -34,26 +35,7 @@ enum INPUTS_ENUM {
   previousKnowledge = 'Possui conhecimento prévio na área da ciência?',
 }
 
-const schema = z.object({
-  name: z.string().min(1, 'Nome é Obrigatório'),
-  email: z.string().min(1, 'Email é Obrigatório').email(),
-  cpf: z
-    .string()
-    .min(11, 'CPF deve que ter 11 dígitos')
-    .max(11, 'CPF deve ter 11 dígitos'),
-  city: z.string().min(1, 'Cidade deve ser informada'),
-  state: z.string().min(1, 'Seu estado deve ser informado'),
-  age: z
-    .number()
-    .min(18, 'A idade mínima para participar da pesquisa é de 18 anos'),
-  disabilities: z.string().optional(),
-  previousKnowledge: z.string().optional(),
-  sex: z.enum(['M', 'F']),
-  academic: z.enum(['ensino-fundamental', 'ensino-medio', 'ensino-superior']),
-  occupation: z.enum(['estudante', 'profissional']),
-})
-
-type FormData = z.infer<typeof schema>
+type FormData = z.infer<typeof validation>
 
 export interface Estado {
   sigla: string
@@ -77,20 +59,18 @@ export const ParticipateForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, dirtyFields, isDirty },
+    formState: { errors },
     reset,
     watch,
     control,
   } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(validation),
     defaultValues: {
       age: 18,
       state: 'AC',
       city: 'Acrelândia',
     },
   })
-
-  console.log({ isDirty, dirtyFields })
 
   const inputBg = useColorModeValue('initial', 'gray.800')
 
@@ -234,10 +214,13 @@ export const ParticipateForm = () => {
           />
         )
       })}
-      <FormLabel>Sexo</FormLabel>
-      <Select {...register('sex')} variant="outline">
+      <FormLabel>Gênero</FormLabel>
+      <Select {...register('gender')} variant="outline">
         <option value="M">Masculino</option>
         <option value="F">Feminino</option>
+        <option value="NB">Não-binário</option>
+        <option value="O">Outros</option>
+        <option value="PNR">Prefiro não responder</option>
       </Select>
       <FormLabel>Qual o seu nível de escolaridade?</FormLabel>
       <Select {...register('academic')} variant="outline">

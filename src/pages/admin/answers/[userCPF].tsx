@@ -32,6 +32,7 @@ import { GeneralizedErrorPage } from '../../../components/GeneralizedErrorPage'
 import { NotAllowed } from '../../../components/NotAllowed'
 import { formatApproval } from '../../../utils/formatters'
 import { trpc } from '../../../utils/trpc'
+import { Gender } from '../../../types/formValidation'
 
 const TABLE_TITLES = {
   id: 'id',
@@ -47,7 +48,7 @@ const TABLE_TITLES = {
   occupation: 'Ocupação',
   approved: 'Estado de Aprovação',
   created_at: 'Data de registro',
-  sex: 'Sexo',
+  gender: 'Gênero',
 }
 
 export default function Answers() {
@@ -84,6 +85,21 @@ export default function Answers() {
 
   const backgroundColor = useColorModeValue('white', '')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
+
+  const formatGender = (gender: Gender) => {
+    switch (gender) {
+      case 'M':
+        return 'Masculino'
+      case 'F':
+        return 'Feminino'
+      case 'NB':
+        return 'Não-binário'
+      case 'O':
+        return 'Outro'
+      case 'PNR':
+        return 'Prefiro não responder'
+    }
+  }
 
   if (
     (loggedUserInfo.data?.permission !== 'admin' && status !== 'loading') ||
@@ -319,11 +335,9 @@ export default function Answers() {
                           key={String(userInfo[key as keyof RegisteredUser])}
                           padding="2"
                         >
-                          {key === 'sex'
-                            ? String(
-                                userInfo[key as keyof RegisteredUser] === 'M'
-                                  ? 'Masculino'
-                                  : 'Feminino',
+                          {key === 'gender'
+                            ? formatGender(
+                                userInfo[key as keyof RegisteredUser] as Gender,
                               )
                             : String(
                                 userInfo[key as keyof RegisteredUser] ||

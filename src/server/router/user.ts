@@ -26,10 +26,6 @@ export const userRouter = createRouter()
       occupation: z.enum(['estudante', 'profissional']),
     }),
     async resolve({ input, ctx }) {
-      console.log({
-        disabilities: input.disabilities,
-        previousKn: input.previousKnowledge,
-      })
       return await ctx.prisma.registeredUser.create({
         data: {
           email: input.email,

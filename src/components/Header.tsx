@@ -5,12 +5,14 @@ import {
   Flex,
   Heading,
   IconButton,
+  LightMode,
   useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import NextLink from 'next/link'
-import { Moon, Sun } from 'phosphor-react'
+import { CaretRight, Moon, Sun } from 'phosphor-react'
 import { MdOutlineReadMore } from 'react-icons/md'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
@@ -23,22 +25,36 @@ export const Header = () => {
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
   const SponsorButton = (
-    <NextLink href={'/participate'} passHref>
-      <Button
-        display={{
-          md: 'flex',
-        }}
-        alignItems="center"
-        transition="all 0.3s"
-        colorScheme={'purple'}
-        leftIcon={<MdOutlineReadMore />}
-        size={'md'}
-        bg={'purple.400'}
-        _hover={{ bg: 'purple.500' }}
-      >
-        Participar
-      </Button>
-    </NextLink>
+    <LightMode>
+      <NextLink href={'/participate'} passHref>
+        <Button
+          display={{
+            md: 'flex',
+          }}
+          alignItems="center"
+          transition="all 0.3s"
+          colorScheme={'pink'}
+          rightIcon={
+            <motion.div
+              animate={{
+                x: [0, 5],
+              }}
+              transition={{
+                duration: 1,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatType: 'mirror',
+              }}
+            >
+              <CaretRight size={24} />
+            </motion.div>
+          }
+          size={'md'}
+        >
+          Participar
+        </Button>
+      </NextLink>
+    </LightMode>
   )
 
   return (

@@ -16,8 +16,6 @@ import { CaretDown, CaretRight } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
 import Typed from 'react-typed'
 
-import monkeypoxImg from '../../../assets/cientista.png'
-import overweightImg from '../../../assets/obesidade.jpg'
 import { defaultGradient } from '../../../styles/global'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
@@ -211,7 +209,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src={monkeypoxImg}
+                  src="/cientista.png"
                   alt=""
                   width={700}
                   height={700}
@@ -236,7 +234,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src={overweightImg}
+                  src="/obesidade.jpg"
                   alt=""
                   width={700}
                   height={700}

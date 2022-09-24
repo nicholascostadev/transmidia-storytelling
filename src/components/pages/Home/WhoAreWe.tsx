@@ -1,7 +1,6 @@
 import { Avatar, Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
-import virusBgImg from '../../../assets/virus.png'
 import science1 from '../../../assets/science1.svg'
 import science2 from '../../../assets/science2.svg'
 
@@ -61,7 +60,7 @@ export const WhoAreWe = () => {
       >
         <ChakraCustomImage
           display={['none', 'none', 'initial']}
-          src={virusBgImg}
+          src="/virus.png"
           alt=""
           width={200}
           height={200}

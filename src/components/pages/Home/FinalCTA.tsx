@@ -8,7 +8,8 @@ export const FinalCTA = () => {
       textAlign={['center', 'left']}
       p={'2'}
       minH="80vh"
-      maxW="1200px"
+      w="1300px"
+      maxW="100%"
       mx="auto"
       align="center"
       justify="center"

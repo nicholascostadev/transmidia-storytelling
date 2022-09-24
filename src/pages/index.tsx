@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Footer } from '../components/Footer'
@@ -18,12 +19,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main>
+      <Box as="main" overflow="hidden">
         <Hero />
         <Explanation />
         <Motivation />
         <FinalCTA />
-      </main>
+      </Box>
       <Footer />
     </>
   )

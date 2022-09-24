@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import readBooks from '../../../assets/readbooks.svg'
 import NextImage from 'next/image'
+import { motion } from 'framer-motion'
 
 export const Motivation = () => {
   return (
@@ -29,58 +30,92 @@ export const Motivation = () => {
         minH="400px"
       >
         <Stack flex="1" spacing="1rem">
-          <Heading>Nossa motivação</Heading>
-          <Text>
-            A divulgação científica sempre foi um problema para a comunidade de
-            pesquisadores e cientistas, encontrar uma maneira de divulgar seu
-            trabalho para muitas pessoas independente do seu nicho e
-            conhecimento técnico, é muito desafiador. Umas pessoas preferem a{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
-              bgClip="text"
-            >
-              leitura
+          <Heading
+            as={motion.h1}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            initial={{
+              x: '-200px',
+              opacity: 0,
+              transitionDuration: '1.2s',
+            }}
+          >
+            Nossa motivação
+          </Heading>
+          <Stack
+            spacing="1rem"
+            as={motion.div}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            initial={{
+              x: '-200px',
+              opacity: 0,
+              transitionDuration: '1.2s',
+              transitionDelay: '.4s',
+            }}
+          >
+            <Text>
+              A divulgação científica sempre foi um problema para a comunidade
+              de pesquisadores e cientistas, encontrar uma maneira de divulgar
+              seu trabalho para muitas pessoas independente do seu nicho e
+              conhecimento técnico, é muito desafiador. Umas pessoas preferem a{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
+                bgClip="text"
+              >
+                leitura
+              </Text>
+              , outras os
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient="linear(to-r, pink.400, purple.500, purple.500)"
+                bgClip="text"
+              >
+                {' '}
+                vídeos
+              </Text>
+              , outras{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient="linear(to-r, purple.500, purple.500, pink.400)"
+                bgClip="text"
+              >
+                podcasts{' '}
+              </Text>
+              e muitas outras diversas maneiras.
             </Text>
-            , outras os
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, pink.400, purple.500, purple.500)"
-              bgClip="text"
-            >
-              {' '}
-              vídeos
+            <Text>
+              Através do{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
+                bgClip="text"
+              >
+                Transmídia Storytelling
+              </Text>
+              , permitimos uma nova maneira de ajudar todos divulgadores de
+              ciência em diferentes mídias a divulgar seu conhecimento de forma
+              compreensiva e conseguir encontrar o público e mídia certos para o
+              seu conteúdo.
             </Text>
-            , outras{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.500, purple.500, pink.400)"
-              bgClip="text"
-            >
-              podcasts{' '}
-            </Text>
-            e muitas outras diversas maneiras.
-          </Text>
-          <Text>
-            Através do{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
-              bgClip="text"
-            >
-              Transmídia Storytelling
-            </Text>
-            , permitimos uma nova maneira de ajudar todos divulgadores de
-            ciência em diferentes mídias a divulgar seu conhecimento de forma
-            compreensiva e conseguir encontrar o público e mídia certos para o
-            seu conteúdo.
-          </Text>
+          </Stack>
         </Stack>
-        <Center minH="400px">
+        <Center
+          as={motion.div}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          initial={{
+            opacity: 0,
+            transitionDuration: '1.2s',
+            transitionDelay: '.8s',
+          }}
+          minH="400px"
+        >
           <Image
             as={NextImage}
             flex="1"

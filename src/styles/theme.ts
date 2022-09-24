@@ -1,15 +1,14 @@
 import { extendTheme, type ThemeConfig } from '@chakra-ui/react'
 
 const config: ThemeConfig = {
-  initialColorMode: 'light',
-  useSystemColorMode: false,
+  useSystemColorMode: true,
 }
 
 const theme = extendTheme({
   ...config,
   fonts: {
-    body: '"Roboto", sans-serif',
-    heading: '"Roboto", sans-serif',
+    body: '"Inter", sans-serif',
+    heading: '"Inter", sans-serif',
     fontWeight: '400',
   },
   styles: {
@@ -17,6 +16,10 @@ const theme = extendTheme({
       'html, body': {
         background: props.colorMode === 'light' ? 'white' : 'gray.800',
       },
+      '*': {
+        scrollBehavior: 'smooth',
+      },
+      '.typed-cursor': 'red.500',
     }),
   },
 })

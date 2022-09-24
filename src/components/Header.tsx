@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
 import { Moon, Sun } from 'phosphor-react'
-import { AiOutlineMenu } from 'react-icons/ai'
 import { MdOutlineReadMore } from 'react-icons/md'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
@@ -20,14 +19,13 @@ export const Header = () => {
   const mobileNav = useDisclosure()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
-  const shadow = useColorModeValue('sm', 'none')
+  const shadow = useColorModeValue('md', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
   const SponsorButton = (
     <NextLink href={'/participate'} passHref>
       <Button
         display={{
-          base: 'none',
           md: 'flex',
         }}
         alignItems="center"
@@ -44,7 +42,15 @@ export const Header = () => {
   )
 
   return (
-    <Box pos="relative">
+    <Box
+      pos="relative"
+      position="fixed"
+      mx="auto"
+      zIndex="2"
+      w="100vw"
+      maxW="100%"
+      bg={useColorModeValue('white', 'gray.900')}
+    >
       <chakra.header
         shadow={shadow}
         transition="box-shadow 0.2s"
@@ -117,15 +123,6 @@ export const Header = () => {
                 icon={<SwitchIcon />}
               />
               {SponsorButton}
-              <IconButton
-                aria-label={'Open menu'}
-                display={{
-                  base: 'flex',
-                  md: 'none',
-                }}
-                icon={<AiOutlineMenu />}
-                onClick={mobileNav.onOpen}
-              />
             </Flex>
             <MobileNavContent mobileNav={mobileNav} />
           </>

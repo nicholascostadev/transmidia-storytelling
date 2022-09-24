@@ -28,7 +28,8 @@ export const Participate = () => {
             zIndex={1}
           />
           <Grid
-            maxW="1200px"
+            w="1300px"
+            maxW="100%"
             mx="auto"
             gap="1rem"
             gridTemplateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}

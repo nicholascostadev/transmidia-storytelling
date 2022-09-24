@@ -12,6 +12,7 @@ import {
 import { motion } from 'framer-motion'
 import NextImage from 'next/image'
 import mediasImage from '../../../assets/medias.svg'
+import { defaultGradientInv } from '../../../styles/global'
 
 export const Explanation = () => {
   const bgColor = useColorModeValue('gray.100', 'auto')
@@ -60,7 +61,7 @@ export const Explanation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 Junto com você
@@ -69,7 +70,7 @@ export const Explanation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, pink.400, purple.400, purple.500)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 ciência

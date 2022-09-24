@@ -13,7 +13,6 @@ import {
 import { motion } from 'framer-motion'
 import NextLink from 'next/link'
 import { CaretRight, Moon, Sun } from 'phosphor-react'
-import { MdOutlineReadMore } from 'react-icons/md'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
 

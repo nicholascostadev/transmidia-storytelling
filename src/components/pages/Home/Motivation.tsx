@@ -10,6 +10,7 @@ import {
 import readBooks from '../../../assets/readbooks.svg'
 import NextImage from 'next/image'
 import { motion } from 'framer-motion'
+import { defaultGradientInv } from '../../../styles/global'
 
 export const Motivation = () => {
   return (
@@ -62,7 +63,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 leitura
@@ -71,7 +72,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, pink.400, purple.500, purple.500)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 {' '}
@@ -81,7 +82,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, purple.500, purple.500, pink.400)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 podcasts{' '}
@@ -93,7 +94,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
+                bgGradient={defaultGradientInv}
                 bgClip="text"
               >
                 Transmídia Storytelling

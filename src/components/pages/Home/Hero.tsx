@@ -1,25 +1,28 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
   IconButton,
+  LightMode,
   Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
-import { CaretDown } from 'phosphor-react'
+import { CaretDown, CaretRight } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
 import Typed from 'react-typed'
 
 import monkeypoxImg from '../../../assets/cientista.png'
 import overweightImg from '../../../assets/obesidade.jpg'
+import { defaultGradient } from '../../../styles/global'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Hero = () => {
   const [showing, setShowing] = useState(true)
   const textRef = useRef<string>() as any
-  const textColor = useColorModeValue('gray.500', 'white')
+  const textColor = useColorModeValue('black', 'white')
   const heroRef = useRef(null)
   const isInView = useInView(heroRef)
 
@@ -87,7 +90,7 @@ export const Hero = () => {
               O que ninguém te contou
               <Heading
                 as={Typed}
-                bgGradient="linear(to-r, pink.400, purple.600)"
+                bgGradient={defaultGradient}
                 bgClip="text"
                 strings={['...', '...']}
                 showCursor={false}
@@ -103,7 +106,7 @@ export const Hero = () => {
           </Flex>
           <Heading
             as={Typed}
-            bgGradient="linear(to-r, pink.400, purple.600)"
+            bgGradient={defaultGradient}
             bgClip="text"
             ref={textRef}
             strings={['Varíola dos Macacos?', 'Obesidade?']}
@@ -117,25 +120,58 @@ export const Hero = () => {
             fontSize={{ base: '2xl', sm: '3xl', md: '8xl' }}
           ></Heading>
         </Box>
-        <Text
-          as={motion.p}
-          textColor={textColor}
-          maxW="3xl"
-          animate={{
-            opacity: 1,
-            scale: 1,
-            transition: {
-              delay: 1.65,
-            },
-          }}
-          initial={{ opacity: 0, scale: 0.8 }}
-        >
-          A divulgação científica é muito importante para toda a humanidade.
-          Espalhar conhecimento foi o que nos fez capaz de chegar onde estamos
-          hoje, mas como fazer com que o conteúdo chegue a todos e com uma forma
-          compreensível para cada tipo de pessoa?
-        </Text>
-        <Flex w={'full'} justify="center" alignItems="center" pt="10">
+        <Stack spacing="1.5rem">
+          <Text
+            as={motion.p}
+            textColor={textColor}
+            maxW="50rem"
+            animate={{
+              opacity: 1,
+              scale: 1,
+              transition: {
+                delay: 1.65,
+              },
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+          >
+            Sim, tudo isso está por ai, mas talvez você não esteja vendo.
+            Futebol, basquete, volei, televisão, redes sociais, tudo tirando a
+            atenção dos problemas que nunca sumiram, e será que algum dia irão
+            sumir?
+          </Text>
+          <Text
+            as={motion.p}
+            textColor={textColor}
+            maxW="3xl"
+            animate={{
+              opacity: 1,
+              scale: 1,
+              transition: {
+                delay: 1.65,
+              },
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+          >
+            A ciência é complexa, sim, nós sabemos, mas o que seria de nós sem
+            ela? Bom, bem lá trás na nossa história, tudo ocorreu por um
+            propósito. Transfusões de sangue, criações de vacinas, elaboração de
+            medicamentos e até mesmo transplante de órgãos. Tudo para chegarmos
+            até aqui.
+          </Text>
+          <Flex justify="center" alignItems="center">
+            <LightMode>
+              <Button
+                colorScheme="pink"
+                maxW="xs"
+                size="lg"
+                rightIcon={<CaretRight size={24} />}
+              >
+                Participar
+              </Button>
+            </LightMode>
+          </Flex>
+        </Stack>
+        <Flex w={'full'} justify="center" alignItems="center" pt="2">
           <Box height={{ sm: '24rem', lg: '28rem' }}>
             {showing && (
               <motion.div
@@ -197,7 +233,7 @@ export const Hero = () => {
           y: [0, -20],
         }}
         transition={{
-          duration: 1.5,
+          duration: 1,
           ease: 'easeInOut',
           repeat: Infinity,
           repeatType: 'mirror',
@@ -217,7 +253,7 @@ export const Hero = () => {
         <IconButton
           as="a"
           href="#explanation"
-          icon={<CaretDown size={30} />}
+          icon={<CaretDown size={50} />}
           variant="unstyled"
           colorScheme="purple"
           size="lg"

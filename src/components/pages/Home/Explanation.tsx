@@ -15,29 +15,37 @@ import mediasImage from '../../../assets/medias.svg'
 import { defaultGradientInv } from '../../../styles/global'
 
 export const Explanation = () => {
-  const bgColor = useColorModeValue('gray.100', 'auto')
+  const bgColor = useColorModeValue('gray.50', 'gray.900')
   return (
-    <Box bg={bgColor} shadow="sm" py="2" mt="20">
+    <Box
+      bg={bgColor}
+      borderTop={useColorModeValue('1px', 'none')}
+      borderColor={'gray.200'}
+      shadow={useColorModeValue('base', 'none')}
+      py="2"
+      px={['6', '0']}
+      mt="20"
+    >
       <Flex
         id="explanation"
         position="relative"
         textAlign={['center', 'left']}
         p={'2'}
-        minH="80vh"
         w="1300px"
-        maxW="auto"
+        minH="100vh"
+        maxW="100%"
         mx="auto"
         align="center"
         justify="center"
       >
         <Grid
           gap={['0', '20']}
-          templateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
+          templateColumns={['1fr', '1fr', '1fr', 'repeat(2, 1fr)']}
           maxW={'100%'}
           as={motion.div}
-          whileInView={{ opacity: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          initial={{ opacity: 0, transitionDuration: '1.2s' }}
+          initial={{ opacity: 0, scale: 0.2, transitionDuration: '1.2s' }}
         >
           <Center pos="relative" minH="400px" maxW={'100%'}>
             {/* <NextImage width="100%" height="100%" layout="fill" src={mediasIllustration} /> */}
@@ -51,8 +59,8 @@ export const Explanation = () => {
             />
           </Center>
           <Stack flex="1" spacing="1rem" maxW={'100%'} minH="400px">
-            <Heading>O que é o Transmídia Storytelling?</Heading>
-            <Text fontSize="md">
+            <Heading fontSize="3xl">O que é o Transmídia Storytelling?</Heading>
+            <Text>
               Transmídia storytelling é uma técnica de contar uma história ou
               experiência em várias plataformas e formatos, usando os meios
               digitais. Por isso, na nossa pesquisa, procuramos entender qual o

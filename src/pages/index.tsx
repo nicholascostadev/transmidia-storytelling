@@ -7,6 +7,7 @@ import { Explanation } from '../components/pages/Home/Explanation'
 import { FinalCTA } from '../components/pages/Home/FinalCTA'
 import { Hero } from '../components/pages/Home/Hero'
 import { Motivation } from '../components/pages/Home/Motivation'
+import { WhoAreWe } from '../components/pages/Home/WhoAreWe'
 
 const Home: NextPage = () => {
   // const { data } = trpc.useQuery(['example.hello', { text: 'from tRPC' }])
@@ -23,6 +24,7 @@ const Home: NextPage = () => {
         <Hero />
         <Explanation />
         <Motivation />
+        <WhoAreWe />
         <FinalCTA />
       </Box>
       <Footer />

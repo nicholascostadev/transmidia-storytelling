@@ -5,10 +5,12 @@ import {
   Heading,
   IconButton,
   LightMode,
+  Link,
   Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import { motion, useInView } from 'framer-motion'
 import { CaretDown, CaretRight } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
@@ -42,12 +44,13 @@ export const Hero = () => {
   return (
     <Flex
       position="relative"
+      px={['6', '0']}
       w="1500px"
       mx="auto"
       maxW="full"
       display="flex"
       justifyContent="center"
-      h="140vh"
+      minH="100vh"
     >
       <Stack
         mt="6rem"
@@ -152,27 +155,49 @@ export const Hero = () => {
             }}
             initial={{ opacity: 0, scale: 0.8 }}
           >
-            A ciência é complexa, sim, nós sabemos, mas o que seria de nós sem
-            ela? Bom, bem lá trás na nossa história, tudo ocorreu por um
-            propósito. Transfusões de sangue, criações de vacinas, elaboração de
-            medicamentos e até mesmo transplante de órgãos. Tudo para chegarmos
-            até aqui.
+            A ciência é complexa, sim, nós sabemos, mas como fazer com que um
+            conteúdo complexo seja possível ser compreendido por todos? qual
+            linguagem usar? qual mídia? Isso que iremos responder. Sua
+            participação na pesquisa é crucial para conseguirmos entender cada
+            pessoa de forma única.{' '}
+            <NextLink href="/participate" passHref>
+              <Text
+                as={Link}
+                fontWeight="bold"
+                bgGradient={defaultGradient}
+                bgClip="text"
+              >
+                Participe
+              </Text>
+            </NextLink>{' '}
+            e faça a diferença.
           </Text>
           <Flex justify="center" alignItems="center">
             <LightMode>
-              <Button
-                colorScheme="pink"
-                maxW="xs"
-                size="lg"
-                rightIcon={<CaretRight size={24} />}
-              >
-                Participar
-              </Button>
+              <NextLink href="/participate" passHref>
+                <Button
+                  as={motion.a}
+                  colorScheme="pink"
+                  maxW="xs"
+                  size="lg"
+                  rightIcon={<CaretRight size={24} />}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                    transition: {
+                      delay: 1.65,
+                    },
+                  }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                >
+                  Participar
+                </Button>
+              </NextLink>
             </LightMode>
           </Flex>
         </Stack>
         <Flex w={'full'} justify="center" alignItems="center" pt="2">
-          <Box height={{ sm: '24rem', lg: '28rem' }}>
+          <Box>
             {showing && (
               <motion.div
                 animate={{
@@ -188,7 +213,6 @@ export const Hero = () => {
                 <ChakraCustomImage
                   src={monkeypoxImg}
                   alt=""
-                  maxH="300px"
                   width={700}
                   height={700}
                   sx={{
@@ -214,7 +238,6 @@ export const Hero = () => {
                 <ChakraCustomImage
                   src={overweightImg}
                   alt=""
-                  maxH="300px"
                   width={700}
                   height={700}
                   sx={{

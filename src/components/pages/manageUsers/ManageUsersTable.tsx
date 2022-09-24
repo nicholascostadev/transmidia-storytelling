@@ -16,6 +16,7 @@ import {
 import { User } from '@prisma/client'
 
 import { useSession } from 'next-auth/react'
+import { useRef } from 'react'
 import { TUserPossiblePermissions } from '../../../pages/admin/manageusers'
 interface ManageUsersTableProps {
   users: User[]
@@ -27,6 +28,7 @@ export const ManageUsersTable = ({
   permissionMutate,
 }: ManageUsersTableProps) => {
   const toast = useToast()
+  const toastIdRef = useRef<any>()
   const { data } = useSession()
 
   const backgroundColor = useColorModeValue('white', '')
@@ -54,31 +56,33 @@ export const ManageUsersTable = ({
       },
       {
         onError: (error: any) => {
-          toast({
-            title: 'Erro.',
-            description: error.message,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          })
+          if (toastIdRef.current)
+            toast.update(toastIdRef.current, {
+              title: 'Erro.',
+              description: error.message,
+              status: 'error',
+              duration: 3000,
+              isClosable: true,
+              position: 'top-right',
+            })
         },
         onSuccess: (response: any) => {
-          toast({
-            title: 'Alterado.',
-            description: `A permissão do usuário ${
-              response.name
-            } foi alterada para ${formatPermission(
-              response.permission,
-            )} com sucesso`,
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          })
+          if (toastIdRef.current)
+            toast.update(toastIdRef.current, {
+              title: 'Alterado.',
+              description: `A permissão do usuário ${
+                response.name
+              } foi alterada para ${formatPermission(
+                response.permission,
+              )} com sucesso`,
+              status: 'success',
+              duration: 3000,
+              isClosable: true,
+            })
         },
         onSettled: () => {
-          toast({
+          console.log('Settled')
+          toastIdRef.current = toast({
             title: 'Enviando...',
             description: (
               <Center>
@@ -86,8 +90,7 @@ export const ManageUsersTable = ({
               </Center>
             ),
             status: 'info',
-            duration: 3000,
-            isClosable: true,
+            position: 'top-right',
           })
         },
       },

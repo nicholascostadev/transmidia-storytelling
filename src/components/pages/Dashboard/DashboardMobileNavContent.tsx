@@ -33,7 +33,6 @@ export const DashboardMobileNavContent = ({
       p="2"
       pb="4"
       pt="12"
-      m={2}
       bg={bg}
       spacing={3}
       rounded="sm"

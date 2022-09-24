@@ -2,10 +2,13 @@ import {
   Box,
   Button,
   chakra,
+  Divider,
   Flex,
   Heading,
+  HStack,
   IconButton,
   LightMode,
+  Link,
   useColorMode,
   useColorModeValue,
   useDisclosure,
@@ -27,9 +30,6 @@ export const Header = () => {
     <LightMode>
       <NextLink href={'/participate'} passHref>
         <Button
-          display={{
-            md: 'flex',
-          }}
           alignItems="center"
           transition="all 0.3s"
           colorScheme={'pink'}
@@ -39,7 +39,7 @@ export const Header = () => {
                 x: [0, 5],
               }}
               transition={{
-                duration: 1,
+                duration: 1.2,
                 ease: 'easeInOut',
                 repeat: Infinity,
                 repeatType: 'mirror',
@@ -61,7 +61,7 @@ export const Header = () => {
       pos="relative"
       position="fixed"
       mx="auto"
-      zIndex="2"
+      zIndex={1000}
       w="100vw"
       maxW="100%"
       bg={useColorModeValue('white', 'gray.900')}
@@ -122,8 +122,18 @@ export const Header = () => {
               w="full"
               maxW="824px"
               align="center"
-              color="gray.400"
+              color={useColorModeValue('black', 'white')}
             >
+              <HStack display={{ base: 'none', md: 'flex' }}>
+                <Link
+                  fontSize={{ sm: 'initial', md: 'sm', lg: 'md' }}
+                  href="#team"
+                  _hover={{ color: useColorModeValue('gray.400', 'gray.400') }}
+                >
+                  Nossa Equipe
+                </Link>
+                <Divider h="35px" orientation="vertical" />
+              </HStack>
               <IconButton
                 size="md"
                 fontSize="lg"

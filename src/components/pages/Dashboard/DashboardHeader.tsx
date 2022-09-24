@@ -2,8 +2,10 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   chakra,
   DarkMode,
+  Divider,
   Flex,
   Heading,
   HStack,
@@ -106,6 +108,9 @@ export const DashboardHeader = ({
                   <NextLink href="/admin/manageusers" passHref>
                     <Button as="a">Gerenciar</Button>
                   </NextLink>
+                  <Center>
+                    <Divider orientation="vertical" h="35px" />
+                  </Center>
                 </ButtonGroup>
 
                 <IconButton

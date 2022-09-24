@@ -13,15 +13,39 @@ import { motion } from 'framer-motion'
 import { defaultGradientInv } from '../../../styles/global'
 
 export const Motivation = () => {
+  const container = {
+    hidden: { opacity: 0, transitionDuration: '2s' },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  }
+
+  const item = (direction: 'to-right' | 'to-left') => {
+    if (direction === 'to-left') {
+      return {
+        hidden: { opacity: 0, x: '200px', transitionDuration: '2s' },
+        show: { opacity: 1, x: 0 },
+      }
+    }
+
+    return {
+      hidden: { opacity: 0, x: '-400px', transitionDuration: '2s' },
+      show: { opacity: 1, x: 0 },
+    }
+  }
   return (
     <Flex
       position="relative"
       textAlign={['center', 'left']}
-      p={'2'}
+      mt={'60!'}
       minH="80vh"
       maxW="1200px"
+      px={['6', '0']}
       mx="auto"
-      align="center"
+      align="start"
       justify="center"
     >
       <Grid
@@ -29,32 +53,25 @@ export const Motivation = () => {
         templateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
         maxW={'100%'}
         minH="400px"
+        as={motion.div}
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
       >
-        <Stack flex="1" spacing="1rem">
-          <Heading
-            as={motion.h1}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            initial={{
-              x: '-200px',
-              opacity: 0,
-              transitionDuration: '1.2s',
-            }}
-          >
+        <Stack
+          as={motion.div}
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          flex="1"
+          spacing="1rem"
+          viewport={{ once: true }}
+        >
+          <Heading as={motion.h1} variants={item('to-right')}>
             Nossa motivação
           </Heading>
-          <Stack
-            spacing="1rem"
-            as={motion.div}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            initial={{
-              x: '-200px',
-              opacity: 0,
-              transitionDuration: '1.2s',
-              transitionDelay: '.4s',
-            }}
-          >
+          <Stack spacing="1rem" as={motion.div} variants={item('to-right')}>
             <Text>
               A divulgação científica sempre foi um problema para a comunidade
               de pesquisadores e cientistas, encontrar uma maneira de divulgar
@@ -100,23 +117,13 @@ export const Motivation = () => {
                 Transmídia Storytelling
               </Text>
               , permitimos uma nova maneira de ajudar todos divulgadores de
-              ciência em diferentes mídias a divulgar seu conhecimento de forma
-              compreensiva e conseguir encontrar o público e mídia certos para o
-              seu conteúdo.
+              ciência a espalhar seu conhecimento de forma compreensiva e
+              conseguir encontrar o público junto com a mídia certa de forma
+              compreensiva.
             </Text>
           </Stack>
         </Stack>
-        <Center
-          as={motion.div}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          initial={{
-            opacity: 0,
-            transitionDuration: '1.2s',
-            transitionDelay: '.8s',
-          }}
-          minH="400px"
-        >
+        <Center variants={item('to-left')} as={motion.div} minH="400px">
           <Image
             as={NextImage}
             flex="1"

@@ -105,6 +105,11 @@ export default function AdminSignIn() {
             maxW={'md'}
             variant={'outline'}
             leftIcon={<FcGoogle />}
+            isLoading={
+              (status === 'authenticated' &&
+                userInfo.data?.permission !== 'none') ||
+              status === 'loading'
+            }
             colorScheme="red"
             isDisabled={!!userSession}
             onClick={() => signIn('google')}

@@ -4,6 +4,7 @@ import { ChakraCustomImage } from '../../ChakraCustomImage'
 import science1 from '../../../assets/science1.svg'
 import science2 from '../../../assets/science2.svg'
 import virusImg from '../../../../public/virus.png'
+import Image from 'next/image'
 
 export const WhoAreWe = () => {
   const container = {
@@ -59,13 +60,9 @@ export const WhoAreWe = () => {
           zIndex: 0,
         }}
       >
-        <ChakraCustomImage
-          display={['none', 'none', 'initial']}
-          src={virusImg.src}
-          alt=""
-          width={200}
-          height={200}
-        />
+        <Box display={['none', 'none', 'initial']}>
+          <Image src={virusImg} alt="" width={200} height={200} />
+        </Box>
       </motion.div>
       <motion.div
         whileInView={{

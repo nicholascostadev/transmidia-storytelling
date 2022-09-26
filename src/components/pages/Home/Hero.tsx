@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from 'react'
 import Typed from 'react-typed'
 
 import { defaultGradient } from '../../../styles/global'
-import { ChakraCustomImage } from '../../ChakraCustomImage'
+import Image from 'next/image'
 
 export const Hero = () => {
   const [showing, setShowing] = useState(true)
@@ -211,16 +211,15 @@ export const Hero = () => {
                   repeatType: 'mirror',
                 }}
               >
-                <ChakraCustomImage
-                  src={cientistaImg.src}
+                <Image
+                  src={cientistaImg}
                   alt=""
                   width={700}
                   height={700}
-                  sx={{
-                    borderRadius: '99999px',
+                  style={{
+                    borderRadius: '9999999px',
+                    objectFit: 'cover',
                   }}
-                  objectFit="cover"
-                  rounded="full"
                 />
               </motion.div>
             )}
@@ -236,16 +235,15 @@ export const Hero = () => {
                   repeatType: 'mirror',
                 }}
               >
-                <ChakraCustomImage
-                  src={obesidadeImg.src}
+                <Image
+                  src={obesidadeImg}
                   alt=""
                   width={700}
                   height={700}
-                  sx={{
-                    borderRadius: '99999px',
+                  style={{
+                    borderRadius: '9999999px',
+                    objectFit: 'cover',
                   }}
-                  objectFit="cover"
-                  rounded="full"
                 />
               </motion.div>
             )}

@@ -13,6 +13,11 @@ export const WhoAreWe = () => {
     },
   }
 
+  /**
+   * Changes the direction of the animation depending on the param
+   * @param {'to-right' | 'to-left'} direction - 'to-right' | 'to-left'
+   * @returns What is necessary for framer-motion animation work
+   */
   const item = (direction: 'to-right' | 'to-left') => {
     if (direction === 'to-left') {
       return {

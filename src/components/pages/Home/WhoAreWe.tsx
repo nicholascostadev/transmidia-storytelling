@@ -58,7 +58,7 @@ export const WhoAreWe = () => {
       >
         <ChakraCustomImage
           display={['none', 'none', 'initial']}
-          src="/images/virus.png"
+          src="/images/virus.svg"
           alt=""
           width={200}
           height={200}

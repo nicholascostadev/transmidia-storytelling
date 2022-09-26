@@ -209,7 +209,7 @@ export const Hero = () => {
                 }}
               >
                 <Image
-                  src="/images/cientista.png"
+                  src="/images/cientista.jpg"
                   alt=""
                   width={700}
                   height={700}

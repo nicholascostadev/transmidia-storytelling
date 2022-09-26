@@ -1,1 +1,4 @@
-export type TFilter = 'email' | 'name'
+export type TFilter = {
+  field: 'email' | 'name'
+  approval?: boolean
+}

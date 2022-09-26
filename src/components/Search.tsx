@@ -1,4 +1,5 @@
 import {
+  Divider,
   Flex,
   HStack,
   Input,
@@ -6,12 +7,13 @@ import {
   InputLeftElement,
   Radio,
   RadioGroup,
+  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { MagnifyingGlass } from 'phosphor-react'
 
-import { TFilter } from '../types/queryFilter'
+import type { TFilter } from '../types/queryFilter'
 
 interface SearchProps {
   currentQuery: string
@@ -41,7 +43,7 @@ export const Search = ({
       <InputGroup variant="flushed">
         <Input
           placeholder={`Procure pelo ${
-            filter === 'email' ? 'email' : 'nome'
+            filter.field === 'email' ? 'email' : 'nome'
           } de um usuário`}
           value={currentQuery}
           onChange={(e) => changeQuery(e.target.value)}
@@ -50,26 +52,77 @@ export const Search = ({
           <MagnifyingGlass />
         </InputLeftElement>
       </InputGroup>
-      <HStack
+      <Stack
         border="1px"
         borderColor={borderColor}
         bg={backgroundColor}
         rounded="md"
-        p="2"
-        w={['full', 'auto']}
+        p="5"
+        w={['full', 'max-content']}
+        minW="fit-content"
+        justifyContent="start"
+        alignItems="start"
+        spacing="2"
       >
-        <Text>Filtro:</Text>
-        <RadioGroup
-          display="flex"
-          flexDir="row"
-          gap="2"
-          onChange={changeFilter}
-          value={filter}
-        >
-          <Radio value="email">Email</Radio>
-          <Radio value="name">Nome</Radio>
-        </RadioGroup>
-      </HStack>
+        <Text textAlign="center" w="full">
+          Filtrar por:
+        </Text>
+        <Divider w="full" orientation="horizontal" />
+        <HStack justifyContent="start" alignItems="start" spacing="5">
+          <Stack>
+            <Text>Campos</Text>
+            <Divider orientation="horizontal" />
+            <RadioGroup
+              display="flex"
+              flexDir="column"
+              gap="2"
+              onChange={(value: TFilter['field']) => {
+                changeFilter({ ...filter, field: value })
+              }}
+              defaultValue="email"
+              value={filter.field}
+            >
+              <Radio value="email">Email</Radio>
+              <Radio value="name">Nome</Radio>
+            </RadioGroup>
+          </Stack>
+          <Divider h="150px" orientation="vertical" />
+          <Stack>
+            <Text>Aprovação</Text>
+            <Divider orientation="horizontal" />
+            <RadioGroup
+              display="flex"
+              flexDir="column"
+              gap="2"
+              defaultValue="none"
+              onChange={(value: string) => {
+                if (value !== 'none') {
+                  changeFilter({
+                    ...filter,
+                    approval: value === 'approved',
+                  })
+                } else {
+                  changeFilter({
+                    ...filter,
+                    approval: undefined,
+                  })
+                }
+              }}
+              value={
+                filter.approval
+                  ? 'approved'
+                  : typeof filter.approval === 'undefined'
+                  ? 'none'
+                  : 'unapproved'
+              }
+            >
+              <Radio value="approved">Aprovado</Radio>
+              <Radio value="unapproved">Não aprovado</Radio>
+              <Radio value="none">Nenhum</Radio>
+            </RadioGroup>
+          </Stack>
+        </HStack>
+      </Stack>
     </Flex>
   )
 }

@@ -36,7 +36,9 @@ export default function Dashboard() {
   const [itemsPerPage, setItemsPerPage] = useState(5)
 
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<TFilter>('email')
+  const [filter, setFilter] = useState<TFilter>({
+    field: 'email',
+  })
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
 
@@ -118,12 +120,13 @@ export default function Dashboard() {
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
+  console.log('Rerendered')
+
   function handleGotoNextPage() {
     infiniteUsers.fetchNextPage()
 
     if (hasMorePages) {
       setPage((page) => page + 1)
-
       setLastAvailablePage(page + 1)
     }
   }
@@ -176,60 +179,59 @@ export default function Dashboard() {
               usersToShow={usersToShow}
             />
           </Box>
+        </Stack>{' '}
+        <Flex justify="space-between" w="1200px" maxW="100%" mt="2">
+          <Flex justify="center" alignItems="center">
+            <FormLabel>Itens por página</FormLabel>
 
-          <Flex justify="space-between" w="1200px" maxW="100%">
-            <Flex justify="center" alignItems="center">
-              <FormLabel>Itens por página</FormLabel>
-
-              <NumberInput
-                w="20"
-                defaultValue={itemsPerPage}
-                min={5}
-                max={20}
-                value={itemsPerPage}
-                onChange={(value, valueAsNumber) =>
-                  setItemsPerPage(valueAsNumber)
-                }
-                size="sm"
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </Flex>
-
-            <IconButton
+            <NumberInput
+              w="20"
+              defaultValue={itemsPerPage}
+              min={5}
+              max={20}
+              value={itemsPerPage}
+              onChange={(value, valueAsNumber) =>
+                setItemsPerPage(valueAsNumber)
+              }
               size="sm"
-              icon={<ArrowCounterClockwise />}
-              aria-label="Refetch data"
-              justifySelf="flex-end"
-              ml="auto"
-              mr="2"
-              onClick={() => infiniteUsers.refetch()}
-              isLoading={infiniteUsers.isRefetching || infiniteUsers.isLoading}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Flex>
+
+          <IconButton
+            size="sm"
+            icon={<ArrowCounterClockwise />}
+            aria-label="Refetch data"
+            justifySelf="flex-end"
+            ml="auto"
+            mr="2"
+            onClick={() => infiniteUsers.refetch()}
+            isLoading={infiniteUsers.isRefetching || infiniteUsers.isLoading}
+          />
+
+          <ButtonGroup size="sm">
+            <IconButton
+              as={CaretLeft}
+              disabled={page === 1}
+              cursor="pointer"
+              onClick={handleGotoPrevPage}
+              aria-label="Previous page icon"
             />
 
-            <ButtonGroup size="sm">
-              <IconButton
-                as={CaretLeft}
-                disabled={page === 1}
-                cursor="pointer"
-                onClick={handleGotoPrevPage}
-                aria-label="Previous page icon"
-              />
-
-              <IconButton
-                as={CaretRight}
-                disabled={!hasMorePages}
-                cursor="pointer"
-                onClick={handleGotoNextPage}
-                aria-label="Next page icon"
-              />
-            </ButtonGroup>
-          </Flex>
-        </Stack>
+            <IconButton
+              as={CaretRight}
+              disabled={!hasMorePages}
+              cursor="pointer"
+              onClick={handleGotoNextPage}
+              aria-label="Next page icon"
+            />
+          </ButtonGroup>
+        </Flex>
       </Center>
     </>
   )

@@ -36,6 +36,7 @@ export const WhoAreWe = () => {
       pos="relative"
       px={['6', '0']}
       pt={['40', '40', '0']}
+      textAlign={['center', 'center', 'left']}
     >
       <motion.div
         whileInView={{
@@ -148,7 +149,7 @@ export const WhoAreWe = () => {
           <Stack
             as={motion.div}
             variants={container}
-            spacing="10"
+            spacing={['4', '4', '10']}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}

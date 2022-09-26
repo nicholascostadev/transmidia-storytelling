@@ -1,6 +1,3 @@
-import obesidadeImg from '../../../../public/obesidade.jpg'
-import cientistaImg from '../../../../public/cientista.png'
-
 import {
   Box,
   Button,
@@ -212,7 +209,7 @@ export const Hero = () => {
                 }}
               >
                 <Image
-                  src={cientistaImg}
+                  src="/cientista.png"
                   alt=""
                   width={700}
                   height={700}
@@ -236,7 +233,7 @@ export const Hero = () => {
                 }}
               >
                 <Image
-                  src={obesidadeImg}
+                  src="/obesidade.jpg"
                   alt=""
                   width={700}
                   height={700}

@@ -12,10 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { CaretLeft } from 'phosphor-react'
+import { CaretLeft, GoogleLogo } from 'phosphor-react'
 import { SyntheticEvent, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
@@ -104,7 +103,7 @@ export default function AdminSignIn() {
             w={'full'}
             maxW={'md'}
             variant={'outline'}
-            leftIcon={<FcGoogle />}
+            leftIcon={<GoogleLogo />}
             isLoading={
               (status === 'authenticated' &&
                 userInfo.data?.permission !== 'none') ||

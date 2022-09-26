@@ -15,8 +15,7 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, Moon, SignOut, Sun } from 'phosphor-react'
-import { AiOutlineMenu } from 'react-icons/ai'
+import { CaretLeft, Moon, SignOut, Sun, Line } from 'phosphor-react'
 
 export default function NotAllowed() {
   const { data: userSession } = useSession()
@@ -97,7 +96,7 @@ export default function NotAllowed() {
                       base: 'flex',
                       md: 'none',
                     }}
-                    icon={<AiOutlineMenu />}
+                    icon={<Line />}
                   />
                 </Flex>
               </Flex>

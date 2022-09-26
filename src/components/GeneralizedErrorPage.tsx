@@ -15,8 +15,7 @@ import {
 import { signOut } from 'next-auth/react'
 import Head from 'next/head'
 import NextLink from 'next/link'
-import { CaretLeft, Moon, SignOut, Sun } from 'phosphor-react'
-import { AiOutlineMenu } from 'react-icons/ai'
+import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
 
 export const GeneralizedErrorPage = () => {
   const { toggleColorMode: toggleMode } = useColorMode()
@@ -87,7 +86,7 @@ export const GeneralizedErrorPage = () => {
                       base: 'flex',
                       md: 'none',
                     }}
-                    icon={<AiOutlineMenu />}
+                    icon={<List />}
                   />
                 </Flex>
               </Flex>

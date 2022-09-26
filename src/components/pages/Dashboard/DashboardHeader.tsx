@@ -15,10 +15,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { signOut, useSession } from 'next-auth/react'
-import { AiOutlineMenu } from 'react-icons/ai'
 import { DashboardMobileNavContent } from './DashboardMobileNavContent'
 import NextLink from 'next/link'
-import { Sun, Moon } from 'phosphor-react'
+import { Sun, Moon, List } from 'phosphor-react'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const DashboardHeader = ({
@@ -132,7 +131,7 @@ export const DashboardHeader = ({
                     base: 'flex',
                     md: 'none',
                   }}
-                  icon={<AiOutlineMenu />}
+                  icon={<List />}
                   onClick={mobileNav.onOpen}
                 />
                 {userSession && (

@@ -15,8 +15,7 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, Moon, SignOut, Sun } from 'phosphor-react'
-import { AiOutlineMenu } from 'react-icons/ai'
+import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
 export const NotAllowed = () => {
   const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
@@ -96,7 +95,7 @@ export const NotAllowed = () => {
                       base: 'flex',
                       md: 'none',
                     }}
-                    icon={<AiOutlineMenu />}
+                    icon={<List />}
                   />
                 </Flex>
               </Flex>

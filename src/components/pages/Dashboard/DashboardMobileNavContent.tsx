@@ -6,10 +6,9 @@ import {
   UseDisclosureProps,
   VStack,
 } from '@chakra-ui/react'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
-import { SignOut } from 'phosphor-react'
-import { AiFillDashboard } from 'react-icons/ai'
-import { MdManageAccounts } from 'react-icons/md'
+import { Faders, SignOut, UserGear } from 'phosphor-react'
 
 interface MobileNavContentProps {
   mobileNav: UseDisclosureProps
@@ -50,18 +49,19 @@ export const DashboardMobileNavContent = ({
         w="full"
         variant="ghost"
         colorScheme="pink"
+        onClick={() => signOut()}
         leftIcon={<SignOut style={{ transform: 'rotate(180deg)' }} />}
       >
         Sign Out
       </Button>
       {hasPermission && (
         <>
-          <Button w="full" variant="ghost" leftIcon={<AiFillDashboard />}>
+          <Button w="full" variant="ghost" leftIcon={<Faders />}>
             <Link href="/admin/dashboard" passHref>
               <ChakraLink>Dashboard</ChakraLink>
             </Link>
           </Button>
-          <Button w="full" variant="ghost" leftIcon={<MdManageAccounts />}>
+          <Button w="full" variant="ghost" leftIcon={<UserGear />}>
             <Link href="/admin/manageusers" passHref>
               <ChakraLink>Gerenciar</ChakraLink>
             </Link>

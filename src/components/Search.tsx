@@ -9,8 +9,8 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { MagnifyingGlass } from 'phosphor-react'
 
-import { SearchIcon } from '@chakra-ui/icons'
 import { TFilter } from '../types/queryFilter'
 
 interface SearchProps {
@@ -47,7 +47,7 @@ export const Search = ({
           onChange={(e) => changeQuery(e.target.value)}
         />
         <InputLeftElement>
-          <SearchIcon />
+          <MagnifyingGlass />
         </InputLeftElement>
       </InputGroup>
       <HStack

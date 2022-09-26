@@ -14,25 +14,18 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
-
-import { RegisteredUser } from '@prisma/client'
-
+import type { RegisteredUser } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
-
 import { useEffect, useState } from 'react'
 
-import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
-
-import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
-
 import { NotAllowed } from '../../components/NotAllowed'
+import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
+import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 import { Search } from '../../components/Search'
 import { TFilter } from '../../types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
-
 import { trpc } from '../../utils/trpc'
 
 export default function Dashboard() {
@@ -45,6 +38,8 @@ export default function Dashboard() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<TFilter>('email')
 
+  const [lastAvailablePage, setLastAvailablePage] = useState(1)
+
   const router = useRouter()
 
   const q = stringOrNull(router.query.q)?.trim()
@@ -55,8 +50,6 @@ export default function Dashboard() {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
-
-  const [lastAvailablePage, setLastAvailablePage] = useState(1)
 
   const infiniteUsers = trpc.useInfiniteQuery(
     ['dashboard.infiniteUsers', { limit: itemsPerPage, query: q, filter }],
@@ -75,6 +68,11 @@ export default function Dashboard() {
       keepPreviousData: true,
     },
   )
+
+  const toggleApprovalMutation = trpc.useMutation([
+    'dashboard.toggleUserApproval',
+  ])
+
   useEffect(() => {
     if (page > 0) {
       setUsersToShow(
@@ -107,10 +105,6 @@ export default function Dashboard() {
   const [usersToShow, setUsersToShow] = useState<RegisteredUser[]>(
     infiniteUsers.data?.pages[0]?.items as RegisteredUser[],
   )
-
-  const toggleApprovalMutation = trpc.useMutation([
-    'dashboard.toggleUserApproval',
-  ])
 
   const borderColor = useColorModeValue('gray.100', 'gray.700')
 

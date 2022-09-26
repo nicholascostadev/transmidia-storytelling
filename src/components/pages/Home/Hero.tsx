@@ -1,3 +1,6 @@
+import obesidadeImg from '../../../../public/obesidade.jpg'
+import cientistaImg from '../../../../public/cientista.png'
+
 import {
   Box,
   Button,
@@ -209,7 +212,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src="/cientista.png"
+                  src={cientistaImg}
                   alt=""
                   width={700}
                   height={700}
@@ -234,7 +237,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src="/obesidade.jpg"
+                  src={obesidadeImg}
                   alt=""
                   width={700}
                   height={700}

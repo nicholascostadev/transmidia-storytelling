@@ -59,7 +59,7 @@ export default function AdminSignIn() {
     if (userInfo.data?.permission === 'admin') {
       router.push('/admin/dashboard')
     }
-  }, [userSession, router, status, userInfo.data])
+  }, [router, userInfo.data?.permission])
 
   return (
     <>

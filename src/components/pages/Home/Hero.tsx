@@ -10,14 +10,14 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
-import NextLink from 'next/link'
 import { motion, useInView } from 'framer-motion'
+import Image from 'next/image'
+import NextLink from 'next/link'
 import { CaretDown, CaretRight } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
 import Typed from 'react-typed'
 
 import { defaultGradient } from '../../../styles/global'
-import Image from 'next/image'
 
 export const Hero = () => {
   const [showing, setShowing] = useState(true)
@@ -79,30 +79,26 @@ export const Hero = () => {
           >
             <Heading
               fontWeight="bold"
-              fontSize={{ base: '3xl', sm: '4xl', md: '8xl' }}
+              fontSize={{ base: '3xl', sm: '6xl', md: '8xl' }}
               transition="all 1s ease"
               lineHeight={'110%'}
-              textAlign="left"
-              pl="10"
+              textAlign={['center', 'center']}
+              pl={['0', '10']}
               ref={heroRef}
               fontFamily="'Passion One'"
               flex="1"
             >
               O que ninguém te contou
               <Heading
-                as={Typed}
                 bgGradient={defaultGradient}
+                as="span"
                 bgClip="text"
-                strings={['...', '...']}
-                showCursor={false}
-                typeSpeed={110}
                 fontFamily="'Nunito', sans-serif"
-                startDelay={450}
                 fontWeight="extrabold"
-                backSpeed={70}
-                loop
                 fontSize={{ base: '2xl', sm: '3xl', md: '6xl' }}
-              ></Heading>
+              >
+                ...
+              </Heading>
             </Heading>
           </Flex>
           <Heading
@@ -118,7 +114,7 @@ export const Hero = () => {
             fontWeight="extrabold"
             backSpeed={70}
             loop
-            fontSize={{ base: '2xl', sm: '3xl', md: '8xl' }}
+            fontSize={{ base: '4xl', sm: '6xl', md: '8xl' }}
           ></Heading>
         </Box>
         <Stack spacing="1.5rem">

@@ -105,7 +105,7 @@ export const Header = () => {
                     <Box>
                       <ChakraCustomImage
                         lineHeight={0}
-                        src="/healthlab-logo.svg"
+                        src="/images/healthlab-logo.svg"
                         layout="fixed"
                         height={35}
                         width={30}

@@ -1,16 +1,7 @@
-import {
-  Center,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
-import readBooks from '../../../assets/readbooks.svg'
-import NextImage from 'next/image'
+import { Center, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { defaultGradientInv } from '../../../styles/global'
+import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Motivation = () => {
   const container = {
@@ -123,13 +114,18 @@ export const Motivation = () => {
             </Text>
           </Stack>
         </Stack>
-        <Center variants={item('to-left')} as={motion.div} minH="400px">
-          <Image
-            as={NextImage}
+        <Center
+          alignItems="center"
+          justifyContent="center"
+          variants={item('to-left')}
+          as={motion.div}
+          minH="400px"
+        >
+          <ChakraCustomImage
             flex="1"
-            w="400px"
-            maxW={'100%'}
-            src={readBooks}
+            width={600}
+            height={400}
+            src="/images/readbooks.svg"
             alt="Person with social media icons around"
           />
         </Center>

@@ -2,7 +2,6 @@ import { Box, Grid } from '@chakra-ui/react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { ParticipateForm } from '../components/ParticipateForm'
-import teachingIllustration from '../../src/assets/teaching.svg'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
 
 export const Participate = () => {
@@ -12,7 +11,7 @@ export const Participate = () => {
       <Box bgGradient={'linear(to-tr, purple.600, pink.400)'}>
         <Box pb={8}>
           <ChakraCustomImage
-            src={teachingIllustration}
+            src="/images/teaching.svg"
             width={960}
             height={960}
             w={['20', '20', '550px', '600px', '650px', '100%']}

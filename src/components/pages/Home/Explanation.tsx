@@ -4,15 +4,13 @@ import {
   Flex,
   Grid,
   Heading,
-  Image,
   Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import NextImage from 'next/image'
-import mediasImage from '../../../assets/medias.svg'
 import { defaultGradientInv } from '../../../styles/global'
+import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Explanation = () => {
   const bgColor = useColorModeValue('gray.50', 'gray.900')
@@ -45,16 +43,14 @@ export const Explanation = () => {
           as={motion.div}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          initial={{ opacity: 0, scale: 0.2, transitionDuration: '1.2s' }}
+          initial={{ opacity: 0, scale: 0.6, transitionDuration: '1.2s' }}
         >
           <Center pos="relative" minH="400px" maxW={'100%'}>
-            {/* <NextImage width="100%" height="100%" layout="fill" src={mediasIllustration} /> */}
-            <Image
-              as={NextImage}
+            <ChakraCustomImage
               flex="1"
-              w="400px"
-              maxW={'100%'}
-              src={mediasImage}
+              width={600}
+              height={400}
+              src="/images/medias.svg"
               alt="Person with social media icons around"
             />
           </Center>

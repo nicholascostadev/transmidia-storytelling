@@ -75,7 +75,7 @@ export const DashboardHeader = ({
                     <Box>
                       <ChakraCustomImage
                         lineHeight={0}
-                        src="/healthlab-logo.png"
+                        src="/images/healthlab-logo.png"
                         alt=""
                         layout="fixed"
                         height={35}

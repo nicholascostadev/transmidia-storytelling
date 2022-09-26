@@ -209,7 +209,7 @@ export const Hero = () => {
                 }}
               >
                 <Image
-                  src="/cientista.png"
+                  src="/images/cientista.png"
                   alt=""
                   width={700}
                   height={700}
@@ -233,7 +233,7 @@ export const Hero = () => {
                 }}
               >
                 <Image
-                  src="/obesidade.jpg"
+                  src="/images/obesidade.jpg"
                   alt=""
                   width={700}
                   height={700}

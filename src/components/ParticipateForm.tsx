@@ -26,6 +26,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../components/Input'
 import { trpc } from '../utils/trpc'
+import { useRouter } from 'next/router'
 
 const inputs = ['age', 'disabilities', 'previousKnowledge'] as const
 
@@ -52,6 +53,7 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
 
 export const ParticipateForm = () => {
   const registerMutation = trpc.useMutation(['user.register'])
+  const router = useRouter()
   const toast = useToast()
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
@@ -99,6 +101,7 @@ export const ParticipateForm = () => {
           isClosable: true,
           position: 'top-right',
         })
+        router.push('/thankyou')
 
         reset()
       },

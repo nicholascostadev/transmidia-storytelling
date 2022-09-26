@@ -15,7 +15,7 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, Moon, SignOut, Sun, Line } from 'phosphor-react'
+import { CaretLeft, Moon, SignOut, Sun, List } from 'phosphor-react'
 
 export default function NotAllowed() {
   const { data: userSession } = useSession()
@@ -96,7 +96,7 @@ export default function NotAllowed() {
                       base: 'flex',
                       md: 'none',
                     }}
-                    icon={<Line />}
+                    icon={<List />}
                   />
                 </Flex>
               </Flex>

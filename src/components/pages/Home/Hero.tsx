@@ -212,7 +212,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src={cientistaImg}
+                  src={cientistaImg.src}
                   alt=""
                   width={700}
                   height={700}
@@ -237,7 +237,7 @@ export const Hero = () => {
                 }}
               >
                 <ChakraCustomImage
-                  src={obesidadeImg}
+                  src={obesidadeImg.src}
                   alt=""
                   width={700}
                   height={700}

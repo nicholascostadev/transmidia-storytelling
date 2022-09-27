@@ -1,6 +1,3 @@
-export const defaultGradient = 'linear(to-r, pink.400, purple.600)'
-export const defaultGradientInv = 'linear(to-r, purple.600, pink.600)'
-
 type direction =
   | 'to-t'
   | 'to-tr'
@@ -14,17 +11,46 @@ type direction =
 // late on, remove `defaultGradient` and `defaultGradientInv`
 // and use only this one
 
+type gradientOpts = 0 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+
 /**
- * It takes a direction and an inverted boolean and returns a gradient string
- * @param {direction} [direction=to-r] - The direction of the gradient.
- * @param [inverted=false] - boolean - if true, the gradient will be inverted
- * @returns A string with the gradient
+ * It returns a gradient string based on the direction, whether it's inverted, and
+ * you can use whatever level of gradient color you want between 0-900
+ * @param {direction} [direction=to-r] - direction = 'to-r'
+ * @param {gradientOpts} [pinkGradientLevel=400] - gradientOpts `defaults to: 400`,
+ * @param {gradientOpts} [purpleGradientLevel=600] - gradientOpts `defaults to: 600`,
+ * @param {boolean} [inverted=false] - `boolean` - if true, the gradient will be inverted
+ * @returns A string
  */
-export const gradientWithDir = (
+export const bgGradientWithDir = (
   direction: direction = 'to-r',
+  pinkGradientLevel: gradientOpts = 400,
+  purpleGradientLevel: gradientOpts = 600,
   inverted = false,
 ) => {
-  if (inverted) return `linear(${direction}, purple.600, pink.400)`
+  if (inverted)
+    return `linear(${direction}, purple.${purpleGradientLevel}, pink.${pinkGradientLevel})`
 
-  return `linear(${direction}, pink.400, purple.600)`
+  return `linear(${direction}, pink.${pinkGradientLevel}, purple.${purpleGradientLevel})`
+}
+
+/**
+ * It returns a gradient string based on the direction, whether it's inverted, and
+ * you can use whatever level of gradient color you want between 0-900
+ * @param {direction} [direction=to-r] - direction = 'to-r'
+ * @param {gradientOpts} [pinkGradientLevel=400] - gradientOpts `defaults to: 400`,
+ * @param {gradientOpts} [purpleGradientLevel=600] - gradientOpts `defaults to: 600`,
+ * @param {boolean} [inverted=false] - `boolean` - if true, the gradient will be inverted
+ * @returns A string
+ */
+export const textGradientWithDir = (
+  direction: direction = 'to-r',
+  pinkGradientLevel: gradientOpts = 600,
+  purpleGradientLevel: gradientOpts = 600,
+  inverted = false,
+) => {
+  if (inverted)
+    return `linear(${direction}, purple.${purpleGradientLevel}, pink.${pinkGradientLevel})`
+
+  return `linear(${direction}, pink.${pinkGradientLevel}, purple.${purpleGradientLevel})`
 }

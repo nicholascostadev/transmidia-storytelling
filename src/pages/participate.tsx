@@ -3,12 +3,13 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { ParticipateForm } from '../components/ParticipateForm'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
+import { bgGradientWithDir } from '../styles/global'
 
 export const Participate = () => {
   return (
     <>
       <Header />
-      <Box bgGradient={'linear(to-tr, purple.600, pink.400)'}>
+      <Box bgGradient={bgGradientWithDir('to-tr', 400, 600)}>
         <Box pb={8}>
           <ChakraCustomImage
             src="/images/teaching.svg"

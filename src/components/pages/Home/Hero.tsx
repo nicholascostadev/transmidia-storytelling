@@ -17,7 +17,7 @@ import { CaretDown, CaretRight } from 'phosphor-react'
 import { useEffect, useRef, useState } from 'react'
 import Typed from 'react-typed'
 
-import { defaultGradient } from '../../../styles/global'
+import { textGradientWithDir } from '../../../styles/global'
 
 export const Hero = () => {
   const [showing, setShowing] = useState(true)
@@ -28,7 +28,6 @@ export const Hero = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('RODOU')
       if (textRef.current?.typed.arrayPos === 0) {
         setShowing(true)
       } else {
@@ -90,7 +89,7 @@ export const Hero = () => {
             >
               O que ninguém te contou
               <Heading
-                bgGradient={defaultGradient}
+                bgGradient={textGradientWithDir()}
                 as="span"
                 bgClip="text"
                 fontFamily="'Nunito', sans-serif"
@@ -103,7 +102,7 @@ export const Hero = () => {
           </Flex>
           <Heading
             as={Typed}
-            bgGradient={defaultGradient}
+            bgGradient={textGradientWithDir()}
             bgClip="text"
             ref={textRef}
             strings={['Varíola dos Macacos?', 'Obesidade?']}
@@ -158,7 +157,7 @@ export const Hero = () => {
               <Text
                 as={Link}
                 fontWeight="bold"
-                bgGradient={defaultGradient}
+                bgGradient={textGradientWithDir()}
                 bgClip="text"
               >
                 Participe

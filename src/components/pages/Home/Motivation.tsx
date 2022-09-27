@@ -1,6 +1,6 @@
 import { Center, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { defaultGradientInv } from '../../../styles/global'
+import { textGradientWithDir } from '../../../styles/global'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Motivation = () => {
@@ -71,7 +71,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir()}
                 bgClip="text"
               >
                 leitura
@@ -80,7 +80,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir()}
                 bgClip="text"
               >
                 {' '}
@@ -90,7 +90,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir()}
                 bgClip="text"
               >
                 podcasts{' '}
@@ -102,7 +102,7 @@ export const Motivation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir()}
                 bgClip="text"
               >
                 Transmídia Storytelling

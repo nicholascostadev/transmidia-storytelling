@@ -9,13 +9,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { defaultGradientInv, gradientWithDir } from '../../../styles/global'
+import { textGradientWithDir, bgGradientWithDir } from '../../../styles/global'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Explanation = () => {
   return (
     <Box
-      bgGradient={gradientWithDir('to-tl')}
+      bgGradient={bgGradientWithDir('to-br', 500, 900)}
       borderTop={useColorModeValue('1px', 'none')}
       color="white"
       borderColor={'gray.200'}
@@ -65,7 +65,7 @@ export const Explanation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir('to-r', 500, 400)}
                 bgClip="text"
               >
                 Junto com você
@@ -74,12 +74,11 @@ export const Explanation = () => {
               <Text
                 fontWeight="bold"
                 as="span"
-                bgGradient={defaultGradientInv}
+                bgGradient={textGradientWithDir('to-r', 500, 400)}
                 bgClip="text"
               >
-                ciência
+                ciência.
               </Text>
-              .{' '}
             </Text>
           </Stack>
         </Grid>

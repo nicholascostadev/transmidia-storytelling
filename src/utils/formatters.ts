@@ -1,5 +1,3 @@
-import { Gender } from '../types/formValidation'
-
 /**
  * It takes the approval state and returns the translated state
  * @param {boolean} approval - boolean
@@ -26,17 +24,10 @@ export const TABLE_TITLES = {
   gender: 'Gênero',
 } as const
 
-export const formatGender = (gender: Gender) => {
-  switch (gender) {
-    case 'M':
-      return 'Masculino'
-    case 'F':
-      return 'Feminino'
-    case 'NB':
-      return 'Não-binário'
-    case 'O':
-      return 'Outro'
-    case 'PNR':
-      return 'Prefiro não responder'
-  }
-}
+export const GENDER_OPTIONS = {
+  M: 'Masculino',
+  F: 'Feminino',
+  NB: 'Não-binário',
+  O: 'Outro',
+  PNR: 'Prefiro não dizer',
+} as const

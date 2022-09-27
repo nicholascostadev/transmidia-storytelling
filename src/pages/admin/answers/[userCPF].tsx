@@ -33,10 +33,11 @@ import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
 import { Gender } from '../../../types/formValidation'
 import {
-  formatApproval,
-  formatGender,
   TABLE_TITLES,
+  GENDER_OPTIONS,
+  formatApproval,
 } from '../../../utils/formatters'
+
 import { trpc } from '../../../utils/trpc'
 
 export default function Answers() {
@@ -118,7 +119,7 @@ export default function Answers() {
             toast({
               title: 'Alterado',
               description: `Usuário alterado para ${formatApproval(
-                !approvedStatus,
+                !approvedStatus as boolean,
               )}`,
               status: 'success',
               duration: 3000,
@@ -225,9 +226,7 @@ export default function Answers() {
                       borderColor={borderColor}
                       justify="space-between"
                     >
-                      <Text padding="2">
-                        {String(formatApproval(userInfo[key]))}
-                      </Text>
+                      <Text padding="2">{formatApproval(userInfo[key])}</Text>
                       <Popover closeOnBlur={false} placement="top">
                         {({ onClose }) => (
                           <>
@@ -302,7 +301,7 @@ export default function Answers() {
                         padding="2"
                       >
                         {key === 'gender'
-                          ? formatGender(userInfo[key] as Gender)
+                          ? GENDER_OPTIONS[userInfo[key] as Gender]
                           : String(
                               userInfo[key as keyof RegisteredUser] ||
                                 'Nenhuma',

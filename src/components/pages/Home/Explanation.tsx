@@ -9,15 +9,15 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
-import { defaultGradientInv } from '../../../styles/global'
+import { defaultGradientInv, gradientWithDir } from '../../../styles/global'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Explanation = () => {
-  const bgColor = useColorModeValue('gray.50', 'gray.900')
   return (
     <Box
-      bg={bgColor}
+      bgGradient={gradientWithDir('to-tl')}
       borderTop={useColorModeValue('1px', 'none')}
+      color="white"
       borderColor={'gray.200'}
       shadow={useColorModeValue('base', 'none')}
       py="2"

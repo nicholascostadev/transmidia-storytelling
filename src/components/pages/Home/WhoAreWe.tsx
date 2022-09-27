@@ -34,13 +34,16 @@ export const WhoAreWe = () => {
 
   return (
     <Flex
+      bg="green.600"
+      color="white"
       id="team"
       minH="80vh"
       justify="center"
       alignItems="center"
       pos="relative"
       px={['6', '0']}
-      pt={['40', '40', '0']}
+      pt={['40', '40', '20']}
+      pb={['0', '0', '20']}
       textAlign={['center', 'center', 'left']}
     >
       <motion.div
@@ -72,7 +75,7 @@ export const WhoAreWe = () => {
       </motion.div>
       <motion.div
         whileInView={{
-          top: [0, Math.floor(Math.random() * 30) * -1],
+          top: [20, Math.floor(Math.random() * 120)],
           left: [160, 120],
         }}
         transition={{
@@ -171,7 +174,7 @@ export const WhoAreWe = () => {
             >
               <Avatar size="2xl" />
               <Text textAlign="center">Luiz</Text>
-              <Text fontSize="xs" textAlign="center" color="gray.500">
+              <Text fontSize="xs" textAlign="center" color="gray.200">
                 Formado em ... pela ...
               </Text>
             </Box>
@@ -185,7 +188,7 @@ export const WhoAreWe = () => {
             >
               <Avatar size="2xl" />
               <Text textAlign="center">Raphael</Text>
-              <Text fontSize="xs" textAlign="center" color="gray.500">
+              <Text fontSize="xs" textAlign="center" color="gray.200">
                 Formado em ... pela ...
               </Text>
             </Box>
@@ -264,7 +267,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Gabrielle</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -277,7 +280,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Gabriela</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -301,7 +304,7 @@ export const WhoAreWe = () => {
                   src="https://github.com/nicholascostadev.png"
                 />
                 <Text textAlign="center">Nicholas Costa</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de Ciência da Computação
                 </Text>
               </Box>
@@ -314,7 +317,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Ursula</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -335,7 +338,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Karen Miranda</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -348,7 +351,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Daniel</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -369,7 +372,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Juliana</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>
@@ -382,7 +385,7 @@ export const WhoAreWe = () => {
               >
                 <Avatar size="2xl" />
                 <Text textAlign="center">Luísa</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.500">
+                <Text fontSize="xs" textAlign="center" color="gray.200">
                   Estudante de ...
                 </Text>
               </Box>

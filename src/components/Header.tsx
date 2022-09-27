@@ -32,7 +32,7 @@ export const Header = () => {
         <Button
           alignItems="center"
           transition="all 0.3s"
-          colorScheme={'pink'}
+          colorScheme="pink"
           rightIcon={
             <motion.div
               animate={{

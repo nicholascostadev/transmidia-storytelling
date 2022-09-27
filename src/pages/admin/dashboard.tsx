@@ -18,32 +18,29 @@ import type { RegisteredUser } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 
 import { NotAllowed } from '../../components/NotAllowed'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 import { Search } from '../../components/Search'
+import {
+  filterReducer,
+  initialState,
+  QueryAction,
+} from '../../reducers/queryReducer'
 import { TFilter } from '../../types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 
 export default function Dashboard() {
   const { data, status } = useSession()
-
   const [page, setPage] = useState(1)
-
   const [itemsPerPage, setItemsPerPage] = useState(5)
-
-  const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<TFilter>({
-    field: 'email',
-  })
+  const [filterState, dispatch] = useReducer(filterReducer, initialState)
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
-
   const router = useRouter()
-
   const q = stringOrNull(router.query.q)?.trim()
 
   const userInfo = trpc.useQuery(
@@ -52,9 +49,11 @@ export default function Dashboard() {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
-
   const infiniteUsers = trpc.useInfiniteQuery(
-    ['dashboard.infiniteUsers', { limit: itemsPerPage, query: q, filter }],
+    [
+      'dashboard.infiniteUsers',
+      { limit: itemsPerPage, query: q, filter: filterState.filter },
+    ],
 
     {
       refetchOnWindowFocus: false,
@@ -75,6 +74,8 @@ export default function Dashboard() {
     'dashboard.toggleUserApproval',
   ])
 
+  const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
+
   useEffect(() => {
     if (page > 0) {
       setUsersToShow(
@@ -90,7 +91,7 @@ export default function Dashboard() {
         {
           query: {
             ...router.query,
-            q: query,
+            q: filterState.query,
           },
         },
         undefined,
@@ -102,7 +103,7 @@ export default function Dashboard() {
     }, 500)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [query, router])
+  }, [router, filterState.query])
 
   const [usersToShow, setUsersToShow] = useState<RegisteredUser[]>(
     infiniteUsers.data?.pages[0]?.items as RegisteredUser[],
@@ -111,16 +112,18 @@ export default function Dashboard() {
   const borderColor = useColorModeValue('gray.100', 'gray.700')
 
   function handleQueryChange(newQuery: string) {
-    setQuery(newQuery)
+    dispatch({
+      type: QueryAction.SET_QUERY,
+      payload: { ...filterState, query: newQuery },
+    })
   }
 
   function handleFilterChange(filter: TFilter) {
-    setFilter(filter)
+    dispatch({
+      type: QueryAction.SET_FILTER,
+      payload: { ...filterState, filter },
+    })
   }
-
-  const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
-
-  console.log('Rerendered')
 
   function handleGotoNextPage() {
     infiniteUsers.fetchNextPage()
@@ -161,9 +164,9 @@ export default function Dashboard() {
       <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
         <Stack w="1200px" maxW="100%" mx="auto">
           <Search
-            currentQuery={query}
+            currentQuery={filterState.query}
             changeQuery={handleQueryChange}
-            filter={filter}
+            filter={filterState.filter}
             changeFilter={handleFilterChange}
           />
           <Box

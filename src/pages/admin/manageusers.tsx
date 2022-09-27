@@ -33,7 +33,9 @@ export default function ManageUsers() {
   const [page, setPage] = useState(1)
 
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<TFilter>('email')
+  const [filter, setFilter] = useState<TFilter>({
+    field: 'email',
+  })
 
   const router = useRouter()
   // We pick the current query string from the router instead of `useState()`

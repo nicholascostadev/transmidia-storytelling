@@ -10,8 +10,6 @@ import { Motivation } from '../components/pages/Home/Motivation'
 import { WhoAreWe } from '../components/pages/Home/WhoAreWe'
 
 const Home: NextPage = () => {
-  // const { data } = trpc.useQuery(['example.hello', { text: 'from tRPC' }])
-
   return (
     <>
       <Head>

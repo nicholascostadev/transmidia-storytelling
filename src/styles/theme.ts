@@ -12,6 +12,11 @@ const theme = extendTheme({
     heading: '"Inter", sans-serif',
     fontWeight: '400',
   },
+  semanticTokens: {
+    colors: {
+      ibmr: '#157945',
+    },
+  },
   styles: {
     global: (props: any) => ({
       'html, body': {

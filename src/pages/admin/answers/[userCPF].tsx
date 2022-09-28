@@ -1,43 +1,24 @@
 import {
-  Button,
-  ButtonGroup,
   Center,
   Flex,
-  Grid,
   IconButton,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger,
   Spinner,
-  Stack,
   Text,
   Tooltip,
+  useColorMode,
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
 import { RegisteredUser } from '@prisma/client'
-import { format, formatDistanceToNow } from 'date-fns'
-import ptBR from 'date-fns/locale/pt-BR'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { CaretLeft, Check, PencilLine } from 'phosphor-react'
+import { CaretLeft, Trash } from 'phosphor-react'
 import { useState } from 'react'
 
 import { GeneralizedErrorPage } from '../../../components/GeneralizedErrorPage'
 import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
-import { Gender } from '../../../types/formValidation'
-import {
-  TABLE_TITLES,
-  GENDER_OPTIONS,
-  formatApproval,
-} from '../../../utils/formatters'
-
+import { UserTable } from '../../../components/pages/userCPF/UserTable'
 import { trpc } from '../../../utils/trpc'
 
 export default function Answers() {
@@ -49,18 +30,18 @@ export default function Answers() {
     {} as RegisteredUser,
   )
   const router = useRouter()
-  const backgroundColor = useColorModeValue('white', '')
-  const borderColor = useColorModeValue('gray.100', 'gray.700')
+  const { colorMode } = useColorMode()
+
+  const backgroundColor = useColorModeValue('gray.100', '')
 
   const loggedUserInfo = trpc.useQuery([
     'user.getUserInfo',
 
     { id: String(data?.user?.id) },
   ])
+  const hasPermission = loggedUserInfo.data?.permission === 'admin'
 
-  const toggleApprovalMutation = trpc.useMutation([
-    'dashboard.toggleUserApproval',
-  ])
+  const deleteUserMutation = trpc.useMutation(['dashboard.deleteUser'])
 
   const { isLoading, error } = trpc.useQuery(
     ['dashboard.getUserAnswers', { cpf: String(userCPF) }],
@@ -82,54 +63,35 @@ export default function Answers() {
     return <GeneralizedErrorPage />
   }
 
-  function handleToggleApproval(userId: string, approvedStatus: boolean) {
-    return () => {
-      setUserInfo((oldUserInfo) => {
-        if (oldUserInfo) {
-          return {
-            ...oldUserInfo,
-            approved: !oldUserInfo.approved,
-          }
-        } else return null
-      })
+  function handleDeleteUser(id?: string) {
+    if (!id) return
 
-      toggleApprovalMutation.mutate(
-        { id: userId, approved: approvedStatus },
-        {
-          onError: () => {
-            toast({
-              title: 'Erro.',
-              description: 'Erro ao alterar status de aprovação',
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-              position: 'top-right',
-            })
-
-            setUserInfo((oldUserInfo) => {
-              if (oldUserInfo) {
-                return {
-                  ...oldUserInfo,
-                  approved: !oldUserInfo.approved,
-                }
-              } else return null
-            })
-          },
-          onSuccess: () => {
-            toast({
-              title: 'Alterado',
-              description: `Usuário alterado para ${formatApproval(
-                !approvedStatus as boolean,
-              )}`,
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-              position: 'top-right',
-            })
-          },
+    deleteUserMutation.mutate(
+      { id },
+      {
+        onError: () => {
+          toast({
+            title: 'Erro.',
+            description: 'Erro ao deletar usuário',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          })
         },
-      )
-    }
+        onSuccess: () => {
+          toast({
+            title: 'Deletado',
+            description: 'Usuário deletado com sucesso',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          })
+          router.push('/dashboard')
+        },
+      },
+    )
   }
 
   if (isLoading) {
@@ -142,177 +104,69 @@ export default function Answers() {
     )
   }
 
+  if (!userInfo) {
+    return (
+      <>
+        <DashboardHeader hasPermission={hasPermission} />
+        <Center flexDir="column" h="calc(100vh - 72px)">
+          <Text color="red.500">Usuário não encontrado</Text>
+          <Text
+            color="gray.400"
+            _hover={{ color: 'white' }}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            cursor="pointer"
+            onClick={() => router.back()}
+          >
+            <CaretLeft />
+            Voltar
+          </Text>
+        </Center>
+      </>
+    )
+  }
+
   return (
     <>
-      <DashboardHeader
-        hasPermission={loggedUserInfo.data?.permission === 'admin'}
-      />
-      <Center display="flex" flexDirection="column" minH="calc(100vh - 72px)">
+      <DashboardHeader hasPermission={hasPermission} />
+      <Center
+        display="flex"
+        flexDirection="column"
+        minH="calc(100vh - 72px)"
+        bg={backgroundColor}
+      >
         <Flex justify="space-between" padding="2" w="61rem" maxW="100%">
           <Tooltip label="Voltar" rounded="md">
             <IconButton
               variant="unstyled"
               color="gray.500"
               _hover={{
-                color: 'white',
+                color: colorMode === 'light' ? 'gray.900' : 'white',
               }}
               icon={<CaretLeft size={32} />}
               aria-label="Back history"
               onClick={() => router.back()}
             />
           </Tooltip>
+          <Tooltip label="Deletar usuário" rounded="md">
+            <IconButton
+              variant="unstyled"
+              color="gray.500"
+              _hover={{
+                color: 'red.500',
+              }}
+              icon={<Trash size={32} />}
+              aria-label="Back history"
+              onClick={() => handleDeleteUser(userInfo?.id)}
+            />
+          </Tooltip>
         </Flex>
-        <Grid
-          overflow="hidden"
-          templateColumns="repeat(2, 1fr)"
-          bg={backgroundColor}
-          border="1px"
-          borderColor={borderColor}
-          padding="4"
-          rounded="md"
-          w="60rem"
-          maxW="100%"
-        >
-          <Stack spacing="0">
-            {Object.keys((userInfo as RegisteredUser) ?? {}).map((key) => {
-              return (
-                <Text
-                  key={key}
-                  borderBottom="1px"
-                  padding="2"
-                  borderColor={borderColor}
-                >
-                  {TABLE_TITLES[key as keyof RegisteredUser]}
-                </Text>
-              )
-            })}
-          </Stack>
-          <Stack spacing="0">
-            {userInfo &&
-              Object.keys(userInfo as RegisteredUser).map((key) => {
-                if (key === 'created_at') {
-                  return (
-                    <Text
-                      key={String(userInfo[key])}
-                      borderBottom="1px"
-                      borderLeft="1px"
-                      borderColor={borderColor}
-                      padding="2"
-                    >
-                      {format(
-                        new Date(
-                          String(userInfo[key as keyof RegisteredUser]),
-                        ) || new Date(),
-                        'PPPp',
-                        {
-                          locale: ptBR,
-                        },
-                      )}{' '}
-                      (
-                      {formatDistanceToNow(new Date(String(userInfo[key])), {
-                        locale: ptBR,
-                        addSuffix: true,
-                      })}
-                      )
-                    </Text>
-                  )
-                }
-                if (key === 'approved') {
-                  return (
-                    <Flex
-                      key={String(userInfo[key])}
-                      borderBottom="1px"
-                      borderLeft="1px"
-                      borderColor={borderColor}
-                      justify="space-between"
-                    >
-                      <Text padding="2">{formatApproval(userInfo[key])}</Text>
-                      <Popover closeOnBlur={false} placement="top">
-                        {({ onClose }) => (
-                          <>
-                            <PopoverTrigger>
-                              <IconButton
-                                variant="ghost"
-                                icon={<PencilLine />}
-                                colorScheme="pink"
-                                aria-label="Change user's approval status"
-                              >
-                                Trocar
-                              </IconButton>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                              <PopoverArrow />
-                              <PopoverCloseButton />
-                              <PopoverHeader>Confirmation!</PopoverHeader>
-                              <PopoverBody>
-                                Tem certeza que deseja alterar o status do
-                                usuário para{' '}
-                                <Text
-                                  as="span"
-                                  color="red.500"
-                                  fontWeight="bold"
-                                >
-                                  {formatApproval(!userInfo[key])}
-                                </Text>
-                                ?
-                              </PopoverBody>
-                              <PopoverFooter
-                                display="flex"
-                                justifyContent="flex-end"
-                              >
-                                <ButtonGroup size="sm">
-                                  <Button
-                                    variant="outline"
-                                    colorScheme="red"
-                                    onClick={onClose}
-                                  >
-                                    Cancelar
-                                  </Button>
-                                  <Button
-                                    leftIcon={<Check />}
-                                    colorScheme="purple"
-                                    onClick={handleToggleApproval(
-                                      userInfo.id,
-                                      userInfo.approved,
-                                    )}
-                                    isLoading={toggleApprovalMutation.isLoading}
-                                  >
-                                    Sim
-                                  </Button>
-                                </ButtonGroup>
-                              </PopoverFooter>
-                            </PopoverContent>
-                          </>
-                        )}
-                      </Popover>
-                    </Flex>
-                  )
-                }
-                return (
-                  <>
-                    <Flex
-                      borderBottom="1px"
-                      borderLeft="1px"
-                      borderColor={borderColor}
-                    >
-                      <Text
-                        flex="1"
-                        key={String(userInfo[key as keyof RegisteredUser])}
-                        padding="2"
-                      >
-                        {key === 'gender'
-                          ? GENDER_OPTIONS[userInfo[key] as Gender]
-                          : String(
-                              userInfo[key as keyof RegisteredUser] ||
-                                'Nenhuma',
-                            )}
-                      </Text>
-                    </Flex>
-                  </>
-                )
-              })}
-          </Stack>
-        </Grid>
+
+        <UserTable
+          setUserInfo={setUserInfo}
+          userInfo={userInfo as RegisteredUser}
+        />
       </Center>
     </>
   )

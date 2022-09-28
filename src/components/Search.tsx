@@ -30,7 +30,8 @@ export const Search = ({
   changeFilter,
 }: SearchProps) => {
   const borderColor = useColorModeValue('gray.100', 'gray.700')
-  const backgroundColor = useColorModeValue('white', '')
+  const backgroundColor = useColorModeValue('white', 'gray.900')
+  const shadow = useColorModeValue('sm', 'none')
   const router = useRouter()
 
   const isOnManageRoute = router.asPath.includes('manageusers')
@@ -68,6 +69,7 @@ export const Search = ({
         alignItems={isOnManageRoute ? 'center' : 'start'}
         spacing="2"
         direction={isOnManageRoute ? 'row' : 'column'}
+        shadow={shadow}
       >
         <Text textAlign="center" w="full" minW="fit-content">
           Filtrar por:

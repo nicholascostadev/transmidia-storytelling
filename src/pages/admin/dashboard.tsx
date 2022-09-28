@@ -43,6 +43,8 @@ export default function Dashboard() {
   const router = useRouter()
   const q = stringOrNull(router.query.q)?.trim()
 
+  const backgroundColor = useColorModeValue('gray.100', '')
+
   const userInfo = trpc.useQuery(
     ['user.getUserInfo', { id: String(data?.user?.id) }],
     {
@@ -73,6 +75,7 @@ export default function Dashboard() {
   const toggleApprovalMutation = trpc.useMutation([
     'dashboard.toggleUserApproval',
   ])
+  const deleteUserMutation = trpc.useMutation(['dashboard.deleteUser'])
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
@@ -161,7 +164,12 @@ export default function Dashboard() {
   return (
     <>
       <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
-      <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
+      <Center
+        minH="calc(100vh - 72px)"
+        display="flex"
+        flexDirection="column"
+        bg={backgroundColor}
+      >
         <Stack w="1200px" maxW="100%" mx="auto">
           <Search
             currentQuery={filterState.query}
@@ -180,6 +188,7 @@ export default function Dashboard() {
               setUsersToShow={setUsersToShow}
               toggleApprovalMutation={toggleApprovalMutation}
               usersToShow={usersToShow}
+              deleteUserMutation={deleteUserMutation}
             />
           </Box>
         </Stack>{' '}

@@ -11,6 +11,7 @@ import {
   NumberInputStepper,
   Spinner,
   Stack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
@@ -36,6 +37,8 @@ export default function ManageUsers() {
   const [filter, setFilter] = useState<TFilter>({
     field: 'email',
   })
+
+  const backgroundColor = useColorModeValue('gray.100', '')
 
   const router = useRouter()
   // We pick the current query string from the router instead of `useState()`
@@ -121,7 +124,12 @@ export default function ManageUsers() {
   return (
     <>
       <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
-      <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
+      <Center
+        minH="calc(100vh - 72px)"
+        display="flex"
+        flexDirection="column"
+        bg={backgroundColor}
+      >
         <Stack w="1300px" maxW="100%" mx="auto">
           <Search
             currentQuery={query}

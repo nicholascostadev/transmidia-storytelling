@@ -28,13 +28,14 @@ import { RegisteredUser } from '@prisma/client'
 import { format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import Link from 'next/link'
-import { CaretRight, Check, Swap } from 'phosphor-react'
+import { CaretRight, Check, Swap, Trash } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
 import { formatApproval } from '../../../utils/formatters'
 
 interface DashboardTableProps {
   usersToShow: RegisteredUser[]
   setUsersToShow: Dispatch<SetStateAction<RegisteredUser[]>>
+  deleteUserMutation: any
   toggleApprovalMutation: any
 }
 
@@ -42,10 +43,10 @@ export const DashboardTable = ({
   usersToShow,
   setUsersToShow,
   toggleApprovalMutation,
+  deleteUserMutation,
 }: DashboardTableProps) => {
   const toast = useToast()
-  const borderColor = useColorModeValue('gray.100', 'gray.700')
-  const backgroundColor = useColorModeValue('white', '')
+  const backgroundColor = useColorModeValue('white', 'gray.900')
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
     return () => {
@@ -104,14 +105,37 @@ export const DashboardTable = ({
     }
   }
 
+  function handleDeleteUser(id: string) {
+    deleteUserMutation.mutate(
+      { id },
+      {
+        onError: () => {
+          toast({
+            title: 'Erro.',
+            description: 'Erro ao deletar usuário',
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          })
+        },
+        onSuccess: () => {
+          setUsersToShow((prev) => prev.filter((user) => user.id !== id))
+          toast({
+            title: 'Deletado',
+            description: 'Usuário deletado com sucesso',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          })
+        },
+      },
+    )
+  }
+
   return (
-    <TableContainer
-      maxW="100%"
-      w="1200px"
-      border="1px"
-      rounded="md"
-      borderColor={borderColor}
-    >
+    <TableContainer maxW="100%" w="1200px" rounded="md" shadow="sm">
       <Table variant="simple" overflow="scroll" bg={backgroundColor}>
         <Thead>
           <Tr>
@@ -119,6 +143,7 @@ export const DashboardTable = ({
             <Th>Status de aprovação</Th>
             <Th>Respostas</Th>
             <Th>Data de Registro</Th>
+            <Th isNumeric></Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -147,11 +172,11 @@ export const DashboardTable = ({
                         <PopoverContent>
                           <PopoverArrow />
                           <PopoverCloseButton />
-                          <PopoverHeader>Confirmation</PopoverHeader>
+                          <PopoverHeader>Confirmação</PopoverHeader>
                           <PopoverBody>
-                            Tem certeza que deseja alterar o status do
+                            Tem certeza que deseja alterar o status
                             <Text>
-                              usuário para{' '}
+                              do usuário para{' '}
                               <Text as="span" color="red.500" fontWeight="bold">
                                 {formatApproval(!user.approved)}
                               </Text>
@@ -202,6 +227,52 @@ export const DashboardTable = ({
                 </Link>
               </Td>
               <Td>{format(user?.created_at, 'Pp', { locale: ptBR })}</Td>
+              <Td isNumeric>
+                <Popover closeOnBlur={false} placement="start">
+                  {({ onClose }) => (
+                    <>
+                      <PopoverTrigger>
+                        <IconButton
+                          icon={<Trash size={20} />}
+                          variant="unstyled"
+                          _hover={{
+                            color: 'red.500',
+                          }}
+                          aria-label="Delete registered user"
+                        />
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton left="2" />
+                        <PopoverHeader>Confirmação</PopoverHeader>
+                        <PopoverBody color="red.500">
+                          Tem certeza que deseja remover o
+                          <Text> usuário da lista de inscritos?</Text>
+                        </PopoverBody>
+                        <PopoverFooter display="flex" justifyContent="flex-end">
+                          <ButtonGroup size="sm">
+                            <Button
+                              variant="outline"
+                              colorScheme="red"
+                              onClick={onClose}
+                            >
+                              Cancelar
+                            </Button>
+                            <Button
+                              leftIcon={<Check />}
+                              colorScheme="purple"
+                              onClick={() => handleDeleteUser(user.id)}
+                              isLoading={deleteUserMutation?.isLoading}
+                            >
+                              Sim
+                            </Button>
+                          </ButtonGroup>
+                        </PopoverFooter>
+                      </PopoverContent>
+                    </>
+                  )}
+                </Popover>
+              </Td>
             </Tr>
           ))}
         </Tbody>

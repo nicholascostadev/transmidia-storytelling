@@ -30,6 +30,7 @@ export const DashboardHeader = ({
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const textColor = useColorModeValue('gray.600', '')
+  const backgroundColor = useColorModeValue('white', 'gray.900')
   const shadow = useColorModeValue('sm', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
@@ -37,6 +38,7 @@ export const DashboardHeader = ({
     <Box pos="relative">
       <chakra.header
         shadow={shadow}
+        bg={backgroundColor}
         transition="box-shadow 0.2s"
         borderTopColor="brand.400"
         w="full"

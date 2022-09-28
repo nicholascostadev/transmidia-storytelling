@@ -89,3 +89,15 @@ export const dashboardRouter = createProtectedRouter()
       }
     },
   })
+  .mutation('deleteUser', {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input, ctx }) {
+      return await ctx.prisma.registeredUser.delete({
+        where: {
+          id: input.id,
+        },
+      })
+    },
+  })

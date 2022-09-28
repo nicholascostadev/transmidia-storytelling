@@ -31,8 +31,9 @@ export const ManageUsersTable = ({
   const toastIdRef = useRef<any>()
   const { data } = useSession()
 
-  const backgroundColor = useColorModeValue('white', '')
+  const backgroundColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
+  const shadow = useColorModeValue('sm', '')
 
   const formatPermission = (permission: string) => {
     return permission === 'admin' ? 'Administrador' : 'Nenhuma'
@@ -81,7 +82,6 @@ export const ManageUsersTable = ({
             })
         },
         onSettled: () => {
-          console.log('Settled')
           toastIdRef.current = toast({
             title: 'Enviando...',
             description: (
@@ -104,6 +104,7 @@ export const ManageUsersTable = ({
       border="1px"
       rounded="md"
       borderColor={borderColor}
+      shadow={shadow}
     >
       <Table variant="simple" overflow="scroll" bg={backgroundColor}>
         <Thead>

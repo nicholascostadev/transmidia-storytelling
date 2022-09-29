@@ -104,12 +104,12 @@ export default function NotAllowed() {
           </chakra.div>
         </chakra.header>
       </Box>
-      <Center h="calc(100vh - 72px)">
+      <Center h="calc(100vh - 72px)" textAlign="center">
         <Stack display="flex" justifyContent="center" alignItems="center">
-          <Text fontSize="3xl" color="green.400">
+          <Text fontSize={['2xl', '2xl', '3xl']} color="green.400">
             Muito obrigado por fazer a diferença na divulgação científica
           </Text>
-          <Text fontSize="xl">
+          <Text fontSize={['sm', 'lg', 'xl']}>
             Caso você seja aprovado no processo de seleção para participação,
             você receberá um email com os próximos passos para a pesquisa
           </Text>

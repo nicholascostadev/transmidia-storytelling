@@ -1,7 +1,7 @@
 import { createProtectedRouter } from './context'
 import z from 'zod'
 
-export const dashboardRouter = createProtectedRouter()
+export const protectedRegisteredUserRouter = createProtectedRouter()
   .query('getAllRegisteredUsers', {
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),

@@ -46,14 +46,14 @@ export default function Dashboard() {
   const backgroundColor = useColorModeValue('gray.100', '')
 
   const userInfo = trpc.useQuery(
-    ['user.getUserInfo', { id: String(data?.user?.id) }],
+    ['openUser.getUserInfo', { id: String(data?.user?.id) }],
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
   const infiniteUsers = trpc.useInfiniteQuery(
     [
-      'dashboard.infiniteUsers',
+      'protectedRegisteredUser.infiniteUsers',
       { limit: itemsPerPage, query: q, filter: filterState.filter },
     ],
 
@@ -73,9 +73,11 @@ export default function Dashboard() {
   )
 
   const toggleApprovalMutation = trpc.useMutation([
-    'dashboard.toggleUserApproval',
+    'protectedRegisteredUser.toggleUserApproval',
   ])
-  const deleteUserMutation = trpc.useMutation(['dashboard.deleteUser'])
+  const deleteUserMutation = trpc.useMutation([
+    'protectedRegisteredUser.deleteUser',
+  ])
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 

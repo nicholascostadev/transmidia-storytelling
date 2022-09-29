@@ -46,7 +46,7 @@ export default function ManageUsers() {
   const q = stringOrNull(router.query.q)?.trim()
 
   const userInfo = trpc.useQuery(
-    ['user.getUserInfo', { id: String(data?.user?.id) }],
+    ['openUser.getUserInfo', { id: String(data?.user?.id) }],
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
@@ -54,7 +54,10 @@ export default function ManageUsers() {
   const [users, setUsers] = useState([] as User[])
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
   const infiniteUsers = trpc.useInfiniteQuery(
-    ['auth.getInfiniteUsers', { limit: itemsPerPage, query: q, filter }],
+    [
+      'protectedUser.getInfiniteUsers',
+      { limit: itemsPerPage, query: q, filter },
+    ],
     {
       refetchOnWindowFocus: false,
       onSuccess: (lastPage) => {
@@ -94,7 +97,9 @@ export default function ManageUsers() {
     return () => clearTimeout(delayDebounceFn)
   }, [query, router])
 
-  const permissionMutate = trpc.useMutation(['auth.changeUserPermission'])
+  const permissionMutate = trpc.useMutation([
+    'protectedUser.changeUserPermission',
+  ])
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 

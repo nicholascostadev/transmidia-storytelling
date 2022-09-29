@@ -4,15 +4,17 @@ import superjson from 'superjson'
 
 import { exampleRouter } from './example'
 import { protectedUserRouter } from './protectedUserRouter'
-import { userRouter } from './user'
-import { dashboardRouter } from './dashboardRouter'
+import { openRegisteredUserRouter } from './openRegisteredUserRouter'
+import { protectedRegisteredUserRouter } from './protectedRegisteredUserRouter'
+import { openUserRouter } from './openUserRouter'
 
 export const appRouter = createRouter()
   .transformer(superjson)
   .merge('example.', exampleRouter)
-  .merge('auth.', protectedUserRouter)
-  .merge('user.', userRouter)
-  .merge('dashboard.', dashboardRouter)
+  .merge('openRegisteredUser.', openRegisteredUserRouter)
+  .merge('protectedRegisteredUser.', protectedRegisteredUserRouter)
+  .merge('openUser.', openUserRouter)
+  .merge('protectedUser.', protectedUserRouter)
 
 // export type definition of API
 export type AppRouter = typeof appRouter

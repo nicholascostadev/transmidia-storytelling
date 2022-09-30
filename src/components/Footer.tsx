@@ -8,7 +8,7 @@ import {
   useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react'
-import { FaInstagram } from 'react-icons/fa'
+import { InstagramLogo } from 'phosphor-react'
 import { ReactNode } from 'react'
 
 const SocialButton = ({
@@ -63,7 +63,7 @@ export const Footer = () => {
             label={'Instagram'}
             href={'https://www.instagram.com/projetohealthlabibmr/'}
           >
-            <FaInstagram />
+            <InstagramLogo />
           </SocialButton>
         </Stack>
       </Container>

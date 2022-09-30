@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-vars */
-// Enum is not being able detect it's being used, so I'm manually
-// removing unused vars warning
 import statesCities from '../utils/city-states.json'
 import { validation } from '../types/formValidation'
 import {
@@ -26,6 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../components/Input'
 import { trpc } from '../utils/trpc'
+import { useRouter } from 'next/router'
 
 const inputs = ['age', 'disabilities', 'previousKnowledge'] as const
 
@@ -51,7 +49,8 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
   .estados as StatesAndCities['estados']
 
 export const ParticipateForm = () => {
-  const registerMutation = trpc.useMutation(['user.register'])
+  const registerMutation = trpc.useMutation(['openRegisteredUser.register'])
+  const router = useRouter()
   const toast = useToast()
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
@@ -60,9 +59,9 @@ export const ParticipateForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
     control,
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(validation),
     defaultValues: {
@@ -99,6 +98,7 @@ export const ParticipateForm = () => {
           isClosable: true,
           position: 'top-right',
         })
+        router.push('/thankyou')
 
         reset()
       },
@@ -133,7 +133,6 @@ export const ParticipateForm = () => {
         <Heading>Cadastro</Heading>
         <Divider />
       </Center>
-
       <Input
         label="Nome"
         bg={inputBg}
@@ -150,13 +149,23 @@ export const ParticipateForm = () => {
         flex="1"
         {...register('email')}
       />
-      <Input
-        label="CPF"
-        bg={inputBg}
-        error={errors.cpf}
-        isRequired
-        flex="1"
-        {...register('cpf')}
+      <Controller
+        name="cpf"
+        control={control}
+        render={({ field: { onChange } }) => {
+          return (
+            <Input
+              mask="999.999.999-99"
+              name="cpf"
+              label="CPF"
+              bg={inputBg}
+              error={errors.cpf}
+              isRequired
+              flex="1"
+              onChange={onChange}
+            />
+          )
+        }}
       />
       <Flex gap="2">
         <Controller
@@ -197,6 +206,8 @@ export const ParticipateForm = () => {
               error={errors[input]}
               key={input}
               isRequired
+              type="number"
+              inputMode="numeric"
               {...register(input, {
                 valueAsNumber: true,
               })}

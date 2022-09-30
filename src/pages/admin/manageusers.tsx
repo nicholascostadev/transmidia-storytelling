@@ -11,6 +11,7 @@ import {
   NumberInputStepper,
   Spinner,
   Stack,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
@@ -33,7 +34,11 @@ export default function ManageUsers() {
   const [page, setPage] = useState(1)
 
   const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<TFilter>('email')
+  const [filter, setFilter] = useState<TFilter>({
+    field: 'email',
+  })
+
+  const backgroundColor = useColorModeValue('gray.100', '')
 
   const router = useRouter()
   // We pick the current query string from the router instead of `useState()`
@@ -41,7 +46,7 @@ export default function ManageUsers() {
   const q = stringOrNull(router.query.q)?.trim()
 
   const userInfo = trpc.useQuery(
-    ['user.getUserInfo', { id: String(data?.user?.id) }],
+    ['openUser.getUserInfo', { id: String(data?.user?.id) }],
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
@@ -49,7 +54,10 @@ export default function ManageUsers() {
   const [users, setUsers] = useState([] as User[])
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
   const infiniteUsers = trpc.useInfiniteQuery(
-    ['auth.getInfiniteUsers', { limit: itemsPerPage, query: q, filter }],
+    [
+      'protectedUser.getInfiniteUsers',
+      { limit: itemsPerPage, query: q, filter },
+    ],
     {
       refetchOnWindowFocus: false,
       onSuccess: (lastPage) => {
@@ -89,7 +97,9 @@ export default function ManageUsers() {
     return () => clearTimeout(delayDebounceFn)
   }, [query, router])
 
-  const permissionMutate = trpc.useMutation(['auth.changeUserPermission'])
+  const permissionMutate = trpc.useMutation([
+    'protectedUser.changeUserPermission',
+  ])
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
@@ -119,8 +129,13 @@ export default function ManageUsers() {
   return (
     <>
       <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
-      <Center minH="calc(100vh - 72px)" display="flex" flexDirection="column">
-        <Stack w="1200px" maxW="100%" mx="auto">
+      <Center
+        minH="calc(100vh - 72px)"
+        display="flex"
+        flexDirection="column"
+        bg={backgroundColor}
+      >
+        <Stack w="1300px" maxW="100%" mx="auto">
           <Search
             currentQuery={query}
             changeQuery={handleQueryChange}

@@ -12,12 +12,13 @@ import {
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
-import NextLink from 'next/link'
-import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
+import Link from 'next/link'
+import { CaretLeft, Moon, SignOut, Sun, List } from 'phosphor-react'
 
-export const GeneralizedErrorPage = () => {
+export default function NotAllowed() {
+  const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
   const SwitchIcon = useColorModeValue(Moon, Sun)
   const text = useColorModeValue('dark', 'light')
@@ -25,7 +26,7 @@ export const GeneralizedErrorPage = () => {
   return (
     <>
       <Head>
-        <title>Error</title>
+        <title>Not Allowed</title>
       </Head>
       <Box pos="relative">
         <chakra.header
@@ -45,11 +46,11 @@ export const GeneralizedErrorPage = () => {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <NextLink href="/" passHref>
+                  <Link href="/" passHref>
                     <Heading as={'a'} size={'md'}>
                       Transmídia StoryTelling
                     </Heading>
-                  </NextLink>
+                  </Link>
                 </Flex>
 
                 <Flex
@@ -73,13 +74,22 @@ export const GeneralizedErrorPage = () => {
                     onClick={toggleMode}
                     icon={<SwitchIcon />}
                   />
-                  <Button
-                    rightIcon={<SignOut />}
-                    colorScheme="purple"
-                    onClick={() => signOut()}
-                  >
-                    Sign Out
-                  </Button>
+                  {userSession && (
+                    <Button
+                      rightIcon={<SignOut />}
+                      colorScheme="purple"
+                      onClick={() => signOut()}
+                    >
+                      Sign Out
+                    </Button>
+                  )}
+                  {!userSession && (
+                    <Link href="/admin" passHref>
+                      <Button as="a" variant="ghost" colorScheme="purple">
+                        Sign In
+                      </Button>
+                    </Link>
+                  )}
                   <IconButton
                     aria-label={'Open menu'}
                     display={{
@@ -94,21 +104,27 @@ export const GeneralizedErrorPage = () => {
           </chakra.div>
         </chakra.header>
       </Box>
-      <Center h="calc(100vh - 72px)">
+      <Center h="calc(100vh - 72px)" textAlign="center">
         <Stack display="flex" justifyContent="center" alignItems="center">
-          <Text fontSize="xl" color="red.400">
-            Algo de errado aconteceu e vamos fazer de tudo para ajudar a
-            resolver seu problema, por enquanto, volte para a página inicial
+          <Text fontSize={['2xl', '2xl', '3xl']} color="green.400">
+            Muito obrigado por fazer a diferença na divulgação científica
           </Text>
-          <NextLink href="/" passHref>
+          <Text fontSize={['sm', 'lg', 'xl']}>
+            Caso você seja aprovado no processo de seleção para participação,
+            você receberá um email com os próximos passos para a pesquisa
+          </Text>
+          <Link href="/" passHref>
             <ChakraLink
               display="flex"
               justifyContent="start"
               alignItems="center"
+              _hover={{
+                color: 'green.500',
+              }}
             >
               <CaretLeft /> Voltar à página inicial
             </ChakraLink>
-          </NextLink>
+          </Link>
         </Stack>
       </Center>
     </>

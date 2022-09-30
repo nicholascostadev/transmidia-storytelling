@@ -1,25 +1,42 @@
-import {
-  Center,
-  Flex,
-  Grid,
-  Heading,
-  Image,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
-import readBooks from '../../../assets/readbooks.svg'
-import NextImage from 'next/image'
+import { Center, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
+import { textGradientWithDir } from '../../../styles/global'
+import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Motivation = () => {
+  const container = {
+    hidden: { opacity: 0, transitionDuration: '2s' },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  }
+
+  const item = (direction: 'to-right' | 'to-left') => {
+    if (direction === 'to-left') {
+      return {
+        hidden: { opacity: 0, x: '200px', transitionDuration: '2s' },
+        show: { opacity: 1, x: 0 },
+      }
+    }
+
+    return {
+      hidden: { opacity: 0, x: '-400px', transitionDuration: '2s' },
+      show: { opacity: 1, x: 0 },
+    }
+  }
   return (
     <Flex
       position="relative"
       textAlign={['center', 'left']}
-      p={'2'}
+      mt={'60!'}
       minH="80vh"
       maxW="1200px"
+      px={['6', '0']}
       mx="auto"
-      align="center"
+      align="start"
       justify="center"
     >
       <Grid
@@ -27,66 +44,88 @@ export const Motivation = () => {
         templateColumns={['1fr', '1fr', 'repeat(2, 1fr)']}
         maxW={'100%'}
         minH="400px"
+        as={motion.div}
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
       >
-        <Stack flex="1" spacing="1rem">
-          <Heading>Nossa motivação</Heading>
-          <Text>
-            A divulgação científica sempre foi um problema para a comunidade de
-            pesquisadores e cientistas, encontrar uma maneira de divulgar seu
-            trabalho para muitas pessoas independente do seu nicho e
-            conhecimento técnico, é muito desafiador. Umas pessoas preferem a{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
-              bgClip="text"
-            >
-              leitura
+        <Stack
+          as={motion.div}
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          flex="1"
+          spacing="1rem"
+          viewport={{ once: true }}
+        >
+          <Heading as={motion.h1} variants={item('to-right')}>
+            Nossa motivação
+          </Heading>
+          <Stack spacing="1rem" as={motion.div} variants={item('to-right')}>
+            <Text>
+              A divulgação científica sempre foi um problema para a comunidade
+              de pesquisadores e cientistas, encontrar uma maneira de divulgar
+              seu trabalho para muitas pessoas independente do seu nicho e
+              conhecimento técnico, é muito desafiador. Umas pessoas preferem a{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient={textGradientWithDir()}
+                bgClip="text"
+              >
+                leitura
+              </Text>
+              , outras os
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient={textGradientWithDir()}
+                bgClip="text"
+              >
+                {' '}
+                vídeos
+              </Text>
+              , outras{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient={textGradientWithDir()}
+                bgClip="text"
+              >
+                podcasts{' '}
+              </Text>
+              e muitas outras diversas maneiras.
             </Text>
-            , outras os
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, pink.400, purple.500, purple.500)"
-              bgClip="text"
-            >
-              {' '}
-              vídeos
+            <Text>
+              Através do{' '}
+              <Text
+                fontWeight="bold"
+                as="span"
+                bgGradient={textGradientWithDir()}
+                bgClip="text"
+              >
+                Transmídia Storytelling
+              </Text>
+              , permitimos uma nova maneira de ajudar todos divulgadores de
+              ciência a espalhar seu conhecimento de forma compreensiva e
+              conseguir encontrar o público junto com a mídia certa de forma
+              compreensiva.
             </Text>
-            , outras{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.500, purple.500, pink.400)"
-              bgClip="text"
-            >
-              podcasts{' '}
-            </Text>
-            e muitas outras diversas maneiras.
-          </Text>
-          <Text>
-            Através do{' '}
-            <Text
-              fontWeight="bold"
-              as="span"
-              bgGradient="linear(to-r, purple.400, purple.400, pink.400)"
-              bgClip="text"
-            >
-              Transmídia Storytelling
-            </Text>
-            , permitimos uma nova maneira de ajudar todos divulgadores de
-            ciência em diferentes mídias a divulgar seu conhecimento de forma
-            compreensiva e conseguir encontrar o público e mídia certos para o
-            seu conteúdo.
-          </Text>
+          </Stack>
         </Stack>
-        <Center minH="400px">
-          <Image
-            as={NextImage}
+        <Center
+          alignItems="center"
+          justifyContent="center"
+          variants={item('to-left')}
+          as={motion.div}
+          minH="400px"
+        >
+          <ChakraCustomImage
             flex="1"
-            w="400px"
-            maxW={'100%'}
-            src={readBooks}
+            width={600}
+            height={400}
+            src="/images/readbooks.svg"
             alt="Person with social media icons around"
           />
         </Center>

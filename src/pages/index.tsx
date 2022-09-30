@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Footer } from '../components/Footer'
@@ -6,10 +7,9 @@ import { Explanation } from '../components/pages/Home/Explanation'
 import { FinalCTA } from '../components/pages/Home/FinalCTA'
 import { Hero } from '../components/pages/Home/Hero'
 import { Motivation } from '../components/pages/Home/Motivation'
+import { WhoAreWe } from '../components/pages/Home/WhoAreWe'
 
 const Home: NextPage = () => {
-  // const { data } = trpc.useQuery(['example.hello', { text: 'from tRPC' }])
-
   return (
     <>
       <Head>
@@ -18,12 +18,13 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main>
+      <Box as="main" overflow="hidden">
         <Hero />
         <Explanation />
         <Motivation />
+        <WhoAreWe />
         <FinalCTA />
-      </main>
+      </Box>
       <Footer />
     </>
   )

@@ -2,17 +2,20 @@ import {
   Box,
   Button,
   chakra,
+  Divider,
   Flex,
   Heading,
+  HStack,
   IconButton,
+  LightMode,
+  Link,
   useColorMode,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import NextLink from 'next/link'
-import { Moon, Sun } from 'phosphor-react'
-import { AiOutlineMenu } from 'react-icons/ai'
-import { MdOutlineReadMore } from 'react-icons/md'
+import { CaretRight, Moon, Sun } from 'phosphor-react'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
 
@@ -20,31 +23,49 @@ export const Header = () => {
   const mobileNav = useDisclosure()
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
-  const shadow = useColorModeValue('sm', 'none')
+  const shadow = useColorModeValue('md', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
   const SponsorButton = (
-    <NextLink href={'/participate'} passHref>
-      <Button
-        display={{
-          base: 'none',
-          md: 'flex',
-        }}
-        alignItems="center"
-        transition="all 0.3s"
-        colorScheme={'purple'}
-        leftIcon={<MdOutlineReadMore />}
-        size={'md'}
-        bg={'purple.400'}
-        _hover={{ bg: 'purple.500' }}
-      >
-        Participar
-      </Button>
-    </NextLink>
+    <LightMode>
+      <NextLink href={'/participate'} passHref>
+        <Button
+          alignItems="center"
+          transition="all 0.3s"
+          colorScheme="pink"
+          rightIcon={
+            <motion.div
+              animate={{
+                x: [0, 5],
+              }}
+              transition={{
+                duration: 1.2,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatType: 'mirror',
+              }}
+            >
+              <CaretRight size={24} />
+            </motion.div>
+          }
+          size={'md'}
+        >
+          Participar
+        </Button>
+      </NextLink>
+    </LightMode>
   )
 
   return (
-    <Box pos="relative">
+    <Box
+      pos="relative"
+      position="fixed"
+      mx="auto"
+      zIndex={1000}
+      w="100vw"
+      maxW="100%"
+      bg={useColorModeValue('white', 'gray.900')}
+    >
       <chakra.header
         shadow={shadow}
         transition="box-shadow 0.2s"
@@ -84,7 +105,7 @@ export const Header = () => {
                     <Box>
                       <ChakraCustomImage
                         lineHeight={0}
-                        src="/healthlab-logo.svg"
+                        src="/images/healthlab-logo.svg"
                         layout="fixed"
                         height={35}
                         width={30}
@@ -101,8 +122,18 @@ export const Header = () => {
               w="full"
               maxW="824px"
               align="center"
-              color="gray.400"
+              color={useColorModeValue('black', 'white')}
             >
+              <HStack display={{ base: 'none', md: 'flex' }}>
+                <Link
+                  fontSize={{ sm: 'initial', md: 'sm', lg: 'md' }}
+                  href="#team"
+                  _hover={{ color: useColorModeValue('gray.400', 'gray.400') }}
+                >
+                  Nossa Equipe
+                </Link>
+                <Divider h="35px" orientation="vertical" />
+              </HStack>
               <IconButton
                 size="md"
                 fontSize="lg"
@@ -117,15 +148,6 @@ export const Header = () => {
                 icon={<SwitchIcon />}
               />
               {SponsorButton}
-              <IconButton
-                aria-label={'Open menu'}
-                display={{
-                  base: 'flex',
-                  md: 'none',
-                }}
-                icon={<AiOutlineMenu />}
-                onClick={mobileNav.onOpen}
-              />
             </Flex>
             <MobileNavContent mobileNav={mobileNav} />
           </>

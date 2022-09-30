@@ -1,4 +1,5 @@
 import { Button, Heading, Link, Stack, Text } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 import NextLink from 'next/link'
 
 export const FinalCTA = () => {
@@ -8,22 +9,29 @@ export const FinalCTA = () => {
       textAlign={['center', 'left']}
       p={'2'}
       minH="80vh"
-      maxW="1200px"
+      w="1300px"
+      maxW="100%"
       mx="auto"
       align="center"
       justify="center"
       spacing="20"
     >
-      <Heading>
-        Venha fazer parte da{' '}
-        <Text as="span" color="purple.400" textDecoration="underline">
-          revolução
-        </Text>{' '}
-        na divulgação científica
-      </Heading>
+      <motion.div
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        initial={{ opacity: 0, scale: 0.5, transitionDuration: '1.2s' }}
+      >
+        <Heading>
+          Venha fazer parte da{' '}
+          <Text as="span" color="purple.500" textDecoration="underline">
+            revolução
+          </Text>{' '}
+          na divulgação científica
+        </Heading>
+      </motion.div>
       <Link as={NextLink} href="/participate" passHref>
         <Button
-          as="a"
+          as={motion.a}
           rounded="full"
           w="15rem"
           size="lg"
@@ -33,6 +41,14 @@ export const FinalCTA = () => {
           _hover={{
             bg: 'purple.500',
             bgGradient: 'linear(to-r, purple.300, pink.400, pink.600)',
+          }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          initial={{
+            opacity: 0,
+            scale: 0.5,
+            transitionDuration: '.5s',
+            transitionDelay: '1s',
           }}
         >
           Participar

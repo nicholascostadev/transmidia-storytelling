@@ -40,7 +40,17 @@ const toBase64 = (str: string) =>
     : window.btoa(str)
 
 export const ChakraCustomImage = (props: ImageProps & BoxProps) => {
-  const { src, alt, width, quality, height, layout, objectFit, ...rest } = props
+  const {
+    src,
+    alt,
+    width,
+    quality,
+    height,
+    layout,
+    objectFit,
+    rounded,
+    ...rest
+  } = props
   return (
     <Box pos="relative" cursor="pointer" className="group" {...rest}>
       <ChakraNextUnwrappedImage
@@ -54,6 +64,7 @@ export const ChakraCustomImage = (props: ImageProps & BoxProps) => {
         placeholder="blur"
         objectFit={objectFit}
         blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+        rounded={rounded}
         src={src}
         alt={alt}
         transition="all 0.2s"

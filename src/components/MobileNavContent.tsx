@@ -6,7 +6,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import Link from 'next/link'
-import { MdOutlineReadMore } from 'react-icons/md'
+import { CaretRight } from 'phosphor-react'
 
 interface MobileNavContentProps {
   mobileNav: UseDisclosureProps
@@ -46,7 +46,7 @@ export const MobileNavContent = ({ mobileNav }: MobileNavContentProps) => {
           variant="ghost"
           colorScheme="purple"
           mt="4"
-          leftIcon={<MdOutlineReadMore />}
+          leftIcon={<CaretRight />}
         >
           Participar
         </Button>

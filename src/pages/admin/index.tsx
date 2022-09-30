@@ -12,10 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { CaretLeft } from 'phosphor-react'
+import { CaretLeft, GoogleLogo } from 'phosphor-react'
 import { SyntheticEvent, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { FcGoogle } from 'react-icons/fc'
 import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
@@ -34,7 +33,7 @@ type TSignIn = z.infer<typeof signInSchema>
 export default function AdminSignIn() {
   const { data: userSession, status } = useSession()
   const userInfo = trpc.useQuery([
-    'user.getUserInfo',
+    'openUser.getUserInfo',
     { id: String(userSession?.user?.id) },
   ])
   const router = useRouter()
@@ -60,7 +59,7 @@ export default function AdminSignIn() {
     if (userInfo.data?.permission === 'admin') {
       router.push('/admin/dashboard')
     }
-  }, [userSession, router, status, userInfo.data])
+  }, [router, userInfo.data?.permission])
 
   return (
     <>
@@ -104,7 +103,12 @@ export default function AdminSignIn() {
             w={'full'}
             maxW={'md'}
             variant={'outline'}
-            leftIcon={<FcGoogle />}
+            leftIcon={<GoogleLogo />}
+            isLoading={
+              (status === 'authenticated' &&
+                userInfo.data?.permission !== 'none') ||
+              status === 'loading'
+            }
             colorScheme="red"
             isDisabled={!!userSession}
             onClick={() => signIn('google')}

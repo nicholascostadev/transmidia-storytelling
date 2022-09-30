@@ -5,8 +5,8 @@ export const validation = z.object({
   email: z.string().min(1, 'Email é Obrigatório').email(),
   cpf: z
     .string()
-    .min(11, 'CPF deve que ter 11 dígitos')
-    .max(11, 'CPF deve ter 11 dígitos'),
+    .min(14, 'CPF deve ter 11 dígitos')
+    .max(14, 'CPF deve ter 11 dígitos'),
   city: z.string().min(1, 'Cidade deve ser informada'),
   state: z.string().min(1, 'Seu estado deve ser informado'),
   age: z

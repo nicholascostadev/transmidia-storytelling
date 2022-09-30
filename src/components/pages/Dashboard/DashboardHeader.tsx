@@ -2,8 +2,10 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Center,
   chakra,
   DarkMode,
+  Divider,
   Flex,
   Heading,
   HStack,
@@ -13,10 +15,9 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import { signOut, useSession } from 'next-auth/react'
-import { AiOutlineMenu } from 'react-icons/ai'
 import { DashboardMobileNavContent } from './DashboardMobileNavContent'
 import NextLink from 'next/link'
-import { Sun, Moon } from 'phosphor-react'
+import { Sun, Moon, List } from 'phosphor-react'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const DashboardHeader = ({
@@ -29,6 +30,7 @@ export const DashboardHeader = ({
   const { toggleColorMode: toggleMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const textColor = useColorModeValue('gray.600', '')
+  const backgroundColor = useColorModeValue('white', 'gray.900')
   const shadow = useColorModeValue('sm', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
 
@@ -36,6 +38,7 @@ export const DashboardHeader = ({
     <Box pos="relative">
       <chakra.header
         shadow={shadow}
+        bg={backgroundColor}
         transition="box-shadow 0.2s"
         borderTopColor="brand.400"
         w="full"
@@ -73,7 +76,7 @@ export const DashboardHeader = ({
                     <Box>
                       <ChakraCustomImage
                         lineHeight={0}
-                        src="/healthlab-logo.png"
+                        src="/images/healthlab-logo.png"
                         alt=""
                         layout="fixed"
                         height={35}
@@ -106,6 +109,9 @@ export const DashboardHeader = ({
                   <NextLink href="/admin/manageusers" passHref>
                     <Button as="a">Gerenciar</Button>
                   </NextLink>
+                  <Center>
+                    <Divider orientation="vertical" h="35px" />
+                  </Center>
                 </ButtonGroup>
 
                 <IconButton
@@ -127,7 +133,7 @@ export const DashboardHeader = ({
                     base: 'flex',
                     md: 'none',
                   }}
-                  icon={<AiOutlineMenu />}
+                  icon={<List />}
                   onClick={mobileNav.onOpen}
                 />
                 {userSession && (

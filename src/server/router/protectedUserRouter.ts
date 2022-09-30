@@ -9,7 +9,10 @@ export const protectedUserRouter = createProtectedRouter()
       limit: z.number().min(1).max(100).nullish(),
       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
       query: z.string().nullish(),
-      filter: z.enum(['email', 'name']),
+      filter: z.object({
+        field: z.enum(['name', 'email']),
+        approval: z.boolean().optional(),
+      }),
     }),
     async resolve({ input, ctx }) {
       const limit = input.limit ?? 50
@@ -21,7 +24,7 @@ export const protectedUserRouter = createProtectedRouter()
           take: limit + 1, // get an extra item at the end which we'll use as next cursor
           cursor: cursor ? { id: cursor } : undefined,
           where: {
-            [input.filter]: {
+            [input.filter.field]: {
               contains: input.query,
             },
           },

@@ -22,5 +22,6 @@ export default defineNextConfig({
   },
   images: {
     domains: ['lh3.googleusercontent.com'],
+    disableStaticImages: true,
   },
 })

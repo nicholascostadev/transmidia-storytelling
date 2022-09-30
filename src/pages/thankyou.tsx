@@ -26,7 +26,7 @@ export default function NotAllowed() {
   return (
     <>
       <Head>
-        <title>Not Allowed</title>
+        <title>TST | Obrigado!</title>
       </Head>
       <Box pos="relative">
         <chakra.header
@@ -105,13 +105,21 @@ export default function NotAllowed() {
         </chakra.header>
       </Box>
       <Center h="calc(100vh - 72px)" textAlign="center">
-        <Stack display="flex" justifyContent="center" alignItems="center">
+        <Stack
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          w="1400px"
+          maxW="full"
+          mx="auto"
+        >
           <Text fontSize={['2xl', '2xl', '3xl']} color="green.400">
             Muito obrigado por fazer a diferença na divulgação científica
           </Text>
           <Text fontSize={['sm', 'lg', 'xl']}>
-            Caso você seja aprovado no processo de seleção para participação,
-            você receberá um email com os próximos passos para a pesquisa
+            Você receberá um e-mail de confirmação em breve. Se você não
+            receber, verifique sua caixa de spam. Se você não receber o e-mail
+            de confirmação, entre em contato com a equipe do projeto.
           </Text>
           <Link href="/" passHref>
             <ChakraLink

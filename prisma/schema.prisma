@@ -64,6 +64,7 @@ model RegisteredUser {
     id             String   @id @default(cuid())
     name           String
     email          String   @unique
+    confirmedEmail Boolean  @default(false)
     cpf            String   @unique
     city           String
     state          String

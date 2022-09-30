@@ -7,6 +7,7 @@ import { protectedUserRouter } from './protectedUserRouter'
 import { openRegisteredUserRouter } from './openRegisteredUserRouter'
 import { protectedRegisteredUserRouter } from './protectedRegisteredUserRouter'
 import { openUserRouter } from './openUserRouter'
+import { emailRouter } from './emailRouter'
 
 export const appRouter = createRouter()
   .transformer(superjson)
@@ -15,6 +16,7 @@ export const appRouter = createRouter()
   .merge('protectedRegisteredUser.', protectedRegisteredUserRouter)
   .merge('openUser.', openUserRouter)
   .merge('protectedUser.', protectedUserRouter)
+  .merge('emailRouter.', emailRouter)
 
 // export type definition of API
 export type AppRouter = typeof appRouter

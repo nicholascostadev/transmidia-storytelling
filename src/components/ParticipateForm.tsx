@@ -50,6 +50,9 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
 
 export const ParticipateForm = () => {
   const registerMutation = trpc.useMutation(['openRegisteredUser.register'])
+  const { mutate: sendConfirmationEmail } = trpc.useMutation([
+    'emailRouter.sendMail',
+  ])
   const router = useRouter()
   const toast = useToast()
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
@@ -88,15 +91,18 @@ export const ParticipateForm = () => {
         })
         console.error({ err })
       },
-      onSuccess: () => {
+      onSuccess: (data) => {
         toast({
           title: 'Registrado.',
-          description:
-            'Você entrou na lista de espera e será avaliado para a pesquisa, agora é só esperar que retornaremos assim que possível',
+          description: 'Você foi registrado com sucesso!',
           status: 'success',
           duration: 9000,
           isClosable: true,
           position: 'top-right',
+        })
+        sendConfirmationEmail({
+          email: data.email,
+          userId: data.id,
         })
         router.push('/thankyou')
 

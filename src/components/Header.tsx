@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import { CaretRight, Moon, Sun } from 'phosphor-react'
 import { ChakraCustomImage } from './ChakraCustomImage'
 import { MobileNavContent } from './MobileNavContent'
@@ -25,6 +26,8 @@ export const Header = () => {
   const text = useColorModeValue('dark', 'light')
   const shadow = useColorModeValue('md', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
+
+  const isOnHomePage = useRouter().pathname === '/'
 
   const SponsorButton = (
     <LightMode>
@@ -125,14 +128,20 @@ export const Header = () => {
               color={useColorModeValue('black', 'white')}
             >
               <HStack display={{ base: 'none', md: 'flex' }}>
-                <Link
-                  fontSize={{ sm: 'initial', md: 'sm', lg: 'md' }}
-                  href="#team"
-                  _hover={{ color: useColorModeValue('gray.400', 'gray.400') }}
-                >
-                  Nossa Equipe
-                </Link>
-                <Divider h="35px" orientation="vertical" />
+                {isOnHomePage && (
+                  <>
+                    <Link
+                      fontSize={{ sm: 'initial', md: 'sm', lg: 'md' }}
+                      href="#team"
+                      _hover={{
+                        color: 'gray.400',
+                      }}
+                    >
+                      Nossa Equipe
+                    </Link>
+                    <Divider h="35px" orientation="vertical" />
+                  </>
+                )}
               </HStack>
               <IconButton
                 size="md"

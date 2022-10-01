@@ -101,6 +101,7 @@ export const ParticipateForm = () => {
           position: 'top-right',
         })
 
+        // send mail
         sendConfirmationEmail({
           email: data.email,
           userId: data.id,

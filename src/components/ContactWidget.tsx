@@ -15,6 +15,7 @@ import {
   Stack,
   Text,
   Textarea,
+  useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
 import { Bug, EnvelopeOpen, Gauge, PaperPlaneRight, X } from 'phosphor-react'
@@ -50,6 +51,10 @@ export const ContactWidget = () => {
   })
 
   const noErrors = Object.keys(errors).length === 0
+  const backgroundColor = useColorModeValue('white', 'gray.900')
+  const border = useColorModeValue('1px', 'none')
+  const borderColor = useColorModeValue('gray.100', 'gray.900')
+  const shadow = useColorModeValue('lg', 'none')
 
   // function handleFormSubmit(data: ContactWidgetFields) {}
 
@@ -70,7 +75,10 @@ export const ContactWidget = () => {
             right="10"
             bottom="5"
             w="400px"
-            bg="gray.900"
+            bg={backgroundColor}
+            border={border}
+            borderColor={borderColor}
+            shadow={shadow}
             p="5"
             rounded="md"
             zIndex={100000}

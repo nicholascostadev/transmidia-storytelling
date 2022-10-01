@@ -16,6 +16,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { CaretLeft, Moon, SignOut, Sun, List } from 'phosphor-react'
+import { ContactWidget } from '../components/ContactWidget'
 
 export default function NotAllowed() {
   const { data: userSession } = useSession()
@@ -135,6 +136,7 @@ export default function NotAllowed() {
           </Link>
         </Stack>
       </Center>
+      <ContactWidget />
     </>
   )
 }

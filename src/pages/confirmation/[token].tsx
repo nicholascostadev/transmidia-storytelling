@@ -2,6 +2,7 @@ import { Center, Heading, Stack, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { ContactWidget } from '../../components/ContactWidget'
 import { Header } from '../../components/Header'
 import { trpc } from '../../utils/trpc'
 
@@ -50,6 +51,7 @@ export default function ConfirmEmail() {
           </Text>
         </Stack>
       </Center>
+      <ContactWidget />
     </>
   )
 }

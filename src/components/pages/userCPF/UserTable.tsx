@@ -26,12 +26,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { Check, PencilLine } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
 
-import { Gender } from '../../../types/formValidation'
-import {
-  formatApproval,
-  GENDER_OPTIONS,
-  TABLE_TITLES,
-} from '../../../utils/formatters'
+import { formatApproval, TABLE_TITLES } from '../../../utils/formatters'
 import { trpc } from '../../../utils/trpc'
 
 interface UserTableProps {
@@ -217,11 +212,13 @@ export const UserTable = ({ userInfo, setUserInfo }: UserTableProps) => {
                 <Tr key={key}>
                   <Td>{TABLE_TITLES[key as keyof typeof TABLE_TITLES]}</Td>
                   <Td>
-                    {key === 'gender'
-                      ? GENDER_OPTIONS[userInfo[key] as Gender]
-                      : String(
-                          userInfo[key as keyof RegisteredUser] || 'Nenhuma',
-                        )}
+                    {String(
+                      key === 'confirmedEmail'
+                        ? userInfo[key as keyof RegisteredUser]
+                          ? 'Confirmado'
+                          : 'Não confirmado'
+                        : userInfo[key as keyof RegisteredUser],
+                    )}
                   </Td>
                 </Tr>
               )

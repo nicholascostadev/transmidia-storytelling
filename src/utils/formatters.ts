@@ -7,27 +7,28 @@ export function formatApproval(approval: boolean): string {
   return approval ? 'Aprovado' : 'Não aprovado'
 }
 
-export const TABLE_TITLES = {
-  id: 'id',
-  name: 'Nome',
-  email: 'Email',
-  cpf: 'CPF',
-  city: 'Cidade',
-  state: 'Estado',
-  age: 'Idade',
-  disabilities: 'Deficiência',
-  prev_knowledge: 'Conhecimento prévio',
-  school_level: 'Escolaridade',
-  occupation: 'Ocupação',
-  approved: 'Estado de Aprovação',
-  created_at: 'Data de registro',
-  gender: 'Gênero',
-} as const
+export enum TABLE_TITLES {
+  id = 'id',
+  name = 'Nome',
+  email = 'Email',
+  confirmedEmail = 'Email confirmado',
+  cpf = 'CPF',
+  city = 'Cidade',
+  state = 'Estado',
+  age = 'Idade',
+  disabilities = 'Deficiência',
+  prev_knowledge = 'Conhecimento prévio',
+  school_level = 'Escolaridade',
+  occupation = 'Ocupação',
+  approved = 'Estado de Aprovação',
+  created_at = 'Data de registro',
+  gender = 'Gênero',
+}
 
-export const GENDER_OPTIONS = {
-  M: 'Masculino',
-  F: 'Feminino',
-  NB: 'Não-binário',
-  O: 'Outro',
-  PNR: 'Prefiro não dizer',
-} as const
+export enum GENDER_OPTIONS {
+  'MASCULINO' = 'Masculino',
+  'FEMININO' = 'Feminino',
+  'NAO_BINARIO' = 'Não Binário',
+  'OUTROS' = 'Outros',
+  'PREFIRO_NAO_DIZER' = 'Prefiro não dizer',
+}

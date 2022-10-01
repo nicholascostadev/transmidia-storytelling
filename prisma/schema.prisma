@@ -69,8 +69,8 @@ model RegisteredUser {
     city           String
     state          String
     age            Int
-    disabilities   String   @default("Nenhuma")
-    prev_knowledge String   @default("Nenhum")
+    disabilities   String
+    prev_knowledge String
     gender         String
     school_level   String
     occupation     String

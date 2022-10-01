@@ -100,10 +100,12 @@ export const ParticipateForm = () => {
           isClosable: true,
           position: 'top-right',
         })
+
         sendConfirmationEmail({
           email: data.email,
           userId: data.id,
         })
+
         router.push('/thankyou')
 
         reset()
@@ -233,11 +235,11 @@ export const ParticipateForm = () => {
       })}
       <FormLabel>Gênero</FormLabel>
       <Select {...register('gender')} variant="outline">
-        <option value="M">Masculino</option>
-        <option value="F">Feminino</option>
-        <option value="NB">Não-binário</option>
-        <option value="O">Outros</option>
-        <option value="PNR">Prefiro não responder</option>
+        <option value="MASCULINO">Masculino</option>
+        <option value="FEMININO">Feminino</option>
+        <option value="NAO_BINARIO">Não-binário</option>
+        <option value="OUTROS">Outros</option>
+        <option value="PREFIRO_NAO_DIZER">Prefiro não responder</option>
       </Select>
       <FormLabel>Qual o seu nível de escolaridade?</FormLabel>
       <Select {...register('academic')} variant="outline">

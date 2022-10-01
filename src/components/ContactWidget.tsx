@@ -1,10 +1,12 @@
 import {
   Button,
+  Divider,
   Fade,
   Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Heading,
   HStack,
   IconButton,
   LightMode,
@@ -64,13 +66,14 @@ export const ContactWidget = () => {
                 : undefined
             }
             method={noErrors ? 'POST' : undefined}
-            position="absolute"
-            right="5"
+            position="fixed"
+            right="10"
             bottom="5"
             w="400px"
             bg="gray.900"
             p="5"
             rounded="md"
+            zIndex={100000}
           >
             <IconButton
               onClick={onClose}
@@ -81,7 +84,11 @@ export const ContactWidget = () => {
               icon={<X size={20} />}
               aria-label="Fechar formulário de contato"
             />
-            <Stack w="full" mt="6">
+            <Stack w="full" mt="10">
+              <Heading size="lg" textAlign="center">
+                Formulário de Contato
+              </Heading>
+              <Divider orientation="horizontal" w="full" mb="2!" pt="2" />
               <Input
                 label="Nome"
                 placeholder="Nome"
@@ -161,9 +168,11 @@ export const ContactWidget = () => {
         <Fade in={!isOpen}>
           <LightMode>
             <IconButton
-              position="absolute"
+              border="1px"
+              borderColor="purple.800"
+              position="fixed"
               bottom="5"
-              right="5"
+              right="10"
               rounded="full"
               h="10"
               w="10"
@@ -171,6 +180,7 @@ export const ContactWidget = () => {
               cursor="pointer"
               aria-label="Abrir formulário de contato"
               onClick={onOpen}
+              zIndex={100000}
             >
               <EnvelopeOpen size={20} />
             </IconButton>

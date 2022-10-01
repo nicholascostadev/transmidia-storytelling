@@ -5,6 +5,7 @@ import { ParticipateForm } from '../components/ParticipateForm'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
 import { bgGradientWithDir } from '../styles/global'
 import Head from 'next/head'
+import { ContactWidget } from '../components/ContactWidget'
 
 export const Participate = () => {
   return (
@@ -43,6 +44,7 @@ export const Participate = () => {
         </Box>
       </Box>
       <Footer />
+      <ContactWidget />
     </>
   )
 }

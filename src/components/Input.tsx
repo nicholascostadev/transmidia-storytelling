@@ -2,6 +2,7 @@ import InputMask from 'react-input-mask'
 import {
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input as ChakraInput,
   InputProps as ChakraInputProps,
@@ -14,10 +15,11 @@ interface InputProps extends ChakraInputProps {
   label?: string
   mask?: string
   error?: FieldError
+  helperText?: string
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, label, error, mask = null, ...rest },
+  { name, label, error, mask = null, helperText, ...rest },
   ref,
 ) => {
   if (mask) {
@@ -32,6 +34,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           mask={mask}
           {...rest}
         />
+        {helperText && (
+          <FormHelperText fontSize="xs">{helperText}</FormHelperText>
+        )}
         {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
       </FormControl>
     )
@@ -41,6 +46,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
     <FormControl isInvalid={!!error} isRequired={rest.isRequired}>
       {!!label && <FormLabel htmlFor={name}>{label}</FormLabel>}
       <ChakraInput step="any" name={name} id={name} ref={ref} {...rest} />
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
 
       {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
     </FormControl>

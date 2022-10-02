@@ -118,20 +118,25 @@ export default function NotAllowed() {
             Muito obrigado por fazer a diferença na divulgação científica
           </Text>
           <Text fontSize={['sm', 'lg', 'xl']}>
-            Você receberá um e-mail de confirmação em breve. Se você não
-            receber, verifique sua caixa de spam. Se você não receber o e-mail
-            de confirmação, entre em contato com a equipe do projeto.
+            Você receberá um e-mail de confirmação em breve. Se você não o
+            encontrar, por favor verifique sua caixa de spam e promoções.
+          </Text>
+          <Text fontSize={['sm', 'lg', 'xl']}>
+            Caso não tenha recebebido o e-mail de confirmação, entre em contato
+            com a nossa equipe através do ícone de envelope no canto inferior
+            direito da página. Estaremos em total disposição em ajudar você.
           </Text>
           <Link href="/" passHref>
             <ChakraLink
               display="flex"
-              justifyContent="start"
+              justifyContent="center"
               alignItems="center"
               _hover={{
                 color: 'green.500',
               }}
             >
-              <CaretLeft /> Voltar à página inicial
+              <CaretLeft />
+              <Text>Voltar à página inicial</Text>
             </ChakraLink>
           </Link>
         </Stack>

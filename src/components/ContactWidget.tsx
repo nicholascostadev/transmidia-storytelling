@@ -20,15 +20,28 @@ import {
 } from '@chakra-ui/react'
 import { Bug, EnvelopeOpen, Gauge, PaperPlaneRight, X } from 'phosphor-react'
 import { Input } from './Input'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
 const MESSAGE_MAX_SIZE = 300
 
 const schema = z.object({
-  name: z.string().max(100, 'Nome deve ter no máximo 100 caracteres'),
-  email: z.string().email().min(3, 'Email inválido').max(100, 'Email inválido'),
+  name: z
+    .string()
+    .min(1, 'Nome deve ter no mínimo 1 caracter')
+    .max(100, 'Nome deve ter no máximo 100 caracteres'),
+  email: z
+    .string()
+    .email('Email inválido')
+    .min(3, 'Email inválido')
+    .max(100, 'Email inválido'),
+  cpf: z.literal('___.___.___-__').or(
+    z
+      .string()
+      .length(14, 'CPF deve ter 11 dígitos')
+      .refine((value) => !value.includes('_'), 'CPF deve ter 11 dígitos'),
+  ),
   message: z
     .string()
     .min(3, 'Mensagem deve ter no mínimo 3 caracteres')
@@ -45,10 +58,12 @@ export const ContactWidget = () => {
     register,
     watch,
     formState: { errors },
+    control,
   } = useForm<ContactWidgetFields>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: 'onBlur',
   })
+  const currentCPF = watch('cpf')
 
   const noErrors = Object.keys(errors).length === 0
   const backgroundColor = useColorModeValue('white', 'gray.900')
@@ -57,6 +72,7 @@ export const ContactWidget = () => {
   const shadow = useColorModeValue('lg', 'none')
 
   // function handleFormSubmit(data: ContactWidgetFields) {}
+  console.log({ currentCPF, cpfError: errors.cpf })
 
   return (
     <>
@@ -87,6 +103,7 @@ export const ContactWidget = () => {
               onClick={onClose}
               position="absolute"
               right="5"
+              top="5"
               variant="ghost"
               size="sm"
               icon={<X size={20} />}
@@ -94,7 +111,7 @@ export const ContactWidget = () => {
             />
             <Stack w="full" mt="10">
               <Heading size="lg" textAlign="center">
-                Formulário de Contato
+                Conte conosco
               </Heading>
               <Divider orientation="horizontal" w="full" mb="2!" pt="2" />
               <Input
@@ -104,6 +121,28 @@ export const ContactWidget = () => {
                 error={errors.name}
                 {...register('name')}
                 isRequired
+              />
+              <Controller
+                name="cpf"
+                control={control}
+                render={({ field: { onChange } }) => {
+                  return (
+                    <Input
+                      mask="999.999.999-99"
+                      name="cpf"
+                      label="CPF"
+                      placeholder="CPF"
+                      error={
+                        currentCPF === '___.___.___-__' || currentCPF === ''
+                          ? undefined
+                          : errors.cpf
+                      }
+                      flex="1"
+                      onChange={onChange}
+                      helperText="O CPF só será necessário caso o problema seja relacionado ao cadastro na pesquisa. Sem ele, não conseguiremos te ajudar."
+                    />
+                  )
+                }}
               />
               <Input
                 label="Email"

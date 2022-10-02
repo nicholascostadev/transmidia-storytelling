@@ -4,10 +4,15 @@ import { Header } from '../components/Header'
 import { ParticipateForm } from '../components/ParticipateForm'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
 import { bgGradientWithDir } from '../styles/global'
+import Head from 'next/head'
+import { ContactWidget } from '../components/ContactWidget'
 
 export const Participate = () => {
   return (
     <>
+      <Head>
+        <title>TST | Participar</title>
+      </Head>
       <Header />
       <Box bgGradient={bgGradientWithDir('to-tr', 400, 600)}>
         <Box pb={8}>
@@ -39,6 +44,7 @@ export const Participate = () => {
         </Box>
       </Box>
       <Footer />
+      <ContactWidget />
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { ContactWidget } from '../components/ContactWidget'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Explanation } from '../components/pages/Home/Explanation'
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
         <FinalCTA />
       </Box>
       <Footer />
+      <ContactWidget />
     </>
   )
 }

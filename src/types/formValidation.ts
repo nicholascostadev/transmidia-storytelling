@@ -14,9 +14,13 @@ export const validation = z.object({
     .min(18, 'A idade mínima para participar da pesquisa é de 18 anos'),
   disabilities: z.string().optional(),
   previousKnowledge: z.string().optional(),
-  gender: z.enum(['M', 'F', 'NB', 'O', 'PNR']),
+  gender: z.enum([
+    'MASCULINO',
+    'FEMININO',
+    'NAO_BINARIO',
+    'OUTROS',
+    'PREFIRO_NAO_DIZER',
+  ]),
   academic: z.enum(['ensino-fundamental', 'ensino-medio', 'ensino-superior']),
   occupation: z.enum(['estudante', 'profissional']),
 })
-
-export type Gender = 'M' | 'F' | 'NB' | 'O' | 'PNR'

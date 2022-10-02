@@ -64,12 +64,13 @@ model RegisteredUser {
     id             String   @id @default(cuid())
     name           String
     email          String   @unique
+    confirmedEmail Boolean  @default(false)
     cpf            String   @unique
     city           String
     state          String
     age            Int
-    disabilities   String   @default("Nenhuma")
-    prev_knowledge String   @default("Nenhum")
+    disabilities   String
+    prev_knowledge String
     gender         String
     school_level   String
     occupation     String

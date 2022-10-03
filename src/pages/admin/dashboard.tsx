@@ -102,8 +102,7 @@ export default function Dashboard() {
       // and also the lastAvailablePage to 1
       // because we want to show the first page of results
       // IF we don't do so, the list won't be shown(at least if the result has less than 5 items)
-      setCurrentPage(1)
-      setLastAvailablePage(1)
+      resetPage()
       pushToRoute(
         {
           query: {
@@ -140,6 +139,7 @@ export default function Dashboard() {
       type: QueryAction.SET_FILTER,
       payload: { ...filterState, filter },
     })
+    resetPage()
   }
 
   function handleGotoNextPage() {
@@ -167,6 +167,11 @@ export default function Dashboard() {
       }
       return page
     })
+  }
+
+  function resetPage() {
+    setCurrentPage(1)
+    setLastAvailablePage(1)
   }
 
   if (
@@ -225,9 +230,10 @@ export default function Dashboard() {
               min={5}
               max={20}
               value={itemsPerPage}
-              onChange={(value, valueAsNumber) =>
+              onChange={(value, valueAsNumber) => {
                 setItemsPerPage(valueAsNumber)
-              }
+                resetPage()
+              }}
               size="sm"
             >
               <NumberInputField />

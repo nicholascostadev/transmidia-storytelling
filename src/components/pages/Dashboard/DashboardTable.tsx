@@ -31,6 +31,7 @@ import Link from 'next/link'
 import { CaretRight, Check, Swap, Trash } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
 import { formatApproval } from '../../../utils/formatters'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 interface DashboardTableProps {
   usersToShow: RegisteredUser[]
@@ -47,6 +48,7 @@ export const DashboardTable = ({
 }: DashboardTableProps) => {
   const toast = useToast()
   const backgroundColor = useColorModeValue('white', 'gray.900')
+  const [parent] = useAutoAnimate<HTMLTableSectionElement>()
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
     return () => {
@@ -146,7 +148,7 @@ export const DashboardTable = ({
             <Th isNumeric></Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody ref={parent}>
           {usersToShow?.map((user) => (
             <Tr key={user.id}>
               <Td>{user.email}</Td>

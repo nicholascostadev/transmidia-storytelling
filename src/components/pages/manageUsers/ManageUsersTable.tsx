@@ -18,6 +18,7 @@ import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRef } from 'react'
 import { TUserPossiblePermissions } from '../../../pages/admin/manageusers'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 interface ManageUsersTableProps {
   users: User[]
   permissionMutate: any
@@ -30,6 +31,7 @@ export const ManageUsersTable = ({
   const toast = useToast()
   const toastIdRef = useRef<any>()
   const { data } = useSession()
+  const [parent] = useAutoAnimate<HTMLTableSectionElement>()
 
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
@@ -114,7 +116,7 @@ export const ManageUsersTable = ({
             <Th>Permissões</Th>
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody ref={parent}>
           {users?.map((user) => (
             <Tr key={user.id}>
               <Td maxW="20">

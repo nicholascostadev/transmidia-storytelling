@@ -145,6 +145,7 @@ export const ContactWidget = () => {
                       name="cpf"
                       label="CPF"
                       placeholder="CPF"
+                      inputMode="numeric"
                       error={
                         currentCPF === '___.___.___-__' || currentCPF === ''
                           ? undefined

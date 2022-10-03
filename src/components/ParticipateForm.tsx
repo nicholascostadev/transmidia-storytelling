@@ -164,6 +164,7 @@ export const ParticipateForm = () => {
               mask="999.999.999-99"
               name="cpf"
               label="CPF"
+              inputMode="numeric"
               bg={inputBg}
               error={errors.cpf}
               isRequired

@@ -158,6 +158,8 @@ export default function Dashboard() {
     }
   }
 
+  console.log(`P: ${currentPage}, LP:${lastAvailablePage}`)
+
   function handleGotoPrevPage() {
     setCurrentPage((page) => {
       if (page > 1) {

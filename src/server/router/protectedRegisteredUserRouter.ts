@@ -1,5 +1,6 @@
 import { createProtectedRouter } from './context'
 import z from 'zod'
+import { RegisteredUser } from '@prisma/client'
 
 export const protectedRegisteredUserRouter = createProtectedRouter()
   .query('getAllRegisteredUsers', {
@@ -49,6 +50,7 @@ export const protectedRegisteredUserRouter = createProtectedRouter()
   .query('infiniteUsers', {
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),
+      // cursor is CPF since it's unique
       cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
       query: z.string().nullish(),
       filter: z.object({
@@ -62,7 +64,7 @@ export const protectedRegisteredUserRouter = createProtectedRouter()
 
       console.log(input.filter)
 
-      const items = await ctx.prisma.registeredUser.findMany({
+      const items = (await ctx.prisma.registeredUser.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
         cursor: cursor ? { cpf: cursor } : undefined,
         orderBy: {
@@ -76,7 +78,7 @@ export const protectedRegisteredUserRouter = createProtectedRouter()
             equals: input.filter.approval,
           },
         },
-      })
+      })) as RegisteredUser[]
 
       let nextCursor: typeof cursor | undefined
       if (items.length > limit) {

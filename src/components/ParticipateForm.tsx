@@ -64,7 +64,7 @@ export const ParticipateForm = () => {
     formState: { errors },
     watch,
     control,
-    // reset
+    // reset,
   } = useForm<FormData>({
     resolver: zodResolver(validation),
     defaultValues: {
@@ -101,10 +101,10 @@ export const ParticipateForm = () => {
     //       isClosable: true,
     //       position: 'top-right',
     //     })
-    //     sendConfirmationEmail({
-    //       email: data.email,
-    //       userId: data.id,
-    //     })
+    //     // sendConfirmationEmail({
+    //     //   email: data.email,
+    //     //   userId: data.id,
+    //     // })
     //     router.push('/thankyou')
     //     reset()
     //   },

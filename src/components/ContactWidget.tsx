@@ -71,9 +71,6 @@ export const ContactWidget = () => {
   const borderColor = useColorModeValue('gray.100', 'gray.900')
   const shadow = useColorModeValue('lg', 'none')
 
-  // function handleFormSubmit(data: ContactWidgetFields) {}
-  console.log({ currentCPF, cpfError: errors.cpf })
-
   return (
     <>
       {isOpen && (

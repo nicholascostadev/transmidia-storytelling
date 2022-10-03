@@ -85,9 +85,21 @@ export const ContactWidget = () => {
             }
             method={noErrors ? 'POST' : undefined}
             position="fixed"
-            right="10"
-            bottom="5"
-            w="400px"
+            right={{
+              base: '0',
+              sm: '5',
+              md: '10',
+            }}
+            bottom={{
+              base: '0',
+              sm: '5',
+            }}
+            w={{
+              base: '500px',
+              sm: '400px',
+            }}
+            maxW="full"
+            h={['full', 'auto', 'auto', 'auto']}
             bg={backgroundColor}
             border={border}
             borderColor={borderColor}
@@ -95,6 +107,10 @@ export const ContactWidget = () => {
             p="5"
             rounded="md"
             zIndex={100000}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
           >
             <IconButton
               onClick={onClose}

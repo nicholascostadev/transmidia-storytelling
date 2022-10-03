@@ -35,13 +35,13 @@ import { trpc } from '../../utils/trpc'
 
 export default function Dashboard() {
   const { data, status } = useSession()
-  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [filterState, dispatch] = useReducer(filterReducer, initialState)
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
-  const router = useRouter()
-  const q = stringOrNull(router.query.q)?.trim()
+  const { query, push: pushToRoute } = useRouter()
+  const q = stringOrNull(query.q)?.trim()
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
@@ -51,7 +51,8 @@ export default function Dashboard() {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
-  const infiniteUsers = trpc.useInfiniteQuery(
+
+  const infiniteUsers: any = trpc.useInfiniteQuery(
     [
       'protectedRegisteredUser.infiniteUsers',
       { limit: itemsPerPage, query: q, filter: filterState.filter },
@@ -61,8 +62,8 @@ export default function Dashboard() {
       refetchOnWindowFocus: false,
 
       onSuccess: (lastPage) => {
-        if (page === 1) {
-          setUsersToShow(lastPage.pages[0]?.items as RegisteredUser[])
+        if (currentPage === 1) {
+          return setUsersToShow(lastPage.pages[0]?.items as RegisteredUser[])
         }
       },
 
@@ -79,23 +80,34 @@ export default function Dashboard() {
     'protectedRegisteredUser.deleteUser',
   ])
 
-  const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
+  const hasMorePages =
+    infiniteUsers.hasNextPage ||
+    currentPage < lastAvailablePage ||
+    infiniteUsers.data?.pages.length - currentPage > 0
 
   useEffect(() => {
-    if (page > 0) {
+    if (currentPage > 0) {
       setUsersToShow(
-        infiniteUsers.data?.pages[page - 1]?.items as RegisteredUser[],
+        infiniteUsers.data?.pages[currentPage - 1]?.items as RegisteredUser[],
       )
     }
-  }, [infiniteUsers.data?.pages, page])
+  }, [infiniteUsers.data?.pages, currentPage])
 
   // debounce effect when searching
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      router.push(
+      if (query.q === filterState.query) return
+
+      // whenever the query changes, we reset the page to 1
+      // and also the lastAvailablePage to 1
+      // because we want to show the first page of results
+      // IF we don't do so, the list won't be shown(at least if the result has less than 5 items)
+      setCurrentPage(1)
+      setLastAvailablePage(1)
+      pushToRoute(
         {
           query: {
-            ...router.query,
+            ...query,
             q: filterState.query,
           },
         },
@@ -108,7 +120,7 @@ export default function Dashboard() {
     }, 500)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [router, filterState.query])
+  }, [filterState.query, pushToRoute, query, infiniteUsers])
 
   const [usersToShow, setUsersToShow] = useState<RegisteredUser[]>(
     infiniteUsers.data?.pages[0]?.items as RegisteredUser[],
@@ -131,16 +143,23 @@ export default function Dashboard() {
   }
 
   function handleGotoNextPage() {
-    infiniteUsers.fetchNextPage()
+    if (currentPage < lastAvailablePage) {
+      return setCurrentPage((page) => page + 1)
+    }
 
     if (hasMorePages) {
-      setPage((page) => page + 1)
-      setLastAvailablePage(page + 1)
+      infiniteUsers.fetchNextPage()
+      setCurrentPage((page) => {
+        if (page + 1 > lastAvailablePage) {
+          setLastAvailablePage(page + 1)
+        }
+        return page + 1
+      })
     }
   }
 
   function handleGotoPrevPage() {
-    setPage((page) => {
+    setCurrentPage((page) => {
       if (page > 1) {
         return page - 1
       }
@@ -224,14 +243,21 @@ export default function Dashboard() {
             justifySelf="flex-end"
             ml="auto"
             mr="2"
-            onClick={() => infiniteUsers.refetch()}
+            onClick={() =>
+              infiniteUsers.refetch({
+                // typing not being assured because of inifiniteUsers not being
+                // typed properly for some reason
+                refetchPage: (page: unknown, index: number) =>
+                  index === currentPage - 1,
+              })
+            }
             isLoading={infiniteUsers.isRefetching || infiniteUsers.isLoading}
           />
 
           <ButtonGroup size="sm">
             <IconButton
               as={CaretLeft}
-              disabled={page === 1}
+              disabled={currentPage === 1}
               cursor="pointer"
               onClick={handleGotoPrevPage}
               aria-label="Previous page icon"
@@ -239,7 +265,7 @@ export default function Dashboard() {
 
             <IconButton
               as={CaretRight}
-              disabled={!hasMorePages}
+              isDisabled={!hasMorePages}
               cursor="pointer"
               onClick={handleGotoNextPage}
               aria-label="Next page icon"

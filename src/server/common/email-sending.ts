@@ -3,8 +3,7 @@ import { env } from '../../env/server.mjs'
 import jwt from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 
-export const EMAIL_SECRET =
-  'fajsDHFKLAJHFJHEIURHASDJKFKLAJHTUIAJAHSBDFKLJAHBSUHGoiufhqawejfhdakljh'
+export const EMAIL_SECRET = env.SENDGRID_EMAIL_KEY
 
 interface SendMailProps {
   to: string

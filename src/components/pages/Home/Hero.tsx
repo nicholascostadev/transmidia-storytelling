@@ -30,8 +30,6 @@ export const Hero = () => {
   const heroRef = useRef(null)
   const isInView = useInView(heroRef)
 
-  console.log({ currentImage })
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage(textRef.current?.typed.arrayPos + 1)

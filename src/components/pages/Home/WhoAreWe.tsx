@@ -41,7 +41,6 @@ export const WhoAreWe = () => {
       justify="center"
       alignItems="center"
       pos="relative"
-      px={['6', '0']}
       pt={['40', '40', '20']}
       pb={['0', '0', '20']}
       textAlign={['center', 'center', 'left']}
@@ -63,6 +62,9 @@ export const WhoAreWe = () => {
           top: 240,
           right: 160,
           zIndex: 0,
+          width: 1500,
+          maxWidth: '100%',
+          margin: '0 auto',
         }}
       >
         <ChakraCustomImage

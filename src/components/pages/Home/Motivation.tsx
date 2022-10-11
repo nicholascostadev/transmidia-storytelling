@@ -33,7 +33,8 @@ export const Motivation = () => {
       textAlign={['center', 'left']}
       mt={'60!'}
       minH="80vh"
-      maxW="1200px"
+      w="1500px"
+      maxW="full"
       px={['6', '0']}
       mx="auto"
       align="start"
@@ -126,7 +127,7 @@ export const Motivation = () => {
             width={600}
             height={400}
             src="/images/readbooks.svg"
-            alt="Person with social media icons around"
+            alt="Person 500pxwith social media icons around"
           />
         </Center>
       </Grid>

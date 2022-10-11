@@ -3,7 +3,7 @@ import { env } from '../../env/server.mjs'
 import jwt from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 
-export const EMAIL_SECRET = env.SENDGRID_EMAIL_KEY
+export const EMAIL_SECRET = env.EMAIL_SECRET
 
 interface SendMailProps {
   to: string
@@ -83,8 +83,9 @@ export const sendMail = ({ to, userId }: SendMailProps) => {
             confirmationUrl: url,
           },
         })
-        .then(() => {
+        .then((data) => {
           console.log('Email sent')
+          console.log(data)
         })
         .catch((error) => {
           console.log('Error when sending email: ', error)

@@ -34,7 +34,7 @@ export const WhoAreWe = () => {
 
   return (
     <Flex
-      bg="ibmr"
+      bgColor="ibmr.800"
       color="white"
       id="team"
       minH="80vh"

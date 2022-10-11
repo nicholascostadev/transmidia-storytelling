@@ -19,24 +19,30 @@ import Typed from 'react-typed'
 
 import { textGradientWithDir } from '../../../styles/global'
 
+const images = ['/images/cientista.jpg', '/images/obesidade.jpg']
+const totalImages = images.length
+const duration = [3, 2]
+
 export const Hero = () => {
-  const [showing, setShowing] = useState(true)
+  const [currentImage, setCurrentImage] = useState(1)
   const textRef = useRef<string>() as any
   const textColor = useColorModeValue('black', 'white')
   const heroRef = useRef(null)
   const isInView = useInView(heroRef)
 
+  console.log({ currentImage })
+
   useEffect(() => {
     const interval = setInterval(() => {
-      if (textRef.current?.typed.arrayPos === 0) {
-        setShowing(true)
-      } else {
-        setShowing(false)
+      setCurrentImage(textRef.current?.typed.arrayPos + 1)
+
+      if (textRef.current?.typed.arrayPos + 1 > totalImages) {
+        setCurrentImage(1)
       }
     }, 100)
 
     return () => clearInterval(interval)
-  }, [showing])
+  }, [])
 
   return (
     <Flex
@@ -191,54 +197,39 @@ export const Hero = () => {
         </Stack>
         <Flex w={'full'} justify="center" alignItems="center" pt="2">
           <Box>
-            {showing && (
-              <motion.div
-                animate={{
-                  opacity: [0, 1],
-                }}
-                transition={{
-                  duration: 3,
-                  ease: 'easeInOut',
-                  repeat: Infinity,
-                  repeatType: 'mirror',
-                }}
-              >
-                <Image
-                  src="/images/cientista.jpg"
-                  alt=""
-                  width={700}
-                  height={700}
-                  style={{
-                    borderRadius: '9999999px',
-                    objectFit: 'cover',
-                  }}
-                />
-              </motion.div>
-            )}
-            {!showing && (
-              <motion.div
-                animate={{
-                  opacity: [0, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  ease: 'easeInOut',
-                  repeat: Infinity,
-                  repeatType: 'mirror',
-                }}
-              >
-                <Image
-                  src="/images/obesidade.jpg"
-                  alt=""
-                  width={700}
-                  height={700}
-                  style={{
-                    borderRadius: '9999999px',
-                    objectFit: 'cover',
-                  }}
-                />
-              </motion.div>
-            )}
+            {images.map((image, i) => {
+              if (i === currentImage - 1)
+                return (
+                  <motion.div
+                    key={image}
+                    animate={{
+                      opacity: [0, 1],
+                    }}
+                    transition={{
+                      duration: duration[i],
+                      ease: 'easeInOut',
+                      repeat: Infinity,
+                      repeatType: 'mirror',
+                    }}
+                    style={{
+                      display: i === currentImage - 1 ? 'block' : 'none',
+                    }}
+                  >
+                    <Image
+                      src={images[i] as string}
+                      alt=""
+                      width={700}
+                      height={700}
+                      style={{
+                        borderRadius: '9999999px',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </motion.div>
+                )
+
+              return null
+            })}
           </Box>
         </Flex>
       </Stack>

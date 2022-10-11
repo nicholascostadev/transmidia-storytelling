@@ -1,10 +1,10 @@
 import { EMAIL_SECRET, sendMail } from '../common/email-sending'
-import { createProtectedRouter } from './context'
-import jwt from 'jsonwebtoken'
+import { createRouter } from './context'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import { z } from 'zod'
 
 // Example router with queries that can only be hit if the user requesting is signed in
-export const emailRouter = createProtectedRouter()
+export const emailRouter = createRouter()
   .mutation('sendMail', {
     input: z.object({
       userId: z.string(),
@@ -20,7 +20,7 @@ export const emailRouter = createProtectedRouter()
     }),
     async resolve({ input, ctx }) {
       try {
-        const payload = jwt.verify(input.token, EMAIL_SECRET) as any
+        const payload = jwt.verify(input.token, EMAIL_SECRET) as JwtPayload
 
         return await ctx.prisma.registeredUser.update({
           where: {
@@ -31,7 +31,7 @@ export const emailRouter = createProtectedRouter()
           },
         })
       } catch (error) {
-        console.log(error)
+        console.log(JSON.stringify(error, null, 2))
       }
     },
   })

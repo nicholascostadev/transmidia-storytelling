@@ -14,7 +14,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  // useToast,
+  useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -23,7 +23,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../components/Input'
 import { trpc } from '../utils/trpc'
-// import { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 
 const inputs = ['age', 'disabilities', 'previousKnowledge'] as const
 
@@ -50,11 +50,11 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
 
 export const ParticipateForm = () => {
   const registerMutation = trpc.useMutation(['openRegisteredUser.register'])
-  // const { mutate: sendConfirmationEmail } = trpc.useMutation([
-  //   'emailRouter.sendMail',
-  // ])
-  // const router = useRouter()
-  // const toast = useToast()
+  const { mutate: sendConfirmationEmail } = trpc.useMutation([
+    'emailRouter.sendMail',
+  ])
+  const router = useRouter()
+  const toast = useToast()
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
 
@@ -64,7 +64,7 @@ export const ParticipateForm = () => {
     formState: { errors },
     watch,
     control,
-    // reset,
+    reset,
   } = useForm<FormData>({
     resolver: zodResolver(validation),
     defaultValues: {
@@ -77,38 +77,37 @@ export const ParticipateForm = () => {
   const inputBg = useColorModeValue('initial', 'gray.800')
 
   function handleRegister(data: FormData) {
-    return data
     // disabled right now(code is working fine)
-    // registerMutation.mutate(data, {
-    //   onError: (err) => {
-    //     toast({
-    //       title: 'Erro.',
-    //       description:
-    //         'Erro ao registrar. Você está se registrando novamente sem querer?',
-    //       status: 'error',
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: 'top-right',
-    //     })
-    //     console.error({ err })
-    //   },
-    //   onSuccess: (data) => {
-    //     toast({
-    //       title: 'Registrado.',
-    //       description: 'Você foi registrado com sucesso!',
-    //       status: 'success',
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: 'top-right',
-    //     })
-    //     // sendConfirmationEmail({
-    //     //   email: data.email,
-    //     //   userId: data.id,
-    //     // })
-    //     router.push('/thankyou')
-    //     reset()
-    //   },
-    // })
+    registerMutation.mutate(data, {
+      onError: (err) => {
+        toast({
+          title: 'Erro.',
+          description:
+            'Erro ao registrar. Você está se registrando novamente sem querer?',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        })
+        console.error({ err })
+      },
+      onSuccess: (data) => {
+        toast({
+          title: 'Registrado.',
+          description: 'Você foi registrado com sucesso!',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+          position: 'top-right',
+        })
+        sendConfirmationEmail({
+          email: data.email,
+          userId: data.id,
+        })
+        router.push('/thankyou')
+        reset()
+      },
+    })
   }
 
   const notRequiredInputs = ['disabilities', 'previousKnowledge']
@@ -275,7 +274,7 @@ export const ParticipateForm = () => {
         _hover={{ bg: 'purple.500' }}
         bg={'purple.400'}
         // right now it's disabled because we don't have the terms of use
-        isDisabled={!hasAcceptedTerms || true}
+        isDisabled={!hasAcceptedTerms}
         _disabled={{
           bg: useColorModeValue('blackAlpha.300', 'whiteAlpha.200'),
           _hover: {

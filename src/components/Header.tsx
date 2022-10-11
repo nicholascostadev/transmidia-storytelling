@@ -99,6 +99,7 @@ export const Header = () => {
                   <Heading
                     as={'a'}
                     fontSize={['sm', 'sm', 'md', 'xl']}
+                    fontFamily="cursive"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"

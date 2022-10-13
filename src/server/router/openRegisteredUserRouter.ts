@@ -1,6 +1,6 @@
 import { createRouter } from './context'
 import z from 'zod'
-import { validation } from '../../types/formValidation'
+import { validation } from '../../../@types/formValidation'
 import { GENDER_OPTIONS } from '../../utils/formatters'
 
 export const openRegisteredUserRouter = createRouter()

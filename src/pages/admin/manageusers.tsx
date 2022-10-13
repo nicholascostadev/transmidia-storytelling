@@ -22,7 +22,7 @@ import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeade
 import { NotAllowed } from '../../components/NotAllowed'
 import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsersTable'
 import { Search } from '../../components/Search'
-import { TFilter } from '../../types/queryFilter'
+import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 

@@ -1,5 +1,5 @@
 import statesCities from '../utils/city-states.json'
-import { validation } from '../types/formValidation'
+import { validation } from '../../@types/formValidation'
 import {
   Button,
   Center,

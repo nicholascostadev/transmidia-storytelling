@@ -1,4 +1,4 @@
-import { TFilter } from '../types/queryFilter'
+import { TFilter } from '../../@types/queryFilter'
 
 export enum QueryAction {
   SET_QUERY = 'SET_QUERY',

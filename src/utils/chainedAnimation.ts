@@ -1,5 +1,5 @@
 /**
- * @param [durationInSeconds=2] - The duration of the animation in seconds, `defaults to 2s`.
+ * @param [durationInSeconds=2] - The duration of the animation in seconds.
  * @returns A simple container with staggered animation
  */
 export const generateContainer = (durationInSeconds = 2) => {

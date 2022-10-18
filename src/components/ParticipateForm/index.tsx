@@ -95,8 +95,6 @@ export const ParticipateForm = () => {
     setPossibleCities(result[0]?.cidades as string[])
   }, [currentState])
 
-  console.log(formStep)
-
   const handleNextStep = () => {
     if (formStep + 1 <= 2) setFormStep((prev) => prev + 1)
   }

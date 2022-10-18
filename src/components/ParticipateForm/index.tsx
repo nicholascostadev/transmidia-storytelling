@@ -47,6 +47,7 @@ export interface StatesAndCities {
   estados: Estado[]
 }
 
+const TOTAL_STEPS = 2
 const parsedStates = JSON.parse(JSON.stringify(statesCities))
   .estados as StatesAndCities['estados']
 
@@ -59,7 +60,7 @@ export const ParticipateForm = () => {
   // ])
   const totalSteps = 2
   const [formStep, setFormStep] = useState(1)
-  const isLastStep = formStep === totalSteps
+  const isLastStep = formStep === TOTAL_STEPS
   // const router = useRouter()
   // const toast = useToast()
   const [acceptedTerms, setAcceptedTerms] = useState(false)

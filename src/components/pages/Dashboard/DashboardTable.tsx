@@ -13,6 +13,7 @@ import {
   PopoverFooter,
   PopoverHeader,
   PopoverTrigger,
+  Portal,
   Table,
   TableContainer,
   Tbody,
@@ -49,6 +50,8 @@ export const DashboardTable = ({
   const toast = useToast()
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const [parent] = useAutoAnimate<HTMLTableSectionElement>()
+  const { mutate: toggleApproval, isLoading } = toggleApprovalMutation
+  const { mutate: deleteUser } = deleteUserMutation
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
     return () => {
@@ -65,7 +68,7 @@ export const DashboardTable = ({
         }),
       )
 
-      toggleApprovalMutation.mutate(
+      toggleApproval(
         { id: userId, approved: approvedStatus },
         {
           onError: () => {
@@ -108,7 +111,7 @@ export const DashboardTable = ({
   }
 
   function handleDeleteUser(id: string) {
-    deleteUserMutation.mutate(
+    deleteUser(
       { id },
       {
         onError: () => {
@@ -155,7 +158,7 @@ export const DashboardTable = ({
               <Td>
                 <Flex justify="start">
                   {formatApproval(user.approved)}
-                  <Popover closeOnBlur={false}>
+                  <Popover closeOnBlur={false} placement="end">
                     {({ onClose }) => (
                       <>
                         <PopoverTrigger>
@@ -171,46 +174,52 @@ export const DashboardTable = ({
                             Trocar
                           </IconButton>
                         </PopoverTrigger>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverCloseButton />
-                          <PopoverHeader>Confirmação</PopoverHeader>
-                          <PopoverBody>
-                            Tem certeza que deseja alterar o status
-                            <Text>
-                              do usuário para{' '}
-                              <Text as="span" color="red.500" fontWeight="bold">
-                                {formatApproval(!user.approved)}
+                        <Portal>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>Confirmação</PopoverHeader>
+                            <PopoverBody>
+                              Tem certeza que deseja alterar o status
+                              <Text>
+                                do usuário para{' '}
+                                <Text
+                                  as="span"
+                                  color="red.500"
+                                  fontWeight="bold"
+                                >
+                                  {formatApproval(!user.approved)}
+                                </Text>
+                                ?
                               </Text>
-                              ?
-                            </Text>
-                          </PopoverBody>
-                          <PopoverFooter
-                            display="flex"
-                            justifyContent="flex-end"
-                          >
-                            <ButtonGroup size="sm">
-                              <Button
-                                variant="outline"
-                                colorScheme="red"
-                                onClick={onClose}
-                              >
-                                Cancelar
-                              </Button>
-                              <Button
-                                leftIcon={<Check />}
-                                colorScheme="purple"
-                                onClick={handleToggleApproval(
-                                  user.id,
-                                  user.approved,
-                                )}
-                                isLoading={toggleApprovalMutation.isLoading}
-                              >
-                                Sim
-                              </Button>
-                            </ButtonGroup>
-                          </PopoverFooter>
-                        </PopoverContent>
+                            </PopoverBody>
+                            <PopoverFooter
+                              display="flex"
+                              justifyContent="flex-end"
+                            >
+                              <ButtonGroup size="sm">
+                                <Button
+                                  variant="outline"
+                                  colorScheme="red"
+                                  onClick={onClose}
+                                >
+                                  Cancelar
+                                </Button>
+                                <Button
+                                  leftIcon={<Check />}
+                                  colorScheme="purple"
+                                  onClick={handleToggleApproval(
+                                    user.id,
+                                    user.approved,
+                                  )}
+                                  isLoading={isLoading}
+                                >
+                                  Sim
+                                </Button>
+                              </ButtonGroup>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </Portal>
                       </>
                     )}
                   </Popover>
@@ -243,34 +252,39 @@ export const DashboardTable = ({
                           aria-label="Delete registered user"
                         />
                       </PopoverTrigger>
-                      <PopoverContent>
-                        <PopoverArrow />
-                        <PopoverCloseButton left="2" />
-                        <PopoverHeader>Confirmação</PopoverHeader>
-                        <PopoverBody color="red.500">
-                          Tem certeza que deseja remover o
-                          <Text> usuário da lista de inscritos?</Text>
-                        </PopoverBody>
-                        <PopoverFooter display="flex" justifyContent="flex-end">
-                          <ButtonGroup size="sm">
-                            <Button
-                              variant="outline"
-                              colorScheme="red"
-                              onClick={onClose}
-                            >
-                              Cancelar
-                            </Button>
-                            <Button
-                              leftIcon={<Check />}
-                              colorScheme="purple"
-                              onClick={() => handleDeleteUser(user.id)}
-                              isLoading={deleteUserMutation?.isLoading}
-                            >
-                              Sim
-                            </Button>
-                          </ButtonGroup>
-                        </PopoverFooter>
-                      </PopoverContent>
+                      <Portal>
+                        <PopoverContent>
+                          <PopoverArrow />
+                          <PopoverCloseButton />
+                          <PopoverHeader>Confirmação</PopoverHeader>
+                          <PopoverBody color="red.500">
+                            Tem certeza que deseja remover o
+                            <Text> usuário da lista de inscritos?</Text>
+                          </PopoverBody>
+                          <PopoverFooter
+                            display="flex"
+                            justifyContent="flex-end"
+                          >
+                            <ButtonGroup size="sm">
+                              <Button
+                                variant="outline"
+                                colorScheme="red"
+                                onClick={onClose}
+                              >
+                                Cancelar
+                              </Button>
+                              <Button
+                                leftIcon={<Check />}
+                                colorScheme="purple"
+                                onClick={() => handleDeleteUser(user.id)}
+                                isLoading={deleteUserMutation?.isLoading}
+                              >
+                                Sim
+                              </Button>
+                            </ButtonGroup>
+                          </PopoverFooter>
+                        </PopoverContent>
+                      </Portal>
                     </>
                   )}
                 </Popover>

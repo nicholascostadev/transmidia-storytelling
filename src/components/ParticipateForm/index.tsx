@@ -15,12 +15,12 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  useToast,
+  // useToast,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { CaretLeft, CaretRight } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -54,14 +54,14 @@ export const ParticipateForm = () => {
   const registerMutation = trpc.useMutation([
     'openRegisteredUser.register',
   ]) as any
-  const { mutate: sendConfirmationEmail } = trpc.useMutation([
-    'emailRouter.sendMail',
-  ])
+  // const { mutate: sendConfirmationEmail } = trpc.useMutation([
+  //   'emailRouter.sendMail',
+  // ])
   const totalSteps = 2
   const [formStep, setFormStep] = useState(1)
   const isLastStep = formStep === totalSteps
-  const router = useRouter()
-  const toast = useToast()
+  // const router = useRouter()
+  // const toast = useToast()
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
   const disabeldBg = useColorModeValue('blackAlpha.300', 'whiteAlpha.200')
@@ -72,7 +72,7 @@ export const ParticipateForm = () => {
     formState: { errors, isValid },
     watch,
     control,
-    reset,
+    // reset,
   } = useForm<FormData>({
     resolver: zodResolver(validation),
     defaultValues: {
@@ -104,37 +104,38 @@ export const ParticipateForm = () => {
   }
 
   function handleRegister(data: FormData) {
+    return data
     // disabled right now(code is working fine)
-    registerMutation.mutate(data, {
-      onError: (err: any) => {
-        toast({
-          title: 'Erro.',
-          description:
-            'Erro ao registrar. Você está se registrando novamente sem querer?',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        console.error({ err })
-      },
-      onSuccess: (data: any) => {
-        toast({
-          title: 'Registrado.',
-          description: 'Você foi registrado com sucesso!',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        sendConfirmationEmail({
-          email: data.email,
-          userId: data.id,
-        })
-        router.push('/thankyou')
-        reset()
-      },
-    })
+    // registerMutation.mutate(data, {
+    //   onError: (err: any) => {
+    //     toast({
+    //       title: 'Erro.',
+    //       description:
+    //         'Erro ao registrar. Você está se registrando novamente sem querer?',
+    //       status: 'error',
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: 'top-right',
+    //     })
+    //     console.error({ err })
+    //   },
+    //   onSuccess: (data: any) => {
+    //     toast({
+    //       title: 'Registrado.',
+    //       description: 'Você foi registrado com sucesso!',
+    //       status: 'success',
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: 'top-right',
+    //     })
+    //     sendConfirmationEmail({
+    //       email: data.email,
+    //       userId: data.id,
+    //     })
+    //     router.push('/thankyou')
+    //     reset()
+    //   },
+    // })
   }
 
   const formStepContainer = {
@@ -339,7 +340,7 @@ export const ParticipateForm = () => {
               _hover={{ bg: 'purple.500' }}
               bg={'purple.400'}
               // right now it's disabled because we don't have the terms of use
-              isDisabled={!acceptedTerms || !isValid}
+              isDisabled={!acceptedTerms || !isValid || true}
               _disabled={{
                 bg: disabeldBg,
                 _hover: {
@@ -379,6 +380,7 @@ export const ParticipateForm = () => {
               onClick={handleNextStep}
               isLoading={registerMutation.isLoading}
               rightIcon={<CaretRight />}
+              isDisabled={true}
             >
               Próximo
             </Button>

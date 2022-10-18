@@ -29,7 +29,7 @@ export const Explanation = () => {
         position="relative"
         textAlign={['center', 'left']}
         p={'2'}
-        w="1300px"
+        w="1500px"
         minH="100vh"
         maxW="100%"
         mx="auto"

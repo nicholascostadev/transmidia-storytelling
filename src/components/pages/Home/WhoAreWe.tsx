@@ -1,36 +1,12 @@
 import { Avatar, Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import { generateContainer, item } from '../../../utils/chainedAnimation'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const WhoAreWe = () => {
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  /**
-   * Changes the direction of the animation depending on the param
-   * @param {'to-right' | 'to-left'} direction - 'to-right' | 'to-left'
-   * @returns What is necessary for framer-motion animation work
-   */
-  const item = (direction: 'to-right' | 'to-left') => {
-    if (direction === 'to-left') {
-      return {
-        hidden: { opacity: 0, x: '200px', transitionDuration: '2s' },
-        show: { opacity: 1, x: 0 },
-      }
-    }
-
-    return {
-      hidden: { opacity: 0, x: '-400px', transitionDuration: '1s' },
-      show: { opacity: 1, x: 0 },
-    }
-  }
+  const container = generateContainer(0)
+  const itemToRight = item('to-right')
+  const itemToLeft = item('to-left')
 
   return (
     <Flex
@@ -41,9 +17,8 @@ export const WhoAreWe = () => {
       justify="center"
       alignItems="center"
       pos="relative"
-      px={['6', '0']}
       pt={['40', '40', '20']}
-      pb={['0', '0', '20']}
+      pb={['10', '10', '20']}
       textAlign={['center', 'center', 'left']}
     >
       <motion.div
@@ -63,6 +38,7 @@ export const WhoAreWe = () => {
           top: 240,
           right: 160,
           zIndex: 0,
+          margin: '0 auto',
         }}
       >
         <ChakraCustomImage
@@ -170,7 +146,7 @@ export const WhoAreWe = () => {
               alignItems="center"
               flexDir="column"
               as={motion.div}
-              variants={item('to-right')}
+              variants={itemToRight}
             >
               <Avatar size="2xl" />
               <Text textAlign="center">Luiz</Text>
@@ -184,7 +160,7 @@ export const WhoAreWe = () => {
               alignItems="center"
               flexDir="column"
               as={motion.div}
-              variants={item('to-right')}
+              variants={itemToRight}
             >
               <Avatar size="2xl" />
               <Text textAlign="center">Raphael</Text>
@@ -256,7 +232,7 @@ export const WhoAreWe = () => {
               direction={['row', 'row', 'column']}
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
-              variants={item('to-left')}
+              variants={itemToLeft}
             >
               <Box
                 display="flex"
@@ -290,7 +266,7 @@ export const WhoAreWe = () => {
               direction={['row', 'row', 'column']}
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
-              variants={item('to-left')}
+              variants={itemToLeft}
             >
               <Box
                 display="flex"
@@ -327,7 +303,7 @@ export const WhoAreWe = () => {
               direction={['row', 'row', 'column']}
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
-              variants={item('to-left')}
+              variants={itemToLeft}
             >
               <Box
                 display="flex"
@@ -361,7 +337,7 @@ export const WhoAreWe = () => {
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
               as={motion.div}
-              variants={item('to-left')}
+              variants={itemToLeft}
             >
               <Box
                 display="flex"

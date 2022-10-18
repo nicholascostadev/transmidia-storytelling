@@ -1,40 +1,22 @@
 import { Center, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { textGradientWithDir } from '../../../styles/global'
+import { generateContainer, item } from '../../../utils/chainedAnimation'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 
 export const Motivation = () => {
-  const container = {
-    hidden: { opacity: 0, transitionDuration: '2s' },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  }
-
-  const item = (direction: 'to-right' | 'to-left') => {
-    if (direction === 'to-left') {
-      return {
-        hidden: { opacity: 0, x: '200px', transitionDuration: '2s' },
-        show: { opacity: 1, x: 0 },
-      }
-    }
-
-    return {
-      hidden: { opacity: 0, x: '-400px', transitionDuration: '2s' },
-      show: { opacity: 1, x: 0 },
-    }
-  }
+  const container = generateContainer()
+  const itemToRight = item('to-right')
+  const itemToLeft = item('to-left')
   return (
     <Flex
       position="relative"
       textAlign={['center', 'left']}
       mt={'60!'}
       minH="80vh"
-      maxW="1200px"
-      px={['6', '0']}
+      w="1500px"
+      maxW="full"
+      px="6"
       mx="auto"
       align="start"
       justify="center"
@@ -59,10 +41,10 @@ export const Motivation = () => {
           spacing="1rem"
           viewport={{ once: true }}
         >
-          <Heading as={motion.h1} variants={item('to-right')}>
+          <Heading as={motion.h1} variants={itemToRight}>
             Nossa motivação
           </Heading>
-          <Stack spacing="1rem" as={motion.div} variants={item('to-right')}>
+          <Stack spacing="1rem" as={motion.div} variants={itemToRight}>
             <Text>
               A divulgação científica sempre foi um problema para a comunidade
               de pesquisadores e cientistas, encontrar uma maneira de divulgar
@@ -117,7 +99,7 @@ export const Motivation = () => {
         <Center
           alignItems="center"
           justifyContent="center"
-          variants={item('to-left')}
+          variants={itemToLeft}
           as={motion.div}
           minH="400px"
         >
@@ -126,7 +108,7 @@ export const Motivation = () => {
             width={600}
             height={400}
             src="/images/readbooks.svg"
-            alt="Person with social media icons around"
+            alt="Person 500pxwith social media icons around"
           />
         </Center>
       </Grid>

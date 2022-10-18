@@ -14,7 +14,7 @@ import {
 import { useRouter } from 'next/router'
 import { MagnifyingGlass } from 'phosphor-react'
 
-import type { TFilter } from '../types/queryFilter'
+import type { TFilter } from '../../@types/queryFilter'
 
 interface SearchProps {
   currentQuery: string

@@ -48,6 +48,7 @@ export interface StatesAndCities {
 }
 
 const TOTAL_STEPS = 2
+
 const parsedStates = JSON.parse(JSON.stringify(statesCities))
   .estados as StatesAndCities['estados']
 
@@ -58,7 +59,6 @@ export const ParticipateForm = () => {
   // const { mutate: sendConfirmationEmail } = trpc.useMutation([
   //   'emailRouter.sendMail',
   // ])
-  const totalSteps = 2
   const [formStep, setFormStep] = useState(1)
   const isLastStep = formStep === TOTAL_STEPS
   // const router = useRouter()
@@ -106,7 +106,9 @@ export const ParticipateForm = () => {
 
   function handleRegister(data: FormData) {
     return data
-    // disabled right now(code is working fine)
+    // disabled right now(code is working fine) since it's not supposed
+    // to be launched now
+
     // registerMutation.mutate(data, {
     //   onError: (err: any) => {
     //     toast({

@@ -1,11 +1,11 @@
 import { Box, Grid } from '@chakra-ui/react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { ParticipateForm } from '../components/ParticipateForm'
 import { ChakraCustomImage } from '../components/ChakraCustomImage'
 import { bgGradientWithDir } from '../styles/global'
 import Head from 'next/head'
 import { ContactWidget } from '../components/ContactWidget'
+import { ParticipateForm } from '../components/ParticipateForm'
 
 export const Participate = () => {
   return (
@@ -14,7 +14,10 @@ export const Participate = () => {
         <title>TST | Participar</title>
       </Head>
       <Header />
-      <Box bgGradient={bgGradientWithDir('to-tr', 400, 600)}>
+      <Box
+        bgGradient={bgGradientWithDir('to-tr', 400, 600)}
+        minH="calc(100vh - 64px)"
+      >
         <Box pb={8}>
           <ChakraCustomImage
             src="/images/teaching.svg"
@@ -23,7 +26,7 @@ export const Participate = () => {
             w={['20', '20', '550px', '600px', '650px', '100%']}
             display={['none', 'none', 'flex', 'flex', 'flex']}
             position="absolute"
-            top="200"
+            top="0"
             left="0"
             alt=""
             zIndex={1}

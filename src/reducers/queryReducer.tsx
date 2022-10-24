@@ -18,7 +18,7 @@ export const initialState: State = {
   query: '',
   filter: {
     field: 'email',
-    approval: undefined as undefined | boolean,
+    approval: undefined,
   },
 }
 export const filterReducer = (state: State, action: Action): State => {

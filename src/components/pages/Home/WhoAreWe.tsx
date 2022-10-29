@@ -270,7 +270,7 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" src={`${teamImagesDir}/gabiSoares.JPG`} />
+                <Avatar size="2xl" src={`${teamImagesDir}/gabiSoares.jpg`} />
                 <Text textAlign="center">Gabrielle Soares</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
                   Cursando Biomedicina.
@@ -309,7 +309,7 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" src={`${teamImagesDir}/nicholas.png`} />
+                <Avatar size="2xl" src={`${teamImagesDir}/nicholas.jpeg`} />
                 <Text textAlign="center">Nicholas Costa</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
                   Cursando Ciência da Computação.
@@ -370,7 +370,7 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" src={`${teamImagesDir}/danielG.png`} />
+                <Avatar size="2xl" src={`${teamImagesDir}/danielG.jpeg`} />
                 <Text textAlign="center">Daniel Gullo</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
                   Cursando Biomedicina.

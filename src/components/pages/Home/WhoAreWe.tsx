@@ -261,6 +261,7 @@ export const WhoAreWe = () => {
               spacing={['4', '4', '10']}
               variants={itemToLeft}
               h="full"
+              w="full"
               flex="1"
             >
               <Box

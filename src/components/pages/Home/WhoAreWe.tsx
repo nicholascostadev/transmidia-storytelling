@@ -1,7 +1,19 @@
-import { Avatar, Box, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Stack,
+  Text,
+  Tooltip,
+} from '@chakra-ui/react'
 import { motion } from 'framer-motion'
+import { Info } from 'phosphor-react'
 import { generateContainer, item } from '../../../utils/chainedAnimation'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
+
+const teamImagesDir = '/images/teamImages'
 
 export const WhoAreWe = () => {
   const container = generateContainer(0)
@@ -106,7 +118,7 @@ export const WhoAreWe = () => {
       <Flex
         flexDirection="column"
         gap="20"
-        w="1300px"
+        w="1900px"
         maxW="full"
         mx="auto"
         zIndex={100}
@@ -115,7 +127,7 @@ export const WhoAreWe = () => {
           as={motion.h1}
           textAlign="center"
           fontSize={['3xl', '7xl']}
-          mb="16"
+          mb={['0', '0', '16']}
           whileInView={{
             scale: 1,
             opacity: 1,
@@ -138,39 +150,53 @@ export const WhoAreWe = () => {
             whileInView="show"
             viewport={{ once: true }}
             direction="row"
-            justify="center"
+            alignItems="start"
           >
-            <Box
+            <Stack
               display="flex"
+              flex="1"
               justifyContent="center"
               alignItems="center"
               flexDir="column"
               as={motion.div}
               variants={itemToRight}
             >
-              <Avatar size="2xl" />
-              <Text textAlign="center">Luiz</Text>
-              <Text fontSize="xs" textAlign="center" color="gray.200">
-                Formado em ... pela ...
-              </Text>
-            </Box>
-            <Box
-              display="flex"
+              <Avatar size="2xl" src={`${teamImagesDir}/luiz.jpeg`} />
+              <Box>
+                <Text textAlign="center">
+                  Luiz Guilherme Hendrischky, Ph.D.
+                </Text>
+                <Text fontSize="xs" textAlign="center" color="gray.200">
+                  Biomédico, Especialista em Hematologia e Doutor em Ciências
+                  Médicas (Neurociências). Atualmente é Professor e Pesquisador
+                  do Centro Universitário IBMR.
+                </Text>
+              </Box>
+            </Stack>
+            <Stack
               justifyContent="center"
+              display="flex"
+              flex="1"
               alignItems="center"
               flexDir="column"
               as={motion.div}
               variants={itemToRight}
             >
-              <Avatar size="2xl" />
-              <Text textAlign="center">Raphael</Text>
-              <Text fontSize="xs" textAlign="center" color="gray.200">
-                Formado em ... pela ...
-              </Text>
-            </Box>
+              <Avatar size="2xl" src={`${teamImagesDir}/raphael.jpeg`} />
+              <Box>
+                <Text textAlign="center">Raphael</Text>
+                <Text fontSize="xs" textAlign="center" color="gray.200">
+                  Biomédico, habilitado em imunologia, saúde pública e
+                  virologia. Mba em liderança, inovação e gestao 4.0 PUC. Mestre
+                  em ciências biomédicas. Coordenador e professor no Centro
+                  Universitário Ibmr.
+                </Text>
+              </Box>
+            </Stack>
           </Stack>
           <Stack
             as={motion.div}
+            mt={['16', '0', '0']}
             initial={{
               opacity: 0,
               scale: 0.8,
@@ -213,7 +239,7 @@ export const WhoAreWe = () => {
           >
             <Heading>Pesquisadores</Heading>
             <Text>
-              Um time de 8 pesquisadores extraordinários, não com apenas a
+              Um time de 10 pesquisadores extraordinários, não com apenas a
               ambição de aprender, mas sim de mudar o mundo para melhor. Esse é
               o primeiro passo para realizarmos nosso sonho.
             </Text>
@@ -223,6 +249,7 @@ export const WhoAreWe = () => {
             gap="10px"
             variants={container}
             direction={['column', 'column', 'row']}
+            alignItems="flex-start"
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
@@ -233,6 +260,8 @@ export const WhoAreWe = () => {
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
               variants={itemToLeft}
+              h="full"
+              flex="1"
             >
               <Box
                 display="flex"
@@ -241,10 +270,10 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Gabrielle</Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/gabiSoares.JPG`} />
+                <Text textAlign="center">Gabrielle Soares</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Cursando Biomedicina.
                 </Text>
               </Box>
               <Box
@@ -254,10 +283,10 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Gabriela</Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/gabiOliveira.jpg`} />
+                <Text textAlign="center">Gabriela Oliveira</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Estudante de Biomedicina.
                 </Text>
               </Box>
             </Stack>
@@ -265,8 +294,13 @@ export const WhoAreWe = () => {
               as={motion.div}
               direction={['row', 'row', 'column']}
               justify={['center', 'center', 'start']}
+              alignItems={['start', 'start', 'center']}
               spacing={['4', '4', '10']}
               variants={itemToLeft}
+              h="full"
+              w="full"
+              flex="1"
+              mt={['0', '0', '2']}
             >
               <Box
                 display="flex"
@@ -275,13 +309,10 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar
-                  size="2xl"
-                  src="https://github.com/nicholascostadev.png"
-                />
+                <Avatar size="2xl" src={`${teamImagesDir}/nicholas.png`} />
                 <Text textAlign="center">Nicholas Costa</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de Ciência da Computação
+                  Cursando Ciência da Computação.
                 </Text>
               </Box>
               <Box
@@ -291,10 +322,21 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Ursula</Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/ursula.jpeg`} />
+                <Flex alignItems="center" gap="1">
+                  <Text textAlign="center">Ursula</Text>
+                  <Tooltip
+                    label="Especialista em marketing e gestão de negócios, cursando Biomedicina."
+                    hasArrow
+                    rounded="md"
+                  >
+                    <span>
+                      <Info size={20} />
+                    </span>
+                  </Tooltip>
+                </Flex>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Formada em Marketing e cursando Biomedicina.
                 </Text>
               </Box>
             </Stack>
@@ -304,6 +346,9 @@ export const WhoAreWe = () => {
               justify={['center', 'center', 'start']}
               spacing={['4', '4', '10']}
               variants={itemToLeft}
+              h="full"
+              w="full"
+              flex="1"
             >
               <Box
                 display="flex"
@@ -312,10 +357,10 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
+                <Avatar size="2xl" src={`${teamImagesDir}/karen.jpeg`} />
                 <Text textAlign="center">Karen Miranda</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Cursando Biomedicina.
                 </Text>
               </Box>
               <Box
@@ -325,10 +370,10 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Daniel</Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/danielG.png`} />
+                <Text textAlign="center">Daniel Gullo</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Cursando Biomedicina.
                 </Text>
               </Box>
             </Stack>
@@ -338,6 +383,10 @@ export const WhoAreWe = () => {
               spacing={['4', '4', '10']}
               as={motion.div}
               variants={itemToLeft}
+              h="full"
+              w="full"
+              flex="1"
+              mt="2"
             >
               <Box
                 display="flex"
@@ -346,10 +395,20 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Juliana</Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/stephanie.jpeg`} />
+                <Flex alignItems="center" gap="1">
+                  <Text textAlign="center">Stêphanie Elaxias</Text>
+                  <Tooltip
+                    rounded="md"
+                    label="Cursando Biomedicina, formada em Letras PT/Espanhol."
+                  >
+                    <span>
+                      <Info size={20} />
+                    </span>
+                  </Tooltip>
+                </Flex>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
+                  Cursando Biomedicina e formada em Letras.
                 </Text>
               </Box>
               <Box
@@ -359,11 +418,13 @@ export const WhoAreWe = () => {
                 flexDir="column"
                 flex="1"
               >
-                <Avatar size="2xl" />
-                <Text textAlign="center">Luísa</Text>
-                <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de ...
-                </Text>
+                <Avatar size="2xl" src={`${teamImagesDir}/luisa.jpg`} />
+                <Text textAlign="center">Luísa Cascardo</Text>
+                <Stack>
+                  <Text fontSize="xs" textAlign="center" color="gray.200">
+                    Cursando Biomedicina e Biologia.
+                  </Text>
+                </Stack>
               </Box>
             </Stack>
           </Flex>

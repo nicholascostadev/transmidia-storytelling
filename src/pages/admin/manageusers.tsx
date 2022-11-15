@@ -79,6 +79,8 @@ export default function ManageUsers() {
   // debounce effect when searching
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
+      if (router.query.q === query) return
+
       router.push(
         {
           query: {

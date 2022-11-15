@@ -19,12 +19,18 @@ import { DashboardMobileNavContent } from './DashboardMobileNavContent'
 import NextLink from 'next/link'
 import { Sun, Moon, List } from 'phosphor-react'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
+import {
+  canSeeDashboard,
+  TUserPossiblePermissions,
+} from '@root/pages/admin/manageusers'
 
 export const DashboardHeader = ({
-  hasPermission,
+  permission,
 }: {
-  hasPermission: boolean
+  permission: string | undefined
 }) => {
+  console.log({ permission })
+
   const mobileNav = useDisclosure()
   const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
@@ -33,6 +39,8 @@ export const DashboardHeader = ({
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const shadow = useColorModeValue('sm', 'none')
   const SwitchIcon = useColorModeValue(Moon, Sun)
+
+  const hasPermission = canSeeDashboard(permission as TUserPossiblePermissions)
 
   return (
     <Box pos="relative">
@@ -106,9 +114,11 @@ export const DashboardHeader = ({
                   <NextLink href="/admin/dashboard" passHref>
                     <Button as="a">Dashboard</Button>
                   </NextLink>
-                  <NextLink href="/admin/manageusers" passHref>
-                    <Button as="a">Gerenciar</Button>
-                  </NextLink>
+                  {permission === 'admin' && (
+                    <NextLink href="/admin/manageusers" passHref>
+                      <Button as="a">Gerenciar</Button>
+                    </NextLink>
+                  )}
                   <Center>
                     <Divider orientation="vertical" h="35px" />
                   </Center>

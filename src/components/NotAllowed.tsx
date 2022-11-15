@@ -15,8 +15,8 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
-export const NotAllowed = () => {
+import { CaretLeft, CaretRight, List, Moon, SignOut, Sun } from 'phosphor-react'
+export const NotAllowed = ({ isModerator }: { isModerator: boolean }) => {
   const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()
   const SwitchIcon = useColorModeValue(Moon, Sun)
@@ -108,15 +108,30 @@ export const NotAllowed = () => {
           <Text fontSize="xl" color="red.400">
             Você não tem permissões para acessar essa página
           </Text>
-          <Link href="/" passHref>
-            <ChakraLink
-              display="flex"
-              justifyContent="start"
-              alignItems="center"
-            >
-              <CaretLeft /> Voltar à página inicial
-            </ChakraLink>
-          </Link>
+          {isModerator ? (
+            <Link href="/admin/dashboard" passHref>
+              <ChakraLink
+                display="flex"
+                justifyContent="start"
+                alignItems="center"
+                _hover={{
+                  color: 'purple.400',
+                }}
+              >
+                Ir para o Dashboard <CaretRight />
+              </ChakraLink>
+            </Link>
+          ) : (
+            <Link href="/" passHref>
+              <ChakraLink
+                display="flex"
+                justifyContent="start"
+                alignItems="center"
+              >
+                <CaretLeft /> Voltar à página inicial
+              </ChakraLink>
+            </Link>
+          )}
         </Stack>
       </Center>
     </>

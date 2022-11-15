@@ -27,6 +27,9 @@ import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 
 export type TUserPossiblePermissions = 'admin' | 'moderator' | 'none'
+export const canSeeDashboard = (
+  permission: TUserPossiblePermissions,
+): boolean => permission === 'admin' || permission === 'moderator'
 
 export default function ManageUsers() {
   const { data, status } = useSession()
@@ -105,11 +108,14 @@ export default function ManageUsers() {
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
+  // only admins can manage users permissions for security reasons
   if (
     (userInfo.data?.permission !== 'admin' && status !== 'loading') ||
     (!data && status !== 'loading')
   ) {
-    return <NotAllowed />
+    return (
+      <NotAllowed isModerator={userInfo.data?.permission === 'moderator'} />
+    )
   }
 
   function handleQueryChange(newQuery: string) {
@@ -130,7 +136,7 @@ export default function ManageUsers() {
 
   return (
     <>
-      <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
+      <DashboardHeader permission={userInfo.data?.permission} />
       <Center
         minH="calc(100vh - 72px)"
         display="flex"

@@ -32,6 +32,7 @@ import {
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
+import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
 
 export default function Dashboard() {
   const { data, status } = useSession()
@@ -173,10 +174,12 @@ export default function Dashboard() {
   }
 
   if (
-    (userInfo.data?.permission !== 'admin' && status === 'authenticated') ||
+    !canSeeDashboard(userInfo.data?.permission as TUserPossiblePermissions) ||
     status === 'unauthenticated'
   ) {
-    return <NotAllowed />
+    return (
+      <NotAllowed isModerator={userInfo.data?.permission === 'moderator'} />
+    )
   }
 
   if (status === 'loading') {
@@ -189,7 +192,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <DashboardHeader hasPermission={userInfo.data?.permission === 'admin'} />
+      <DashboardHeader permission={userInfo.data?.permission} />
       <Center
         minH="calc(100vh - 72px)"
         display="flex"
@@ -215,6 +218,7 @@ export default function Dashboard() {
               toggleApprovalMutation={toggleApprovalMutation}
               usersToShow={usersToShow}
               deleteUserMutation={deleteUserMutation}
+              isAdmin={userInfo.data?.permission === 'admin'}
             />
           </Box>
         </Stack>{' '}

@@ -32,9 +32,14 @@ import { trpc } from '../../../utils/trpc'
 interface UserTableProps {
   userInfo: RegisteredUser
   setUserInfo: Dispatch<SetStateAction<RegisteredUser | null>>
+  isAdmin: boolean
 }
 
-export const UserTable = ({ userInfo, setUserInfo }: UserTableProps) => {
+export const UserTable = ({
+  userInfo,
+  setUserInfo,
+  isAdmin,
+}: UserTableProps) => {
   const toast = useToast()
 
   const toggleApprovalMutation = trpc.useMutation([
@@ -46,6 +51,8 @@ export const UserTable = ({ userInfo, setUserInfo }: UserTableProps) => {
   const shadow = useColorModeValue('sm', 'none')
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
+    if (!isAdmin) return
+
     setUserInfo((oldUserInfo) => {
       if (oldUserInfo) {
         return {
@@ -136,72 +143,74 @@ export const UserTable = ({ userInfo, setUserInfo }: UserTableProps) => {
                         justify="space-between"
                       >
                         <Text>{formatApproval(userInfo[key])}</Text>
-                        <Popover closeOnBlur={false} placement="top">
-                          {({ onClose }) => (
-                            <>
-                              <PopoverTrigger>
-                                <IconButton
-                                  variant="ghost"
-                                  icon={<PencilLine />}
-                                  colorScheme="pink"
-                                  aria-label="Change user's approval status"
-                                >
-                                  Trocar
-                                </IconButton>
-                              </PopoverTrigger>
-                              <PopoverContent>
-                                <PopoverArrow />
-                                <PopoverCloseButton />
-                                <PopoverHeader>Confirmação</PopoverHeader>
-                                <PopoverBody>
-                                  Tem certeza que deseja alterar o status
-                                  <Text>
-                                    {' '}
-                                    do usuário para
-                                    <Text
-                                      as="span"
-                                      color="red.500"
-                                      fontWeight="bold"
-                                    >
+                        {isAdmin && (
+                          <Popover closeOnBlur={false} placement="top">
+                            {({ onClose }) => (
+                              <>
+                                <PopoverTrigger>
+                                  <IconButton
+                                    variant="ghost"
+                                    icon={<PencilLine />}
+                                    colorScheme="pink"
+                                    aria-label="Change user's approval status"
+                                  >
+                                    Trocar
+                                  </IconButton>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                  <PopoverArrow />
+                                  <PopoverCloseButton />
+                                  <PopoverHeader>Confirmação</PopoverHeader>
+                                  <PopoverBody>
+                                    Tem certeza que deseja alterar o status
+                                    <Text>
                                       {' '}
-                                      {formatApproval(!userInfo[key])}
+                                      do usuário para
+                                      <Text
+                                        as="span"
+                                        color="red.500"
+                                        fontWeight="bold"
+                                      >
+                                        {' '}
+                                        {formatApproval(!userInfo[key])}
+                                      </Text>
+                                      ?
                                     </Text>
-                                    ?
-                                  </Text>
-                                </PopoverBody>
-                                <PopoverFooter
-                                  display="flex"
-                                  justifyContent="flex-end"
-                                >
-                                  <ButtonGroup size="sm">
-                                    <Button
-                                      variant="outline"
-                                      colorScheme="red"
-                                      onClick={onClose}
-                                    >
-                                      Cancelar
-                                    </Button>
-                                    <Button
-                                      leftIcon={<Check />}
-                                      colorScheme="purple"
-                                      onClick={() =>
-                                        handleToggleApproval(
-                                          userInfo.id,
-                                          userInfo.approved,
-                                        )
-                                      }
-                                      isLoading={
-                                        toggleApprovalMutation.isLoading
-                                      }
-                                    >
-                                      Sim
-                                    </Button>
-                                  </ButtonGroup>
-                                </PopoverFooter>
-                              </PopoverContent>
-                            </>
-                          )}
-                        </Popover>
+                                  </PopoverBody>
+                                  <PopoverFooter
+                                    display="flex"
+                                    justifyContent="flex-end"
+                                  >
+                                    <ButtonGroup size="sm">
+                                      <Button
+                                        variant="outline"
+                                        colorScheme="red"
+                                        onClick={onClose}
+                                      >
+                                        Cancelar
+                                      </Button>
+                                      <Button
+                                        leftIcon={<Check />}
+                                        colorScheme="purple"
+                                        onClick={() =>
+                                          handleToggleApproval(
+                                            userInfo.id,
+                                            userInfo.approved,
+                                          )
+                                        }
+                                        isLoading={
+                                          toggleApprovalMutation.isLoading
+                                        }
+                                      >
+                                        Sim
+                                      </Button>
+                                    </ButtonGroup>
+                                  </PopoverFooter>
+                                </PopoverContent>
+                              </>
+                            )}
+                          </Popover>
+                        )}
                       </Flex>
                     </Td>
                   </Tr>

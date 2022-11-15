@@ -20,6 +20,7 @@ import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
 import { UserTable } from '../../../components/pages/userCPF/UserTable'
 import { trpc } from '../../../utils/trpc'
+import { canSeeDashboard, TUserPossiblePermissions } from '../manageusers'
 
 export default function Answers() {
   const { query } = useRouter()
@@ -39,7 +40,6 @@ export default function Answers() {
 
     { id: String(data?.user?.id) },
   ])
-  const hasPermission = loggedUserInfo.data?.permission === 'admin'
 
   const deleteUserMutation = trpc.useMutation([
     'protectedRegisteredUser.deleteUser',
@@ -55,10 +55,17 @@ export default function Answers() {
   )
 
   if (
-    (loggedUserInfo.data?.permission !== 'admin' && status !== 'loading') ||
+    (!canSeeDashboard(
+      loggedUserInfo.data?.permission as TUserPossiblePermissions,
+    ) &&
+      status !== 'loading') ||
     (!data && status !== 'loading')
   ) {
-    return <NotAllowed />
+    return (
+      <NotAllowed
+        isModerator={loggedUserInfo.data?.permission === 'moderator'}
+      />
+    )
   }
 
   if (error && error.message !== 'UNAUTHORIZED') {
@@ -109,7 +116,7 @@ export default function Answers() {
   if (!userInfo) {
     return (
       <>
-        <DashboardHeader hasPermission={hasPermission} />
+        <DashboardHeader permission={loggedUserInfo.data?.permission} />
         <Center flexDir="column" h="calc(100vh - 72px)">
           <Text color="red.500">Usuário não encontrado</Text>
           <Text
@@ -131,7 +138,7 @@ export default function Answers() {
 
   return (
     <>
-      <DashboardHeader hasPermission={hasPermission} />
+      <DashboardHeader permission={loggedUserInfo.data?.permission} />
       <Center
         display="flex"
         flexDirection="column"
@@ -168,6 +175,7 @@ export default function Answers() {
         <UserTable
           setUserInfo={setUserInfo}
           userInfo={userInfo as RegisteredUser}
+          isAdmin={loggedUserInfo.data?.permission === 'admin'}
         />
       </Center>
     </>

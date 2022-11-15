@@ -26,7 +26,7 @@ import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 
-export type TUserPossiblePermissions = 'admin' | 'none'
+export type TUserPossiblePermissions = 'admin' | 'moderator' | 'none'
 
 export default function ManageUsers() {
   const { data, status } = useSession()

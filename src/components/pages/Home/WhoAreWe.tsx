@@ -287,7 +287,7 @@ export const WhoAreWe = () => {
                 <Avatar size="2xl" src={`${teamImagesDir}/gabiOliveira.jpg`} />
                 <Text textAlign="center">Gabriela Oliveira</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
-                  Estudante de Biomedicina.
+                  Cursando Biomedicina.
                 </Text>
               </Box>
             </Stack>

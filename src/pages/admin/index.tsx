@@ -19,6 +19,7 @@ import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { trpc } from '../../utils/trpc'
+import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
 
 const signInSchema = z.object({
   username: z
@@ -56,14 +57,16 @@ export default function AdminSignIn() {
   }
 
   useEffect(() => {
-    if (userInfo.data?.permission === 'admin') {
+    if (
+      canSeeDashboard(userInfo.data?.permission as TUserPossiblePermissions)
+    ) {
       router.push('/admin/dashboard')
     }
   }, [router, userInfo.data?.permission])
 
   return (
     <>
-      <DashboardHeader hasPermission={userInfo?.data?.permission === 'admin'} />
+      <DashboardHeader permission={userInfo.data?.permission} />
       <Center height="calc(100vh - 72px)">
         <Stack
           as="form"

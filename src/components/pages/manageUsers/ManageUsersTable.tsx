@@ -138,6 +138,7 @@ export const ManageUsersTable = ({
                   }
                 >
                   <option value="none">Nenhuma</option>
+                  <option value="moderator">Moderador</option>
                   <option value="admin">Administrador</option>
                 </Select>
               </Td>

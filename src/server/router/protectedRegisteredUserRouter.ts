@@ -1,8 +1,8 @@
-import { createProtectedRouter } from './context'
 import z from 'zod'
 import { RegisteredUser } from '@prisma/client'
+import { createModeratorRouter } from './moderatorMiddleware'
 
-export const protectedRegisteredUserRouter = createProtectedRouter()
+export const protectedRegisteredUserRouter = createModeratorRouter()
   .query('getAllRegisteredUsers', {
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),

@@ -1,9 +1,9 @@
-import { createProtectedRouter } from './context'
 import z from 'zod'
 import { User } from '@prisma/client'
+import { createModeratorRouter } from './moderatorMiddleware'
 
 // Example router with queries that can only be hit if the user requesting is signed in
-export const protectedUserRouter = createProtectedRouter()
+export const protectedUserRouter = createModeratorRouter()
   .query('getInfiniteUsers', {
     input: z.object({
       limit: z.number().min(1).max(100).nullish(),
@@ -49,7 +49,7 @@ export const protectedUserRouter = createProtectedRouter()
   .mutation('changeUserPermission', {
     input: z.object({
       id: z.string(),
-      newPermission: z.enum(['admin', 'none']),
+      newPermission: z.enum(['admin', 'moderator', 'none']),
     }),
     async resolve({ input, ctx }) {
       return await ctx.prisma.user.update({

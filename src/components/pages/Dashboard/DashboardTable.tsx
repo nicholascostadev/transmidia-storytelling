@@ -39,6 +39,7 @@ interface DashboardTableProps {
   setUsersToShow: Dispatch<SetStateAction<RegisteredUser[]>>
   deleteUserMutation: any
   toggleApprovalMutation: any
+  isAdmin: boolean
 }
 
 export const DashboardTable = ({
@@ -46,6 +47,7 @@ export const DashboardTable = ({
   setUsersToShow,
   toggleApprovalMutation,
   deleteUserMutation,
+  isAdmin,
 }: DashboardTableProps) => {
   const toast = useToast()
   const backgroundColor = useColorModeValue('white', 'gray.900')
@@ -148,7 +150,7 @@ export const DashboardTable = ({
             <Th>Status de aprovação</Th>
             <Th>Respostas</Th>
             <Th>Data de Registro</Th>
-            <Th isNumeric></Th>
+            {isAdmin && <Th isNumeric></Th>}
           </Tr>
         </Thead>
         <Tbody ref={parent}>
@@ -238,57 +240,59 @@ export const DashboardTable = ({
                 </Link>
               </Td>
               <Td>{format(user?.created_at, 'Pp', { locale: ptBR })}</Td>
-              <Td isNumeric>
-                <Popover closeOnBlur={false} placement="start">
-                  {({ onClose }) => (
-                    <>
-                      <PopoverTrigger>
-                        <IconButton
-                          icon={<Trash size={20} />}
-                          variant="unstyled"
-                          _hover={{
-                            color: 'red.500',
-                          }}
-                          aria-label="Delete registered user"
-                        />
-                      </PopoverTrigger>
-                      <Portal>
-                        <PopoverContent>
-                          <PopoverArrow />
-                          <PopoverCloseButton />
-                          <PopoverHeader>Confirmação</PopoverHeader>
-                          <PopoverBody color="red.500">
-                            Tem certeza que deseja remover o
-                            <Text> usuário da lista de inscritos?</Text>
-                          </PopoverBody>
-                          <PopoverFooter
-                            display="flex"
-                            justifyContent="flex-end"
-                          >
-                            <ButtonGroup size="sm">
-                              <Button
-                                variant="outline"
-                                colorScheme="red"
-                                onClick={onClose}
-                              >
-                                Cancelar
-                              </Button>
-                              <Button
-                                leftIcon={<Check />}
-                                colorScheme="purple"
-                                onClick={() => handleDeleteUser(user.id)}
-                                isLoading={deleteUserMutation?.isLoading}
-                              >
-                                Sim
-                              </Button>
-                            </ButtonGroup>
-                          </PopoverFooter>
-                        </PopoverContent>
-                      </Portal>
-                    </>
-                  )}
-                </Popover>
-              </Td>
+              {isAdmin && (
+                <Td isNumeric>
+                  <Popover closeOnBlur={false} placement="start">
+                    {({ onClose }) => (
+                      <>
+                        <PopoverTrigger>
+                          <IconButton
+                            icon={<Trash size={20} />}
+                            variant="unstyled"
+                            _hover={{
+                              color: 'red.500',
+                            }}
+                            aria-label="Delete registered user"
+                          />
+                        </PopoverTrigger>
+                        <Portal>
+                          <PopoverContent>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverHeader>Confirmação</PopoverHeader>
+                            <PopoverBody color="red.500">
+                              Tem certeza que deseja remover o
+                              <Text> usuário da lista de inscritos?</Text>
+                            </PopoverBody>
+                            <PopoverFooter
+                              display="flex"
+                              justifyContent="flex-end"
+                            >
+                              <ButtonGroup size="sm">
+                                <Button
+                                  variant="outline"
+                                  colorScheme="red"
+                                  onClick={onClose}
+                                >
+                                  Cancelar
+                                </Button>
+                                <Button
+                                  leftIcon={<Check />}
+                                  colorScheme="purple"
+                                  onClick={() => handleDeleteUser(user.id)}
+                                  isLoading={deleteUserMutation?.isLoading}
+                                >
+                                  Sim
+                                </Button>
+                              </ButtonGroup>
+                            </PopoverFooter>
+                          </PopoverContent>
+                        </Portal>
+                      </>
+                    )}
+                  </Popover>
+                </Td>
+              )}
             </Tr>
           ))}
         </Tbody>

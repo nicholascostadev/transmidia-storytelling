@@ -26,6 +26,7 @@
     "@trpc/server": "^9.27.2",
     "@types/nodemailer": "^6.4.6",
     "date-fns": "^2.29.2",
+    "form-data": "^4.0.0",
     "framer-motion": "^7.3.6",
     "jsonwebtoken": "^8.5.1",
     "mailgun.js": "^8.0.2",

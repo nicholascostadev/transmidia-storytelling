@@ -41,7 +41,7 @@ export async function sendMail({ to, userId, name }: SendMailProps) {
         'h:X-Mailgun-Variables': JSON.stringify({
           link: url,
           name,
-        }), // html body
+        }),
       }
 
       client.messages

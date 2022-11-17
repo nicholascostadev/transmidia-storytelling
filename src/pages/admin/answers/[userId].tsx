@@ -24,7 +24,7 @@ import { canSeeDashboard, TUserPossiblePermissions } from '../manageusers'
 
 export default function Answers() {
   const { query } = useRouter()
-  const { userCPF } = query
+  const { userId } = query
   const { data, status } = useSession()
   const toast = useToast()
   const [userInfo, setUserInfo] = useState<RegisteredUser | null>(
@@ -46,7 +46,7 @@ export default function Answers() {
   ])
 
   const { isLoading, error } = trpc.useQuery(
-    ['protectedRegisteredUser.getUserAnswers', { cpf: String(userCPF) }],
+    ['protectedRegisteredUser.getUserAnswers', { id: String(userId) }],
     {
       onSuccess: (data) => setUserInfo(data),
       onError: (error) => console.error(error),

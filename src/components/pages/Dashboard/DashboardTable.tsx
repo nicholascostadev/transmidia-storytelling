@@ -228,7 +228,7 @@ export const DashboardTable = ({
                 </Flex>
               </Td>
               <Td>
-                <Link href={`/admin/answers/${user.cpf}`} passHref>
+                <Link href={`/admin/answers/${user.id}`} passHref>
                   <ChakraLink
                     display="flex"
                     justifyContent="start"

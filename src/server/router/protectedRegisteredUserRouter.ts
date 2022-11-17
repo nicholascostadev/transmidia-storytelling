@@ -37,12 +37,12 @@ export const protectedRegisteredUserRouter = createModeratorRouter()
   })
   .query('getUserAnswers', {
     input: z.object({
-      cpf: z.string(),
+      id: z.string(),
     }),
     async resolve({ input, ctx }) {
       return await ctx.prisma.registeredUser.findUnique({
         where: {
-          cpf: input.cpf,
+          id: input.id,
         },
       })
     },

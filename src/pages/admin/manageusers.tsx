@@ -17,7 +17,7 @@ import { User } from '@prisma/client'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsersTable'
@@ -25,6 +25,11 @@ import { Search } from '../../components/Search'
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
+import {
+  filterReducer,
+  initialState,
+  QueryAction,
+} from '@root/reducers/queryReducer'
 
 export type TUserPossiblePermissions = 'admin' | 'moderator' | 'none'
 export const canSeeDashboard = (
@@ -34,12 +39,8 @@ export const canSeeDashboard = (
 export default function ManageUsers() {
   const { data, status } = useSession()
   const [itemsPerPage, setItemsPerPage] = useState(5)
+  const [filterState, dispatch] = useReducer(filterReducer, initialState)
   const [page, setPage] = useState(1)
-
-  const [query, setQuery] = useState('')
-  const [filter, setFilter] = useState<TFilter>({
-    field: 'email',
-  })
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
@@ -59,7 +60,7 @@ export default function ManageUsers() {
   const infiniteUsers = trpc.useInfiniteQuery(
     [
       'protectedUser.getInfiniteUsers',
-      { limit: itemsPerPage, query: q, filter },
+      { limit: itemsPerPage, query: q, filter: filterState.filter },
     ],
     {
       refetchOnWindowFocus: false,
@@ -82,13 +83,13 @@ export default function ManageUsers() {
   // debounce effect when searching
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if (router.query.q === query) return
+      if (router.query.q === filterState.query) return
 
       router.push(
         {
           query: {
             ...router.query,
-            q: query,
+            q: filterState.query,
           },
         },
         undefined,
@@ -100,7 +101,7 @@ export default function ManageUsers() {
     }, 500)
 
     return () => clearTimeout(delayDebounceFn)
-  }, [query, router])
+  }, [router, filterState.query])
 
   const permissionMutate = trpc.useMutation([
     'protectedUser.changeUserPermission',
@@ -119,11 +120,17 @@ export default function ManageUsers() {
   }
 
   function handleQueryChange(newQuery: string) {
-    setQuery(newQuery)
+    dispatch({
+      type: QueryAction.SET_QUERY,
+      payload: { ...filterState, query: newQuery },
+    })
   }
 
   function handleFilterChange(filter: TFilter) {
-    setFilter(filter)
+    dispatch({
+      type: QueryAction.SET_FILTER,
+      payload: { ...filterState, filter },
+    })
   }
 
   if (status === 'loading') {
@@ -145,9 +152,9 @@ export default function ManageUsers() {
       >
         <Stack w="1300px" maxW="100%" mx="auto">
           <Search
-            currentQuery={query}
+            currentQuery={filterState.query}
             changeQuery={handleQueryChange}
-            filter={filter}
+            filter={filterState.filter}
             changeFilter={handleFilterChange}
           />
 
@@ -162,9 +169,7 @@ export default function ManageUsers() {
                 min={1}
                 max={20}
                 value={itemsPerPage}
-                onChange={(value, valueAsNumber) =>
-                  setItemsPerPage(valueAsNumber)
-                }
+                onChange={(_, valueAsNumber) => setItemsPerPage(valueAsNumber)}
                 size="sm"
               >
                 <NumberInputField />

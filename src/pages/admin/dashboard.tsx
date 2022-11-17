@@ -232,7 +232,7 @@ export default function Dashboard() {
               min={5}
               max={20}
               value={itemsPerPage}
-              onChange={(value, valueAsNumber) => {
+              onChange={(_, valueAsNumber) => {
                 setItemsPerPage(valueAsNumber)
                 resetPage()
               }}
@@ -257,7 +257,7 @@ export default function Dashboard() {
               infiniteUsers.refetch({
                 // typing not being assured because of inifiniteUsers not being
                 // typed properly for some reason
-                refetchPage: (page: unknown, index: number) =>
+                refetchPage: (_: any, index: number) =>
                   index === currentPage - 1,
               })
             }

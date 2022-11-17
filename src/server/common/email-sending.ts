@@ -1,94 +1,56 @@
-'use strict'
 import { env } from '../../env/server.mjs'
 import jwt from 'jsonwebtoken'
-import sgMail from '@sendgrid/mail'
+import formData from 'form-data'
+import Mailgun from 'mailgun.js'
 
 export const EMAIL_SECRET = env.EMAIL_SECRET
+const API_KEY = env.MAILGUN_PRIVATE_API_KEY
+const PUBLIC_API_KEY = env.MAILGUN_PUBLIC_API_KEY
+const DOMAIN = env.MAILGUN_DOMAIN
+
+const mailgun = new Mailgun(formData)
+const client = mailgun.client({
+  username: 'api',
+  key: API_KEY,
+  public_key: PUBLIC_API_KEY,
+})
 
 interface SendMailProps {
+  name: string
   to: string
   userId: string
 }
-// This code is for working with Mailgun if needed
 
-// export async function sendMail({ to, userId }: sendEmailProps) {
-//   const transporter = nodemailer.createTransport({
-//     host: 'smtp.mailgun.org',
-//     port: 587,
-//     secure: false,
-//     auth: {
-//       user: env.MAILGUN_USERNAME, // generated ethereal user
-//       pass: env.MAILGUN_PASSWORD, // generated ethereal password
-//     },
-//   })
-
-//   jwt.sign(
-//     { userId },
-//     EMAIL_SECRET,
-//     {
-//       expiresIn: '1d',
-//     },
-//     (err, emailToken) => {
-//       if (err) return console.log(err)
-
-//       const url = `http://localhost:3000/confirm/${emailToken}`
-//       transporter.sendMail(
-//         {
-//           from: '"nicholascosta 👻" <nicholascostadev@gmail.com>', // sender address
-//           to, // list of receivers
-//           subject: 'Hello Nicholas✔', // Subject line
-//           text: 'Hello world?', // plain text body
-//           html: `<b>Confirm email: <a href="${url}">${url}</a></b>`, // html body
-//         },
-//         (err, info) => {
-//           if (err) return console.log(err)
-//           return console.log(info)
-//         },
-//       )
-//     },
-//   )
-// }
-
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
-
-export const sendMail = ({ to, userId }: SendMailProps) => {
+export async function sendMail({ to, userId, name }: SendMailProps) {
   jwt.sign(
     { userId },
     EMAIL_SECRET,
     {
       expiresIn: '1d',
     },
-    async (err, emailToken) => {
-      if (err) console.log('Error when trying to sign email token: ', err)
-
-      sgMail.setApiKey(env.SENDGRID_API_KEY)
+    (err, emailToken) => {
+      if (err) return console.log(err)
 
       const url = `${env.NEXTAUTH_URL}/confirmation/${emailToken}`
-      const msg = {
-        to, // Change to your recipient
-        from: 'nicholascostadev@gmail.com', // Change to your verified sender
-        subject: 'Sending with SendGrid is Fun',
-        text: 'and easy to do anywhere, even with Node.js',
-        html: `<b>Confirm email: <a href="${url}">${url}</a></b>
-        if it wasn't you that registered, please, ignore this email.
-        `, // html body
+
+      const messageData = {
+        from: 'Transmidia Storytelling <nicholascostadev@gmail.com>',
+        to,
+        subject: 'Confirmação de email',
+        template: 'transmidia-confirmation',
+        'h:X-Mailgun-Variables': JSON.stringify({
+          link: url,
+          name,
+        }), // html body
       }
 
-      sgMail
-        .send({
-          ...msg,
-          templateId: 'd-0decf04e469d4739a929fd54b93c157b',
-          dynamicTemplateData: {
-            confirmationUrl: url,
-          },
+      client.messages
+        .create(DOMAIN, { ...messageData })
+        .then((res) => {
+          console.log(res)
         })
-        .then((data) => {
-          console.log('Email sent')
-          console.log(data)
-        })
-        .catch((error) => {
-          console.log('Error when sending email: ', error)
+        .catch((err) => {
+          console.error(err)
         })
     },
   )

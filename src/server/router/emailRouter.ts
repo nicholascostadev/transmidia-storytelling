@@ -3,15 +3,21 @@ import { createRouter } from './context'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { z } from 'zod'
 
-// Example router with queries that can only be hit if the user requesting is signed in
 export const emailRouter = createRouter()
   .mutation('sendMail', {
     input: z.object({
       userId: z.string(),
       email: z.string().email(),
+      name: z.string(),
     }),
     resolve({ input }) {
-      sendMail({ to: input.email, userId: input.userId })
+      try {
+        sendMail({ to: input.email, userId: input.userId, name: input.name })
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message)
+        }
+      }
     },
   })
   .query('confirmEmail', {

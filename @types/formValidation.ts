@@ -3,10 +3,7 @@ import { z } from 'zod'
 export const validation = z.object({
   name: z.string().min(1, 'Nome é Obrigatório'),
   email: z.string().min(1, 'Email é Obrigatório').email(),
-  cpf: z
-    .string()
-    .min(14, 'CPF deve ter 11 dígitos')
-    .max(14, 'CPF deve ter 11 dígitos'),
+  cpf: z.string().length(11, 'CPF deve ter 11 caracteres'),
   city: z.string().min(1, 'Cidade deve ser informada'),
   state: z.string().min(1, 'Seu estado deve ser informado'),
   age: z

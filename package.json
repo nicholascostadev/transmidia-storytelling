@@ -28,6 +28,7 @@
     "date-fns": "^2.29.2",
     "framer-motion": "^7.3.6",
     "jsonwebtoken": "^8.5.1",
+    "mailgun.js": "^8.0.2",
     "next": "12.2.5",
     "next-auth": "^4.10.3",
     "nodemailer": "^6.8.0",

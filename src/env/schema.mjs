@@ -14,6 +14,9 @@ export const serverSchema = z.object({
   GOOGLE_CLIENT_SECRET: z.string(),
   SENDGRID_API_KEY: z.string(),
   EMAIL_SECRET: z.string(),
+  MAILGUN_PRIVATE_API_KEY: z.string(),
+  MAILGUN_PUBLIC_API_KEY: z.string(),
+  MAILGUN_DOMAIN: z.string(),
 })
 
 /**

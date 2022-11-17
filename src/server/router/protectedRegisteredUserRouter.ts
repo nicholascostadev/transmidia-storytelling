@@ -62,8 +62,6 @@ export const protectedRegisteredUserRouter = createModeratorRouter()
       const limit = input.limit ?? 50
       const { cursor } = input
 
-      console.log(input.filter)
-
       const items = (await ctx.prisma.registeredUser.findMany({
         take: limit + 1, // get an extra item at the end which we'll use as next cursor
         cursor: cursor ? { cpf: cursor } : undefined,

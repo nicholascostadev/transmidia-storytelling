@@ -8,7 +8,6 @@ export const openRegisteredUserRouter = createRouter()
     input: validation,
     async resolve({ input, ctx }) {
       // We receive this data as: 999.999.999-99, but we need to save it as 99999999999
-      console.log({ previousKnowledge: input.previousKnowledge })
       const formattedData = {
         ...input,
         academic: input.academic

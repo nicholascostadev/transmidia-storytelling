@@ -29,8 +29,6 @@ export const DashboardHeader = ({
 }: {
   permission: string | undefined
 }) => {
-  console.log({ permission })
-
   const mobileNav = useDisclosure()
   const { data: userSession } = useSession()
   const { toggleColorMode: toggleMode } = useColorMode()

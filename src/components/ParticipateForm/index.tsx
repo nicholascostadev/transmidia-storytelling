@@ -152,8 +152,6 @@ export const ParticipateForm = () => {
     },
   }
 
-  console.log({ errors, isValid, acceptedTerms, isValidating })
-
   return (
     <Fade in={true} transition={{ enter: { duration: 1.5 } }}>
       <Stack

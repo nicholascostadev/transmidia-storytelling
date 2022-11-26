@@ -364,11 +364,13 @@ export const ParticipateForm = () => {
                   going to the second step and animation break
                 */}
                 {formStep === 2 ? (
-                  <Link href={'/participate/terms'} passHref>
-                    <ChakraLink color="blue.400">
-                      termos de consentimento
-                    </ChakraLink>
-                  </Link>
+                  <ChakraLink
+                    as={Link}
+                    href={'/participate/terms'}
+                    color="blue.400"
+                  >
+                    termos de consentimento
+                  </ChakraLink>
                 ) : (
                   <ChakraLink color="blue.400">
                     termos de consentimento

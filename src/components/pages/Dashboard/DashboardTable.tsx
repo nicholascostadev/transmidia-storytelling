@@ -228,16 +228,16 @@ export const DashboardTable = ({
                 </Flex>
               </Td>
               <Td>
-                <Link href={`/admin/answers/${user.id}`} passHref>
-                  <ChakraLink
-                    display="flex"
-                    justifyContent="start"
-                    alignItems="center"
-                  >
-                    Ver Respostas
-                    <Icon as={CaretRight} />
-                  </ChakraLink>
-                </Link>
+                <ChakraLink
+                  as={Link}
+                  href={`/admin/answers/${user.id}`}
+                  display="flex"
+                  justifyContent="start"
+                  alignItems="center"
+                >
+                  Ver Respostas
+                  <Icon as={CaretRight} />
+                </ChakraLink>
               </Td>
               <Td>{format(user?.created_at, 'Pp', { locale: ptBR })}</Td>
               {isAdmin && (

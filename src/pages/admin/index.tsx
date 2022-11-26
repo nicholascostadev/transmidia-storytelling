@@ -126,17 +126,17 @@ export default function AdminSignIn() {
                 peça para um administrador lhe dar direitos ou você está no
                 lugar errado.
               </Text>
-              <Link href="/participate" passHref>
-                <ChakraLink
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  color="blue.400"
-                >
-                  <CaretLeft size={20} />
-                  Voltar para a tela de participação
-                </ChakraLink>
-              </Link>
+              <ChakraLink
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                color="blue.400"
+                href="/participate"
+                as={Link}
+              >
+                <CaretLeft size={20} />
+                Voltar para a tela de participação
+              </ChakraLink>
             </Stack>
           )}
         </Stack>

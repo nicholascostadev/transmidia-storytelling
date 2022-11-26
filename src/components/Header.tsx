@@ -31,31 +31,31 @@ export const Header = () => {
 
   const SponsorButton = (
     <LightMode>
-      <NextLink href={'/participate'} passHref>
-        <Button
-          alignItems="center"
-          transition="all 0.3s"
-          colorScheme="pink"
-          rightIcon={
-            <motion.div
-              animate={{
-                x: [0, 5],
-              }}
-              transition={{
-                duration: 1.2,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatType: 'mirror',
-              }}
-            >
-              <CaretRight size={24} />
-            </motion.div>
-          }
-          size={'md'}
-        >
-          Participar
-        </Button>
-      </NextLink>
+      <Button
+        as={NextLink}
+        href="/participate"
+        alignItems="center"
+        transition="all 0.3s"
+        colorScheme="pink"
+        rightIcon={
+          <motion.div
+            animate={{
+              x: [0, 5],
+            }}
+            transition={{
+              duration: 1.2,
+              ease: 'easeInOut',
+              repeat: Infinity,
+              repeatType: 'mirror',
+            }}
+          >
+            <CaretRight size={24} />
+          </motion.div>
+        }
+        size={'md'}
+      >
+        Participar
+      </Button>
     </LightMode>
   )
 
@@ -95,28 +95,27 @@ export const Header = () => {
               mx="auto"
             >
               <Flex>
-                <NextLink href="/" passHref>
-                  <Heading
-                    as={'a'}
-                    fontSize={['sm', 'sm', 'md', 'xl']}
-                    fontFamily="cursive"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    gap="2"
-                  >
-                    Transmídia StoryTelling
-                    <Box>
-                      <ChakraCustomImage
-                        lineHeight={0}
-                        src="/images/healthlab-logo.svg"
-                        layout="fixed"
-                        height={35}
-                        width={30}
-                      />
-                    </Box>
-                  </Heading>
-                </NextLink>
+                <Heading
+                  as={NextLink}
+                  href="/"
+                  fontSize={['sm', 'sm', 'md', 'xl']}
+                  fontFamily="cursive"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  gap="2"
+                >
+                  Transmídia StoryTelling
+                  <Box>
+                    <ChakraCustomImage
+                      lineHeight={0}
+                      src="/images/healthlab-logo.svg"
+                      height={35}
+                      width={30}
+                      alt="logo"
+                    />
+                  </Box>
+                </Heading>
               </Flex>
             </Flex>
 

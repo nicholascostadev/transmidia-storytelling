@@ -45,11 +45,9 @@ export const NotAllowed = ({ isModerator }: { isModerator: boolean }) => {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <Link href="/" passHref>
-                    <Heading as={'a'} size={'md'}>
-                      Transmídia StoryTelling
-                    </Heading>
-                  </Link>
+                  <Heading as={Link} href="/" size={'md'}>
+                    Transmídia StoryTelling
+                  </Heading>
                 </Flex>
 
                 <Flex
@@ -83,11 +81,14 @@ export const NotAllowed = ({ isModerator }: { isModerator: boolean }) => {
                     </Button>
                   )}
                   {!userSession && (
-                    <Link href="/admin" passHref>
-                      <Button as="a" variant="ghost" colorScheme="purple">
-                        Sign In
-                      </Button>
-                    </Link>
+                    <Button
+                      as={Link}
+                      href="/admin"
+                      variant="ghost"
+                      colorScheme="purple"
+                    >
+                      Sign In
+                    </Button>
                   )}
                   <IconButton
                     aria-label={'Open menu'}
@@ -109,28 +110,28 @@ export const NotAllowed = ({ isModerator }: { isModerator: boolean }) => {
             Você não tem permissões para acessar essa página
           </Text>
           {isModerator ? (
-            <Link href="/admin/dashboard" passHref>
-              <ChakraLink
-                display="flex"
-                justifyContent="start"
-                alignItems="center"
-                _hover={{
-                  color: 'purple.400',
-                }}
-              >
-                Ir para o Dashboard <CaretRight />
-              </ChakraLink>
-            </Link>
+            <ChakraLink
+              as={Link}
+              href="/admin/dashboard"
+              display="flex"
+              justifyContent="start"
+              alignItems="center"
+              _hover={{
+                color: 'purple.400',
+              }}
+            >
+              Ir para o Dashboard <CaretRight />
+            </ChakraLink>
           ) : (
-            <Link href="/" passHref>
-              <ChakraLink
-                display="flex"
-                justifyContent="start"
-                alignItems="center"
-              >
-                <CaretLeft /> Voltar à página inicial
-              </ChakraLink>
-            </Link>
+            <ChakraLink
+              as={Link}
+              href="/"
+              display="flex"
+              justifyContent="start"
+              alignItems="center"
+            >
+              <CaretLeft /> Voltar à página inicial
+            </ChakraLink>
           )}
         </Stack>
       </Center>

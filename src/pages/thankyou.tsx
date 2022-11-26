@@ -47,11 +47,9 @@ export default function NotAllowed() {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <Link href="/" passHref>
-                    <Heading as={'a'} size={'md'}>
-                      Transmídia StoryTelling
-                    </Heading>
-                  </Link>
+                  <Heading as={Link} href="/" size={'md'}>
+                    Transmídia StoryTelling
+                  </Heading>
                 </Flex>
 
                 <Flex
@@ -85,11 +83,14 @@ export default function NotAllowed() {
                     </Button>
                   )}
                   {!userSession && (
-                    <Link href="/admin" passHref>
-                      <Button as="a" variant="ghost" colorScheme="purple">
-                        Sign In
-                      </Button>
-                    </Link>
+                    <Button
+                      as={Link}
+                      href="/admin"
+                      variant="ghost"
+                      colorScheme="purple"
+                    >
+                      Sign In
+                    </Button>
                   )}
                   <IconButton
                     aria-label={'Open menu'}
@@ -126,19 +127,19 @@ export default function NotAllowed() {
             com a nossa equipe através do ícone de envelope no canto inferior
             direito da página. Estaremos em total disposição em ajudar você.
           </Text>
-          <Link href="/" passHref>
-            <ChakraLink
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              _hover={{
-                color: 'green.500',
-              }}
-            >
-              <CaretLeft />
-              <Text>Voltar à página inicial</Text>
-            </ChakraLink>
-          </Link>
+          <ChakraLink
+            as={Link}
+            href="/"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            _hover={{
+              color: 'green.500',
+            }}
+          >
+            <CaretLeft />
+            <Text>Voltar à página inicial</Text>
+          </ChakraLink>
         </Stack>
       </Center>
       <ContactWidget />

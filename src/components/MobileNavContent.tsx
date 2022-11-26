@@ -39,18 +39,17 @@ export const MobileNavContent = ({ mobileNav }: MobileNavContentProps) => {
         justifySelf="self-start"
         onClick={mobileNav.onClose}
       />
-      <Link href="/participate" passHref>
-        <Button
-          as="a"
-          w="full"
-          variant="ghost"
-          colorScheme="purple"
-          mt="4"
-          leftIcon={<CaretRight />}
-        >
-          Participar
-        </Button>
-      </Link>
+      <Button
+        as={Link}
+        href="/participate"
+        w="full"
+        variant="ghost"
+        colorScheme="purple"
+        mt="4"
+        leftIcon={<CaretRight />}
+      >
+        Participar
+      </Button>
     </VStack>
   )
 }

@@ -29,9 +29,19 @@ export const FinalCTA = () => {
           na divulgação científica
         </Heading>
       </motion.div>
-      <Link as={NextLink} href="/participate" passHref>
+      <motion.div
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        initial={{
+          opacity: 0,
+          scale: 0.5,
+          transitionDuration: '.5s',
+          transitionDelay: '1s',
+        }}
+      >
         <Button
-          as={motion.a}
+          as={NextLink}
+          href="/participate"
           rounded="full"
           w="15rem"
           size="lg"
@@ -42,18 +52,10 @@ export const FinalCTA = () => {
             bg: 'purple.500',
             bgGradient: 'linear(to-r, purple.300, pink.400, pink.600)',
           }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          initial={{
-            opacity: 0,
-            scale: 0.5,
-            transitionDuration: '.5s',
-            transitionDelay: '1s',
-          }}
         >
           Participar
         </Button>
-      </Link>
+      </motion.div>
     </Stack>
   )
 }

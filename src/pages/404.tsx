@@ -42,11 +42,9 @@ export default function NotAllowed() {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <Link href="/" passHref>
-                    <Heading as={'a'} size={'md'}>
-                      Transmídia StoryTelling
-                    </Heading>
-                  </Link>
+                  <Heading as={Link} href="/" size={'md'}>
+                    Transmídia StoryTelling
+                  </Heading>
                 </Flex>
 
                 <Flex
@@ -79,18 +77,18 @@ export default function NotAllowed() {
       <Center h="calc(100vh - 72px)">
         <Stack display="flex" justifyContent="center" alignItems="center">
           <Heading fontSize="5xl">404 - Página não encontrada</Heading>
-          <Link href="/" passHref>
-            <ChakraLink
-              display="flex"
-              justifyContent="start"
-              alignItems="center"
-              _hover={{
-                color: 'gray.400',
-              }}
-            >
-              <CaretLeft /> Voltar à página inicial
-            </ChakraLink>
-          </Link>
+          <ChakraLink
+            as={Link}
+            href="/"
+            display="flex"
+            justifyContent="start"
+            alignItems="center"
+            _hover={{
+              color: 'gray.400',
+            }}
+          >
+            <CaretLeft /> Voltar à página inicial
+          </ChakraLink>
         </Stack>
       </Center>
     </>

@@ -49,19 +49,20 @@ export default function ManageUsers() {
   // Allows for reloading the page to see the same search results & to link to it
   const q = stringOrNull(router.query.q)?.trim()
 
-  const userInfo = trpc.openUser.getUserInfo.useQuery(
+  const userInfo = trpc.user.getUserInfo.useQuery(
     { id: String(data?.user?.id) },
-      {
-          staleTime: 1000 * 60 * 10, // 10 minutes
-      },
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    },
   )
   const [users, setUsers] = useState([] as User[])
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
-  const infiniteUsers = trpc.useInfiniteQuery(
-    [
-      'protectedUser.getInfiniteUsers',
-      { limit: itemsPerPage, query: q, filter: filterState.filter },
-    ],
+  const infiniteUsers = trpc.user.getInfiniteUsers.useInfiniteQuery(
+    {
+      limit: itemsPerPage,
+      query: q,
+      filter: filterState.filter,
+    },
     {
       refetchOnWindowFocus: false,
       onSuccess: (lastPage) => {
@@ -103,7 +104,7 @@ export default function ManageUsers() {
     return () => clearTimeout(delayDebounceFn)
   }, [router, filterState.query])
 
-  const permissionMutate = trpc.protectedUser.changeUserPermission.useMutation()
+  const permissionMutate = trpc.user.changePermission.useMutation()
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 

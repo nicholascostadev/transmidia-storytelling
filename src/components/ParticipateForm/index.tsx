@@ -50,8 +50,7 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
 
 export const ParticipateForm = () => {
   const registerMutation = trpc.registeredUser.register.useMutation()
-  const { mutate: sendConfirmationEmail } =
-    trpc.emailRouter.sendMail.useMutation()
+  const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()
   const [formStep, setFormStep] = useState(1)
   const router = useRouter()
   const toast = useToast()

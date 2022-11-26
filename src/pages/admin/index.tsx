@@ -33,10 +33,7 @@ type TSignIn = z.infer<typeof signInSchema>
 
 export default function AdminSignIn() {
   const { data: userSession, status } = useSession()
-  const userInfo = trpc.useQuery([
-    'openUser.getUserInfo',
-    { id: String(userSession?.user?.id) },
-  ])
+  const userInfo = trpc.openUser.getUserInfo.useQuery({ id: String(userSession?.user?.id) })
   const router = useRouter()
 
   const {

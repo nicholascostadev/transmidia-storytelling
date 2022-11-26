@@ -35,18 +35,14 @@ export default function Answers() {
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
-  const loggedUserInfo = trpc.useQuery([
-    'openRegisteredUser.getUserInfo',
+  const loggedUserInfo = trpc.registeredUser.getUserInfo.useQuery({
+    id: String(data?.user?.id),
+  })
 
-    { id: String(data?.user?.id) },
-  ])
+  const deleteUserMutation = trpc.registeredUser.deleteUser.useMutation()
 
-  const deleteUserMutation = trpc.useMutation([
-    'protectedRegisteredUser.deleteUser',
-  ])
-
-  const { isLoading, error } = trpc.useQuery(
-    ['protectedRegisteredUser.getUserAnswers', { id: String(userId) }],
+  const { isLoading, error } = trpc.registeredUser.getUserAnswers.useQuery(
+    { id: String(userId) },
     {
       onSuccess: (data) => setUserInfo(data),
       onError: (error) => console.error(error),

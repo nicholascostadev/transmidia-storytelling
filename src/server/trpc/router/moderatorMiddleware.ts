@@ -1,5 +1,5 @@
 import trpc from '@trpc/server'
-import { isModOrAdmin } from '../back-utils/isAdmin'
+import { isModOrAdmin } from '../../back-utils/isAdmin'
 import { createRouter } from './context'
 
 export function createModeratorRouter() {

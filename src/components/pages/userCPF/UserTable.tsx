@@ -42,9 +42,8 @@ export const UserTable = ({
 }: UserTableProps) => {
   const toast = useToast()
 
-  const toggleApprovalMutation = trpc.useMutation([
-    'protectedRegisteredUser.toggleUserApproval',
-  ])
+  const toggleApprovalMutation =
+    trpc.registeredUser.toggleApproval.useMutation()
 
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.100', 'gray.700')

@@ -1,4 +1,4 @@
-import { EMAIL_SECRET, sendMail } from '../common/email-sending'
+import { EMAIL_SECRET, sendMail } from '../../common/email-sending'
 import { createRouter } from './context'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import { z } from 'zod'

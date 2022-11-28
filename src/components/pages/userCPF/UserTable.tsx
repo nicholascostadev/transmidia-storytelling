@@ -42,9 +42,8 @@ export const UserTable = ({
 }: UserTableProps) => {
   const toast = useToast()
 
-  const toggleApprovalMutation = trpc.useMutation([
-    'protectedRegisteredUser.toggleUserApproval',
-  ])
+  const toggleApprovalMutation =
+    trpc.registeredUser.toggleApproval.useMutation()
 
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
@@ -145,7 +144,7 @@ export const UserTable = ({
                         <Text>{formatApproval(userInfo[key])}</Text>
                         {isAdmin && (
                           <Popover closeOnBlur={false} placement="top">
-                            {({ onClose }) => (
+                            {({ onClose }: { onClose: () => void }) => (
                               <>
                                 <PopoverTrigger>
                                   <IconButton

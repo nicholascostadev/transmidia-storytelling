@@ -49,12 +49,8 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
   .estados as StatesAndCities['estados']
 
 export const ParticipateForm = () => {
-  const registerMutation = trpc.useMutation([
-    'openRegisteredUser.register',
-  ]) as any
-  const { mutate: sendConfirmationEmail } = trpc.useMutation([
-    'emailRouter.sendMail',
-  ])
+  const registerMutation = trpc.registeredUser.register.useMutation()
+  const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()
   const [formStep, setFormStep] = useState(1)
   const router = useRouter()
   const toast = useToast()
@@ -75,6 +71,9 @@ export const ParticipateForm = () => {
       age: 18,
       state: 'AC',
       city: 'Acrelândia',
+      academic: 'ensino-fundamental',
+      gender: 'MASCULINO',
+      occupation: 'estudante',
     },
     reValidateMode: 'onChange',
     mode: 'all',
@@ -110,7 +109,7 @@ export const ParticipateForm = () => {
     if (!isLaunched) return data
 
     registerMutation.mutate(data, {
-      onError: (err: any) => {
+      onError: (err) => {
         toast({
           title: 'Erro.',
           description:
@@ -122,7 +121,7 @@ export const ParticipateForm = () => {
         })
         console.error({ err })
       },
-      onSuccess: (data: any) => {
+      onSuccess: (data) => {
         toast({
           title: 'Registrado.',
           description: 'Você foi registrado com sucesso!',
@@ -368,11 +367,13 @@ export const ParticipateForm = () => {
                   going to the second step and animation break
                 */}
                 {formStep === 2 ? (
-                  <Link href={'/participate/terms'} passHref>
-                    <ChakraLink color="blue.400">
-                      termos de consentimento
-                    </ChakraLink>
-                  </Link>
+                  <ChakraLink
+                    as={Link}
+                    href={'/participate/terms'}
+                    color="blue.400"
+                  >
+                    termos de consentimento
+                  </ChakraLink>
                 ) : (
                   <ChakraLink color="blue.400">
                     termos de consentimento

@@ -8,12 +8,9 @@ import { trpc } from '../../utils/trpc'
 export default function ConfirmEmail() {
   const { query } = useRouter()
   const { token } = query
-  const { isSuccess } = trpc.useQuery([
-    'emailRouter.confirmEmail',
-    {
-      token: String(token),
-    },
-  ])
+  const { isSuccess } = trpc.email.confirmEmail.useQuery({
+    token: String(token),
+  })
 
   return (
     <>

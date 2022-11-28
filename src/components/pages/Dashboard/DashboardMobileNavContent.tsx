@@ -57,14 +57,14 @@ export const DashboardMobileNavContent = ({
       {hasPermission && (
         <>
           <Button w="full" variant="ghost" leftIcon={<Faders />}>
-            <Link href="/admin/dashboard" passHref>
-              <ChakraLink>Dashboard</ChakraLink>
-            </Link>
+            <ChakraLink as={Link} href="/admin/dashboard">
+              Dashboard
+            </ChakraLink>
           </Button>
           <Button w="full" variant="ghost" leftIcon={<UserGear />}>
-            <Link href="/admin/manageusers" passHref>
-              <ChakraLink>Gerenciar</ChakraLink>
-            </Link>
+            <ChakraLink as={Link} href="/admin/manageusers">
+              Gerenciar
+            </ChakraLink>
           </Button>
         </>
       )}

@@ -17,7 +17,7 @@ import { User } from '@prisma/client'
 
 import { useSession } from 'next-auth/react'
 import { useRef } from 'react'
-import { TUserPossiblePermissions } from '../../../pages/admin/manageusers'
+import { type TUserPossiblePermissions } from '@root/utils/permissionsUtils'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 interface ManageUsersTableProps {
   users: User[]

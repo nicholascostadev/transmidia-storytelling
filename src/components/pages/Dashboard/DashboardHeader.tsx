@@ -21,8 +21,8 @@ import { Sun, Moon, List } from 'phosphor-react'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 import {
   canSeeDashboard,
-  TUserPossiblePermissions,
-} from '@root/pages/admin/manageusers'
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 export const DashboardHeader = ({
   permission,
@@ -69,28 +69,26 @@ export const DashboardHeader = ({
               mx="auto"
             >
               <Flex>
-                <NextLink href="/" passHref>
-                  <Heading
-                    as={'a'}
-                    fontSize={['sm', 'sm', 'md', 'xl']}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    gap="2"
-                  >
-                    Transmídia StoryTelling
-                    <Box>
-                      <ChakraCustomImage
-                        lineHeight={0}
-                        src="/images/healthlab-logo.png"
-                        alt=""
-                        layout="fixed"
-                        height={35}
-                        width={30}
-                      />
-                    </Box>
-                  </Heading>
-                </NextLink>
+                <Heading
+                  as={NextLink}
+                  href="/"
+                  fontSize={['sm', 'sm', 'md', 'xl']}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  gap="2"
+                >
+                  Transmídia StoryTelling
+                  <Box>
+                    <ChakraCustomImage
+                      lineHeight={0}
+                      src="/images/healthlab-logo.svg"
+                      alt=""
+                      height={35}
+                      width={30}
+                    />
+                  </Box>
+                </Heading>
               </Flex>
             </Flex>
 
@@ -109,13 +107,13 @@ export const DashboardHeader = ({
                   spacing="6"
                   display={['none', 'none', 'flex']}
                 >
-                  <NextLink href="/admin/dashboard" passHref>
-                    <Button as="a">Dashboard</Button>
-                  </NextLink>
+                  <Button as={NextLink} href="/admin/dashboard">
+                    Dashboard
+                  </Button>
                   {permission === 'admin' && (
-                    <NextLink href="/admin/manageusers" passHref>
-                      <Button as="a">Gerenciar</Button>
-                    </NextLink>
+                    <Button as={NextLink} href="/admin/manageusers">
+                      Gerenciar
+                    </Button>
                   )}
                   <Center>
                     <Divider orientation="vertical" h="35px" />

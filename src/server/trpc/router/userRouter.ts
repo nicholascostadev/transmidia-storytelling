@@ -1,20 +1,34 @@
-import z from 'zod'
 import { User } from '@prisma/client'
-import { createModeratorRouter } from './moderatorMiddleware'
+import { z } from 'zod'
+import { router, publicProcedure, adminModRouter, adminRouter } from '../trpc'
 
-// Example router with queries that can only be hit if the user requesting is signed in
-export const protectedUserRouter = createModeratorRouter()
-  .query('getInfiniteUsers', {
-    input: z.object({
-      limit: z.number().min(1).max(100).nullish(),
-      cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-      query: z.string().nullish(),
-      filter: z.object({
-        field: z.enum(['name', 'email']),
-        approval: z.boolean().optional(),
+export const userRouter = router({
+  getUserInfo: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
       }),
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.user.findUnique({
+        where: {
+          id: input.id,
+        },
+      })
     }),
-    async resolve({ input, ctx }) {
+  getInfiniteUsers: adminModRouter
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+        query: z.string().nullish(),
+        filter: z.object({
+          field: z.enum(['name', 'email']),
+          approval: z.boolean().optional(),
+        }),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
       const limit = input.limit ?? 50
       const { cursor } = input
 
@@ -44,14 +58,15 @@ export const protectedUserRouter = createModeratorRouter()
         items,
         nextCursor,
       }
-    },
-  })
-  .mutation('changeUserPermission', {
-    input: z.object({
-      id: z.string(),
-      newPermission: z.enum(['admin', 'moderator', 'none']),
     }),
-    async resolve({ input, ctx }) {
+  changePermission: adminRouter
+    .input(
+      z.object({
+        id: z.string(),
+        newPermission: z.enum(['admin', 'moderator', 'none']),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.user.update({
         where: {
           id: input.id,
@@ -60,5 +75,5 @@ export const protectedUserRouter = createModeratorRouter()
           permission: input.newPermission,
         },
       })
-    },
-  })
+    }),
+})

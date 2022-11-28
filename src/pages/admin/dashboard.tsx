@@ -32,7 +32,10 @@ import {
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
+import {
+  canSeeDashboard,
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 export default function Dashboard() {
   const { data, status } = useSession()
@@ -46,19 +49,19 @@ export default function Dashboard() {
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
-  const userInfo = trpc.useQuery(
-    ['openUser.getUserInfo', { id: String(data?.user?.id) }],
+  const userInfo = trpc.registeredUser.getUserInfo.useQuery(
+    { id: String(data?.user?.id) },
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     },
   )
 
-  const infiniteUsers: any = trpc.useInfiniteQuery(
-    [
-      'protectedRegisteredUser.infiniteUsers',
-      { limit: itemsPerPage, query: q, filter: filterState.filter },
-    ],
-
+  const infiniteUsers: any = trpc.registeredUser.infiniteUsers.useInfiniteQuery(
+    {
+      limit: itemsPerPage,
+      query: q,
+      filter: filterState.filter,
+    },
     {
       refetchOnWindowFocus: false,
 
@@ -74,12 +77,10 @@ export default function Dashboard() {
     },
   )
 
-  const toggleApprovalMutation = trpc.useMutation([
-    'protectedRegisteredUser.toggleUserApproval',
-  ])
-  const deleteUserMutation = trpc.useMutation([
-    'protectedRegisteredUser.deleteUser',
-  ])
+  const toggleApprovalMutation =
+    trpc.registeredUser.toggleApproval.useMutation()
+
+  const deleteUserMutation = trpc.registeredUser.deleteUser.useMutation()
 
   const hasMorePages =
     infiniteUsers.hasNextPage ||

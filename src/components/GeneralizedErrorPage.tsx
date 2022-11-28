@@ -45,11 +45,9 @@ export const GeneralizedErrorPage = () => {
                 justify="space-between"
               >
                 <Flex align="center">
-                  <NextLink href="/" passHref>
-                    <Heading as={'a'} size={'md'}>
-                      Transmídia StoryTelling
-                    </Heading>
-                  </NextLink>
+                  <Heading as={NextLink} href="/" size={'md'}>
+                    Transmídia StoryTelling
+                  </Heading>
                 </Flex>
 
                 <Flex
@@ -100,15 +98,15 @@ export const GeneralizedErrorPage = () => {
             Algo de errado aconteceu e vamos fazer de tudo para ajudar a
             resolver seu problema, por enquanto, volte para a página inicial
           </Text>
-          <NextLink href="/" passHref>
-            <ChakraLink
-              display="flex"
-              justifyContent="start"
-              alignItems="center"
-            >
-              <CaretLeft /> Voltar à página inicial
-            </ChakraLink>
-          </NextLink>
+          <ChakraLink
+            as={NextLink}
+            href="/"
+            display="flex"
+            justifyContent="start"
+            alignItems="center"
+          >
+            <CaretLeft /> Voltar à página inicial
+          </ChakraLink>
         </Stack>
       </Center>
     </>

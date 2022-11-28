@@ -19,7 +19,10 @@ import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { trpc } from '../../utils/trpc'
-import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
+import {
+  canSeeDashboard,
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 const signInSchema = z.object({
   username: z
@@ -33,10 +36,9 @@ type TSignIn = z.infer<typeof signInSchema>
 
 export default function AdminSignIn() {
   const { data: userSession, status } = useSession()
-  const userInfo = trpc.useQuery([
-    'openUser.getUserInfo',
-    { id: String(userSession?.user?.id) },
-  ])
+  const userInfo = trpc.user.getUserInfo.useQuery({
+    id: String(userSession?.user?.id),
+  })
   const router = useRouter()
 
   const {
@@ -127,17 +129,17 @@ export default function AdminSignIn() {
                 peça para um administrador lhe dar direitos ou você está no
                 lugar errado.
               </Text>
-              <Link href="/participate" passHref>
-                <ChakraLink
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  color="blue.400"
-                >
-                  <CaretLeft size={20} />
-                  Voltar para a tela de participação
-                </ChakraLink>
-              </Link>
+              <ChakraLink
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                color="blue.400"
+                href="/participate"
+                as={Link}
+              >
+                <CaretLeft size={20} />
+                Voltar para a tela de participação
+              </ChakraLink>
             </Stack>
           )}
         </Stack>

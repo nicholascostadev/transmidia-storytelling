@@ -157,39 +157,40 @@ export const Hero = () => {
             linguagem usar? qual mídia? Isso que iremos responder. Sua
             participação na pesquisa é crucial para conseguirmos entender cada
             pessoa de forma única.{' '}
-            <NextLink href="/participate" passHref>
-              <Text
-                as={Link}
-                fontWeight="bold"
-                bgGradient={textGradientWithDir()}
-                bgClip="text"
-              >
-                Participe
-              </Text>
-            </NextLink>{' '}
+            <Link
+              as={NextLink}
+              href="/participate"
+              fontWeight="bold"
+              bgGradient={textGradientWithDir()}
+              bgClip="text"
+            >
+              Participe{' '}
+            </Link>
             e faça a diferença.
           </Text>
           <Flex justify="center" alignItems="center">
             <LightMode>
-              <NextLink href="/participate" passHref>
+              <motion.div
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  transition: {
+                    delay: 1.65,
+                  },
+                }}
+                initial={{ opacity: 0, scale: 0.8 }}
+              >
                 <Button
-                  as={motion.a}
+                  as={NextLink}
+                  href="/participate"
                   colorScheme="pink"
                   maxW="xs"
                   size="lg"
                   rightIcon={<CaretRight size={24} />}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    transition: {
-                      delay: 1.65,
-                    },
-                  }}
-                  initial={{ opacity: 0, scale: 0.8 }}
                 >
                   Participar
                 </Button>
-              </NextLink>
+              </motion.div>
             </LightMode>
           </Flex>
         </Stack>

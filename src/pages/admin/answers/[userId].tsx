@@ -20,7 +20,10 @@ import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
 import { UserTable } from '../../../components/pages/userCPF/UserTable'
 import { trpc } from '../../../utils/trpc'
-import { canSeeDashboard, TUserPossiblePermissions } from '../manageusers'
+import {
+  canSeeDashboard,
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 export default function Answers() {
   const { query } = useRouter()

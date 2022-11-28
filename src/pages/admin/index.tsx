@@ -19,7 +19,10 @@ import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { trpc } from '../../utils/trpc'
-import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
+import {
+  canSeeDashboard,
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 const signInSchema = z.object({
   username: z

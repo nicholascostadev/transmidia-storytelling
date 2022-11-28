@@ -32,7 +32,10 @@ import {
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { canSeeDashboard, TUserPossiblePermissions } from './manageusers'
+import {
+  canSeeDashboard,
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 export default function Dashboard() {
   const { data, status } = useSession()

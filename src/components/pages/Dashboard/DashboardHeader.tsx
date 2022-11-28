@@ -21,8 +21,8 @@ import { Sun, Moon, List } from 'phosphor-react'
 import { ChakraCustomImage } from '../../ChakraCustomImage'
 import {
   canSeeDashboard,
-  TUserPossiblePermissions,
-} from '@root/pages/admin/manageusers'
+  type TUserPossiblePermissions,
+} from '@root/utils/permissionsUtils'
 
 export const DashboardHeader = ({
   permission,

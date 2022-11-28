@@ -109,7 +109,7 @@ export const ParticipateForm = () => {
     if (!isLaunched) return data
 
     registerMutation.mutate(data, {
-      onError: (err: any) => {
+      onError: (err) => {
         toast({
           title: 'Erro.',
           description:
@@ -121,7 +121,7 @@ export const ParticipateForm = () => {
         })
         console.error({ err })
       },
-      onSuccess: (data: any) => {
+      onSuccess: (data) => {
         toast({
           title: 'Registrado.',
           description: 'Você foi registrado com sucesso!',

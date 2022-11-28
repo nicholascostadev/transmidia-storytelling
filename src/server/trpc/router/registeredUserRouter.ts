@@ -18,14 +18,29 @@ export const registeredUserRouter = router({
       const noPrevKnowledge =
         input.previousKnowledge === '' || !input.previousKnowledge
 
-      const formattedData = {
+      type FormattedData = Omit<
+        RegisteredUser,
+        | 'id'
+        | 'created_at'
+        | 'confirmedEmail'
+        | 'school_level'
+        | 'approved'
+        | 'prev_knowledge'
+      > & {
+        previousKnowledge: string
+        academic: string
+      }
+
+      const formattedData: FormattedData = {
         ...input,
         academic,
-        disabilities: noDisabilities ? 'Nenhuma' : input.disabilities,
-        previousKnowledge: noPrevKnowledge ? 'Nenhum' : input.previousKnowledge,
+        disabilities: noDisabilities ? 'Nenhuma' : input.disabilities!,
+        previousKnowledge: noPrevKnowledge
+          ? 'Nenhum'
+          : input.previousKnowledge!,
         gender: GENDER_OPTIONS[input.gender],
         cpf: input.cpf.replace(/\D/g, ''),
-      } as any
+      }
 
       return await ctx.prisma.registeredUser.create({
         data: {

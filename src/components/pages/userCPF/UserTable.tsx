@@ -144,7 +144,7 @@ export const UserTable = ({
                         <Text>{formatApproval(userInfo[key])}</Text>
                         {isAdmin && (
                           <Popover closeOnBlur={false} placement="top">
-                            {({ onClose }) => (
+                            {({ onClose }: { onClose: () => void }) => (
                               <>
                                 <PopoverTrigger>
                                   <IconButton

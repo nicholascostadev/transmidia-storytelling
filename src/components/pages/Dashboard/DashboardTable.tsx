@@ -161,7 +161,7 @@ export const DashboardTable = ({
                 <Flex justify="start">
                   {formatApproval(user.approved)}
                   <Popover closeOnBlur={false} placement="end">
-                    {({ onClose }) => (
+                    {({ onClose }: { onClose: () => void }) => (
                       <>
                         <PopoverTrigger>
                           <IconButton
@@ -243,7 +243,7 @@ export const DashboardTable = ({
               {isAdmin && (
                 <Td isNumeric>
                   <Popover closeOnBlur={false} placement="start">
-                    {({ onClose }) => (
+                    {({ onClose }: { onClose: () => void }) => (
                       <>
                         <PopoverTrigger>
                           <IconButton

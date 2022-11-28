@@ -25,11 +25,8 @@ export const validateCPF = (cpf: string): boolean => {
 
   rev = 11 - (add % 11)
   if (rev === 10 || rev === 11) rev = 0
-  if (rev !== parseInt(cpf.charAt(9))) {
-    console.log('cpf', cpf)
+  if (rev !== parseInt(cpf.charAt(9))) return false
 
-    return false
-  }
   add = 0
 
   for (let i = 0; i < 10; i++) add += parseInt(cpf.charAt(i)) * (11 - i)

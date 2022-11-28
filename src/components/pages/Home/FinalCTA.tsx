@@ -1,4 +1,4 @@
-import { Button, Heading, Link, Stack, Text } from '@chakra-ui/react'
+import { Button, Heading, Stack, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import NextLink from 'next/link'
 

@@ -40,7 +40,7 @@ export const emailRouter = router({
           },
         })
       } catch (error) {
-        console.log(JSON.stringify(error, null, 2))
+        if (error instanceof Error) console.log(error.message)
       }
     }),
 })

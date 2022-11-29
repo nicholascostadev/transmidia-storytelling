@@ -16,26 +16,23 @@ import {
 import { User } from '@prisma/client'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsersTable'
 import { Search } from '../../components/Search'
-import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 import { useLoggedInfo } from '../../hooks/useLoggedInfo'
-import {
-  filterReducer,
-  initialState,
-  QueryAction,
-} from '@root/reducers/queryReducer'
+import { useDebounceQuery } from '../../hooks/useDebounceQuery'
 
 export default function ManageUsers() {
   const { userInfo, isAdmin, isLoading } = useLoggedInfo()
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [filterState, dispatch] = useReducer(filterReducer, initialState)
   const [page, setPage] = useState(1)
+
+  // debounce effect when searching
+  const { changeQuery, changeFilter, filterState } = useDebounceQuery()
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
@@ -70,29 +67,6 @@ export default function ManageUsers() {
     }
   }, [infiniteUsers.data?.pages, page])
 
-  // debounce effect when searching
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (router.query.q === filterState.query) return
-
-      router.push(
-        {
-          query: {
-            ...router.query,
-            q: filterState.query,
-          },
-        },
-        undefined,
-        {
-          shallow: true,
-          scroll: false,
-        },
-      )
-    }, 500)
-
-    return () => clearTimeout(delayDebounceFn)
-  }, [router, filterState.query])
-
   const permissionMutate = trpc.user.changePermission.useMutation()
 
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
@@ -100,20 +74,6 @@ export default function ManageUsers() {
   // only admins can manage users permissions for security reasons
   if (!isAdmin) {
     return <NotAllowed isModerator={userInfo?.permission === 'moderator'} />
-  }
-
-  function handleQueryChange(newQuery: string) {
-    dispatch({
-      type: QueryAction.SET_QUERY,
-      payload: { ...filterState, query: newQuery },
-    })
-  }
-
-  function handleFilterChange(filter: TFilter) {
-    dispatch({
-      type: QueryAction.SET_FILTER,
-      payload: { ...filterState, filter },
-    })
   }
 
   if (isLoading) {
@@ -136,9 +96,9 @@ export default function ManageUsers() {
         <Stack w="1300px" maxW="100%" mx="auto">
           <Search
             currentQuery={filterState.query}
-            changeQuery={handleQueryChange}
+            changeQuery={changeQuery}
             filter={filterState.filter}
-            changeFilter={handleFilterChange}
+            changeFilter={changeFilter}
           />
 
           <ManageUsersTable users={users} permissionMutate={permissionMutate} />

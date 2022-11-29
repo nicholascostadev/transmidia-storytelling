@@ -17,33 +17,30 @@ import {
 import type { RegisteredUser } from '@prisma/client'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
-import { useEffect, useReducer, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { NotAllowed } from '../../components/NotAllowed'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 import { Search } from '../../components/Search'
-import {
-  filterReducer,
-  initialState,
-  QueryAction,
-} from '../../reducers/queryReducer'
-import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 import { useLoggedInfo } from '../../hooks/useLoggedInfo'
+import { useDebounceQuery } from '../../hooks/useDebounceQuery'
 
 export default function Dashboard() {
   const { userInfo, isLoading, canSeeDashboard } = useLoggedInfo()
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
-  const [filterState, dispatch] = useReducer(filterReducer, initialState)
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
-  const { query, push: pushToRoute } = useRouter()
+  const { query } = useRouter()
   const q = stringOrNull(query.q)?.trim()
 
   const backgroundColor = useColorModeValue('gray.100', '')
+
+  // debounce effect when searching
+  const { changeQuery, changeFilter, filterState } = useDebounceQuery(resetPage)
 
   // FIXME: FIX THIS Typing
   const infiniteUsers: any = trpc.registeredUser.infiniteUsers.useInfiniteQuery(
@@ -85,54 +82,11 @@ export default function Dashboard() {
     }
   }, [infiniteUsers.data?.pages, currentPage])
 
-  // debounce effect when searching
-  useEffect(() => {
-    const delayDebounceFn = setTimeout(() => {
-      if (query.q === filterState.query) return
-
-      // whenever the query changes, we reset the page to 1
-      // and also the lastAvailablePage to 1
-      // because we want to show the first page of results
-      // IF we don't do so, the list won't be shown(at least if the result has less than 5 items)
-      resetPage()
-      pushToRoute(
-        {
-          query: {
-            ...query,
-            q: filterState.query,
-          },
-        },
-        undefined,
-        {
-          shallow: true,
-          scroll: false,
-        },
-      )
-    }, 500)
-
-    return () => clearTimeout(delayDebounceFn)
-  }, [filterState.query, pushToRoute, query, infiniteUsers])
-
   const [usersToShow, setUsersToShow] = useState<RegisteredUser[]>(
     infiniteUsers.data?.pages[0]?.items as RegisteredUser[],
   )
 
   const borderColor = useColorModeValue('gray.100', 'gray.700')
-
-  function handleQueryChange(newQuery: string) {
-    dispatch({
-      type: QueryAction.SET_QUERY,
-      payload: { ...filterState, query: newQuery },
-    })
-  }
-
-  function handleFilterChange(filter: TFilter) {
-    dispatch({
-      type: QueryAction.SET_FILTER,
-      payload: { ...filterState, filter },
-    })
-    resetPage()
-  }
 
   function handleGotoNextPage() {
     if (currentPage < lastAvailablePage) {
@@ -188,9 +142,9 @@ export default function Dashboard() {
         <Stack w="1200px" maxW="100%" mx="auto">
           <Search
             currentQuery={filterState.query}
-            changeQuery={handleQueryChange}
+            changeQuery={changeQuery}
             filter={filterState.filter}
-            changeFilter={handleFilterChange}
+            changeFilter={changeFilter}
           />
           <Box
             maxW="100%"

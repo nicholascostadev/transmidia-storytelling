@@ -1,6 +1,6 @@
 import { User } from '@prisma/client'
 import { z } from 'zod'
-import { router, publicProcedure, adminModRouter, adminRouter } from '../trpc'
+import { router, publicProcedure, adminRouter } from '../trpc'
 
 export const userRouter = router({
   getUserInfo: publicProcedure
@@ -16,7 +16,7 @@ export const userRouter = router({
         },
       })
     }),
-  getInfiniteUsers: adminModRouter
+  getInfiniteUsers: adminRouter
     .input(
       z.object({
         limit: z.number().min(1).max(100).nullish(),

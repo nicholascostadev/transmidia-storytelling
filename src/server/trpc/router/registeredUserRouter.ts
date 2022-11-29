@@ -1,8 +1,8 @@
-import { GENDER_OPTIONS } from '@root/utils/formatters'
-import { router, publicProcedure, adminModRouter, adminRouter } from '../trpc'
-import { validation } from '../../../../@types/formValidation/index'
-import { z } from 'zod'
 import { RegisteredUser } from '@prisma/client'
+import { GENDER_OPTIONS } from '@root/server/back-utils/formatters'
+import { validation } from '@root/server/back-utils/validation'
+import { z } from 'zod'
+import { adminModRouter, adminRouter, publicProcedure, router } from '../trpc'
 
 export const registeredUserRouter = router({
   register: publicProcedure

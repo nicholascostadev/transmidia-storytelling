@@ -14,7 +14,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { CaretLeft, Moon, Sun } from 'phosphor-react'
 
-export default function NotAllowed() {
+export default function NotFound() {
   const { toggleColorMode: toggleMode } = useColorMode()
   const SwitchIcon = useColorModeValue(Moon, Sun)
   const text = useColorModeValue('dark', 'light')

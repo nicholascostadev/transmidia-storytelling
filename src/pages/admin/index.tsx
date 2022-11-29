@@ -9,7 +9,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { CaretLeft, GoogleLogo } from 'phosphor-react'
@@ -18,11 +18,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
-import { trpc } from '../../utils/trpc'
-import {
-  canSeeDashboard,
-  type TUserPossiblePermissions,
-} from '@root/utils/permissionsUtils'
+import { useLoggedInfo } from '../../hooks/useLoggedInfo'
 
 const signInSchema = z.object({
   username: z
@@ -35,10 +31,9 @@ const signInSchema = z.object({
 type TSignIn = z.infer<typeof signInSchema>
 
 export default function AdminSignIn() {
-  const { data: userSession, status } = useSession()
-  const userInfo = trpc.user.getUserInfo.useQuery({
-    id: String(userSession?.user?.id),
-  })
+  const { userInfo, isLoading, canSeeDashboard, authenticated } =
+    useLoggedInfo()
+
   const router = useRouter()
 
   const {
@@ -59,16 +54,14 @@ export default function AdminSignIn() {
   }
 
   useEffect(() => {
-    if (
-      canSeeDashboard(userInfo.data?.permission as TUserPossiblePermissions)
-    ) {
+    if (canSeeDashboard) {
       router.push('/admin/dashboard')
     }
-  }, [router, userInfo.data?.permission])
+  }, [router, canSeeDashboard])
 
   return (
     <>
-      <DashboardHeader permission={userInfo.data?.permission} />
+      <DashboardHeader permission={userInfo?.permission} />
       <Center height="calc(100vh - 72px)">
         <Stack
           as="form"
@@ -110,19 +103,17 @@ export default function AdminSignIn() {
             variant={'outline'}
             leftIcon={<GoogleLogo />}
             isLoading={
-              (status === 'authenticated' &&
-                userInfo.data?.permission !== 'none') ||
-              status === 'loading'
+              (authenticated && userInfo?.permission !== 'none') || isLoading
             }
             colorScheme="red"
-            isDisabled={!!userSession}
+            isDisabled={authenticated}
             onClick={() => signIn('google')}
           >
             <Center>
               <Text>{'Entrar com sua conta Google'}</Text>
             </Center>
           </Button>
-          {userInfo?.data?.permission === 'none' && (
+          {userInfo?.permission === 'none' && (
             <Stack>
               <Text color="red.400" textAlign="center">
                 Você já está logado, porém não tem permissões de administrador,

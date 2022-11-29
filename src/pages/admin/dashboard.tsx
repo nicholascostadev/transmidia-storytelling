@@ -15,7 +15,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import type { RegisteredUser } from '@prisma/client'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 import { useEffect, useReducer, useState } from 'react'
@@ -32,13 +31,10 @@ import {
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import {
-  canSeeDashboard,
-  type TUserPossiblePermissions,
-} from '@root/utils/permissionsUtils'
+import { useLoggedInfo } from '../../hooks/useLoggedInfo'
 
 export default function Dashboard() {
-  const { data, status } = useSession()
+  const { userInfo, isLoading, canSeeDashboard } = useLoggedInfo()
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [filterState, dispatch] = useReducer(filterReducer, initialState)
@@ -49,13 +45,7 @@ export default function Dashboard() {
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
-  const userInfo = trpc.registeredUser.getUserInfo.useQuery(
-    { id: String(data?.user?.id) },
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    },
-  )
-
+  // FIXME: FIX THIS Typing
   const infiniteUsers: any = trpc.registeredUser.infiniteUsers.useInfiniteQuery(
     {
       limit: itemsPerPage,
@@ -174,16 +164,7 @@ export default function Dashboard() {
     setLastAvailablePage(1)
   }
 
-  if (
-    !canSeeDashboard(userInfo.data?.permission as TUserPossiblePermissions) ||
-    status === 'unauthenticated'
-  ) {
-    return (
-      <NotAllowed isModerator={userInfo.data?.permission === 'moderator'} />
-    )
-  }
-
-  if (status === 'loading') {
+  if (isLoading) {
     return (
       <Center h="100vh">
         <Spinner />
@@ -191,9 +172,13 @@ export default function Dashboard() {
     )
   }
 
+  if (!canSeeDashboard) {
+    return <NotAllowed isModerator={userInfo?.permission === 'moderator'} />
+  }
+
   return (
     <>
-      <DashboardHeader permission={userInfo.data?.permission} />
+      <DashboardHeader permission={userInfo?.permission} />
       <Center
         minH="calc(100vh - 72px)"
         display="flex"
@@ -219,7 +204,7 @@ export default function Dashboard() {
               toggleApprovalMutation={toggleApprovalMutation}
               usersToShow={usersToShow}
               deleteUserMutation={deleteUserMutation}
-              isAdmin={userInfo.data?.permission === 'admin'}
+              isAdmin={userInfo?.permission === 'admin'}
             />
           </Box>
         </Stack>{' '}

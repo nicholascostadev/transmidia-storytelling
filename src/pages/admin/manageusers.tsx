@@ -14,7 +14,6 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 import { useEffect, useReducer, useState } from 'react'
@@ -25,6 +24,7 @@ import { Search } from '../../components/Search'
 import { TFilter } from '../../../@types/queryFilter'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
+import { useLoggedInfo } from '../../hooks/useLoggedInfo'
 import {
   filterReducer,
   initialState,
@@ -32,7 +32,7 @@ import {
 } from '@root/reducers/queryReducer'
 
 export default function ManageUsers() {
-  const { data, status } = useSession()
+  const { userInfo, isAdmin, isLoading } = useLoggedInfo()
   const [itemsPerPage, setItemsPerPage] = useState(5)
   const [filterState, dispatch] = useReducer(filterReducer, initialState)
   const [page, setPage] = useState(1)
@@ -44,12 +44,6 @@ export default function ManageUsers() {
   // Allows for reloading the page to see the same search results & to link to it
   const q = stringOrNull(router.query.q)?.trim()
 
-  const userInfo = trpc.user.getUserInfo.useQuery(
-    { id: String(data?.user?.id) },
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    },
-  )
   const [users, setUsers] = useState([] as User[])
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
   const infiniteUsers = trpc.user.getInfiniteUsers.useInfiniteQuery(
@@ -104,13 +98,8 @@ export default function ManageUsers() {
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
   // only admins can manage users permissions for security reasons
-  if (
-    (userInfo.data?.permission !== 'admin' && status !== 'loading') ||
-    (!data && status !== 'loading')
-  ) {
-    return (
-      <NotAllowed isModerator={userInfo.data?.permission === 'moderator'} />
-    )
+  if (!isAdmin) {
+    return <NotAllowed isModerator={userInfo?.permission === 'moderator'} />
   }
 
   function handleQueryChange(newQuery: string) {
@@ -127,7 +116,7 @@ export default function ManageUsers() {
     })
   }
 
-  if (status === 'loading') {
+  if (isLoading) {
     return (
       <Center h="100vh">
         <Spinner />
@@ -137,7 +126,7 @@ export default function ManageUsers() {
 
   return (
     <>
-      <DashboardHeader permission={userInfo.data?.permission} />
+      <DashboardHeader permission={userInfo?.permission} />
       <Center
         minH="calc(100vh - 72px)"
         display="flex"

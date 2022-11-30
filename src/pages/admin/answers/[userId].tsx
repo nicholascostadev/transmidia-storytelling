@@ -34,8 +34,6 @@ export default function Answers() {
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
-  const deleteUserMutation = trpc.registeredUser.deleteUser.useMutation()
-
   const { isLoading, error } = trpc.registeredUser.getUserAnswers.useQuery(
     { id: String(userId) },
     {
@@ -44,6 +42,9 @@ export default function Answers() {
       refetchOnWindowFocus: false,
     },
   )
+
+  const { mutate: deleteRegisteredUser } =
+    trpc.registeredUser.deleteUser.useMutation()
 
   if (isLoading) {
     return (
@@ -66,7 +67,7 @@ export default function Answers() {
   function handleDeleteUser(id?: string) {
     if (!id) return
 
-    deleteUserMutation.mutate(
+    deleteRegisteredUser(
       { id },
       {
         onError: () => {

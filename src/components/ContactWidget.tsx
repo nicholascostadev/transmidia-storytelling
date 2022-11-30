@@ -18,30 +18,35 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import { Bug, EnvelopeOpen, Gauge, PaperPlaneRight, X } from 'phosphor-react'
-import { Input } from './Input'
-import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { validateCPF } from '@root/../@types/formValidation/cpf'
+import { Bug, EnvelopeOpen, Gauge, PaperPlaneRight, X } from 'phosphor-react'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { Input } from './Input'
+
 const MESSAGE_MAX_SIZE = 300
+
+const cpfSchema = z.union([
+  z.string().length(11, 'CPF deve ter 11 dígitos').refine(validateCPF, {
+    message: 'CPF informado não existe',
+  }),
+  z.literal(''),
+  z.literal('___.___.___-__'),
+])
 
 const schema = z.object({
   name: z
     .string()
-    .min(1, 'Nome deve ter no mínimo 1 caracter')
+    .min(1, 'Nome deve ter no mínimo 1 caractere')
     .max(100, 'Nome deve ter no máximo 100 caracteres'),
   email: z
     .string()
     .email('Email inválido')
     .min(3, 'Email inválido')
     .max(100, 'Email inválido'),
-  cpf: z.literal('___.___.___-__').or(
-    z
-      .string()
-      .length(14, 'CPF deve ter 11 dígitos')
-      .refine((value) => !value.includes('_'), 'CPF deve ter 11 dígitos'),
-  ),
+  cpf: cpfSchema,
   message: z
     .string()
     .min(3, 'Mensagem deve ter no mínimo 3 caracteres')
@@ -61,9 +66,11 @@ export const ContactWidget = () => {
     control,
   } = useForm<ContactWidgetFields>({
     resolver: zodResolver(schema),
-    mode: 'onBlur',
+    mode: 'all',
+    defaultValues: {
+      type: 'bug',
+    },
   })
-  const currentCPF = watch('cpf')
 
   const noErrors = Object.keys(errors).length === 0
   const backgroundColor = useColorModeValue('white', 'gray.900')
@@ -146,13 +153,16 @@ export const ContactWidget = () => {
                       label="CPF"
                       placeholder="CPF"
                       inputMode="numeric"
-                      error={
-                        currentCPF === '___.___.___-__' || currentCPF === ''
-                          ? undefined
-                          : errors.cpf
-                      }
+                      error={errors.cpf}
                       flex="1"
-                      onChange={onChange}
+                      onChange={(e) =>
+                        onChange(
+                          e.target.value
+                            .replaceAll('.', '')
+                            .replaceAll('-', '')
+                            .replaceAll('_', ''),
+                        )
+                      }
                       helperText="O CPF só será necessário caso o problema seja relacionado ao cadastro na pesquisa. Sem ele, não conseguiremos te ajudar."
                     />
                   )

@@ -12,7 +12,6 @@ export const serverSchema = z.object({
   NEXTAUTH_URL: z.string().url(),
   GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
-  SENDGRID_API_KEY: z.string(),
   EMAIL_SECRET: z.string(),
   MAILGUN_PRIVATE_API_KEY: z.string(),
   MAILGUN_PUBLIC_API_KEY: z.string(),

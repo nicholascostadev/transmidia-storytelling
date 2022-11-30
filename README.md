@@ -1,228 +1,302 @@
-# Create T3 App
 
-This is an app bootstrapped according to the [init.tips](https://init.tips) stack, also known as the T3-Stack.
+# Transmidia Storytelling
 
-## Why are there `.js` files in here?
+![Transmidia Storytelling website landing page](readmeAssets/transmidia-landing.png)
 
-As per [T3-Axiom #3](https://github.com/t3-oss/create-t3-app/tree/next#3-typesafety-isnt-optional), we take typesafety as a first class citizen. Unfortunately, not all frameworks and plugins support TypeScript which means some of the configuration files have to be `.js` files.
+|      Português      |      English      |
+|---------------------|-------------------|
+| [pt-BR](#português) | [en-US](#english) |
 
-We try to emphasize that these files are javascript for a reason, by explicitly declaring its type (`cjs` or `mjs`) depending on what's supported by the library it is used by. Also, all the `js` files in this project are still typechecked using a `@ts-check` comment at the top.
+**pt-BR** - Falar e entender sobre ciência não é tão fácil quanto poderia ser, isso é fato, mas o que poderíamos fazer quanto a isso?
 
-## What's next? How do I make an app with this?
+Ficar parado não é uma opção.
 
-We try to keep this project as simple as possible, so you can start with the most basic configuration and then move on to more advanced configuration.
+**en-US** - Talking and understanding abou science is not that ease, and that's a fact, but what can we do about that?
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Stand still is not an option.
 
-- [Next-Auth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
+# Português
 
-Also checkout these awesome tutorials on `create-t3-app`.
+## O que é o Transmidia Storytelling?
 
-- [Build a Blog With the T3 Stack - tRPC, TypeScript, Next.js, Prisma & Zod](https://www.youtube.com/watch?v=syEWlxVFUrY)
-- [Build a Live Chat Application with the T3 Stack - TypeScript, Tailwind, tRPC](https://www.youtube.com/watch?v=dXRRY37MPuk)
-- [Build a full stack app with create-t3-app](https://www.nexxel.dev/blog/ct3a-guestbook)
-- [A first look at create-t3-app](https://dev.to/ajcwebdev/a-first-look-at-create-t3-app-1i8f)
+_Storytelling_ é uma narração de histórias, mas não apenas histórias sem graça, e sim histórias que consigam captar o interesse e foco das pessoas, utilizando não só recursos textuais, mas também audiovisuais. Usar esse método tão poderoso para contar histórias junto com a diversidade de mídias para ensinar pessoas, se torna ainda mais poderoso.
 
-## How do I deploy this?
+## Sobre o projeto
 
-### Vercel
+Nosso projeto é sobre encontrar a mídia e a maneira certa de comunicar sobre ciência. Com a chegada da pandemia, o que mais se ouvia falar era sobre fake news, tudo era muito incerto no momento e muitos aproveitaram para divulgar informações equivocadas, e as pessoas que queriam disseminar a verdade, acabaram não tendo visibilidade suficiente.
 
-We recommend deploying to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss). It makes it super easy to deploy NextJs apps.
+Esse é só um exemplo de como a divulgação científica não estava e nem está em sua melhor forma, faltava divulgação, mas divulgação de forma correta e certeira.
 
-- Push your code to a GitHub repository.
-- Go to [Vercel](https://vercel.com/?utm_source=t3-oss&utm_campaign=oss) and sign up with GitHub.
-- Create a Project and import the repository you pushed your code to.
-- Add your environment variables.
-- Click **Deploy**
-- Now whenever you push a change to your repository, Vercel will automatically redeploy your website!
+### Como isso seria feito?
 
-### Docker
+Nós iremos realizar uma pesquisa totalmente voluntária, em que as pessoas irão se cadastrar através do nosso site.
 
-You can also dockerize this stack and deploy a container.
+Através da nossa pesquisa esperamos conseguir dados suficientes para ajudar pessoas que têm como objetivo a divulgação científica, dados como:
 
-Please note that Next.js requires a different process for buildtime (available in the frontend, prefixed by `NEXT_PUBLIC`) and runtime environment, server-side only, variables. In this demo we are using two variables, `DATABASE_URL` (used by the server) and `NEXT_PUBLIC_CLIENTVAR` (used by the client). Pay attention to their positions in the `Dockerfile`, command-line arguments, and `docker-compose.yml`.
+- Melhor lugar para falar sobre tal assunto e como falar, ex:
+  - COVID - Instagram, utilizando de um estilo mais cômico, não muito formal
+  - Obesidade - YouTube, utilizando de um estilo mais sério
+  - Pessoas com idade > 30 anos, tendem a preferir o Instagram como mídia para consumir conteúdos científicos. Possíveis motivos:
+    - Não possui muito tempo no seu dia para ficar lendo textos longos, então preferem conteúdos mais curtos e direto ao ponto.
 
-1. In your [next.config.mjs](./next.config.mjs), add the `standalone` output-option to your config:
+### Qual o nosso objetivo com o projeto?
 
-   ```diff
-     export default defineNextConfig({
-       reactStrictMode: true,
-       swcMinify: true,
-   +   output: "standalone",
-     });
-   ```
+Por mais que isso possa se tornar rentável, não é o nosso objetivo no momento, temos um objetivo muito maior do que o dinheiro possa fazer, a educação deve ser a motivação principal para muitas coisas, e a nosso projeto não foge disso.
 
-2. Remove the `env`-import from [next.config.mjs](./next.config.mjs):
+Fazer com que a nossa linda ciência seja divulgada da maneira certa para todos, é só uma parte de um grande mundo de objetivos que nós temos a cumprir como pessoas.
 
-   ```diff
-   - import { env } from "./src/env/server.mjs";
-   ```
+Esperamos que você acompanhe a gente nessa jornada, sua participação significa muito para nós!
 
-3. Create a `.dockerignore` file with the following contents:
-   <details>
-   <summary>.dockerignore</summary>
+### Rotas disponíveis
 
-   ```
-   .env
-   Dockerfile
-   .dockerignore
-   node_modules
-   npm-debug.log
-   README.md
-   .next
-   .git
-   ```
+#### Rotas públicas
 
-  </details>
+- /
+  - ![Landing page](readmeAssets/transmidia-landing.png)
+- /participate
+  - ![Página de participar](readmeAssets/participatePage.jpg)
+- /admin
+  - ![Página de Admin / Login](readmeAssets/adminPage.jpg)
 
-4. Create a `Dockerfile` with the following contents:
-   <details>
-   <summary>Dockerfile</summary>
+#### Rotas privadas
 
-   ```Dockerfile
-   ########################
-   #         DEPS         #
-   ########################
+- /admin/dashboard
+  - ![Dashboard](readmeAssets/dashboardImage.jpg)
+- /answers/[userId]
+  - ![Página das respostas](readmeAssets/answersPage.jpg)
+- /admin/manageusers
+  - ![Gerenciamento de usuários](readmeAssets/manageusersTable.jpg)
 
-   # Install dependencies only when needed
-   # TODO: re-evaluate if emulation is still necessary on arm64 after moving to node 18
-   FROM --platform=linux/amd64 node:16-alpine AS deps
-   # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-   RUN apk add --no-cache libc6-compat openssl
-   WORKDIR /app
+### O código será aberto para sempre?
 
-   # Install Prisma Client - remove if not using Prisma
-   COPY prisma ./
+Sim, a razão de estarmos fazendo isso é pela própria educação, então nada melhor que disponibilizar a maneira de como conseguimos realizar o projeto.
 
-   # Install dependencies based on the preferred package manager
-   COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-   RUN \
-     if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-     elif [ -f package-lock.json ]; then npm ci; \
-     elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-     else echo "Lockfile not found." && exit 1; \
-     fi
+### Posso contribuir para o projeto com o que sei?
 
-   ########################
-   #        BUILDER       #
-   ########################
+Claro que você pode, tanto no âmbito da programação quanto o científico.
 
-   # Rebuild the source code only when needed
-   # TODO: re-evaluate if emulation is still necessary on arm64 after moving to node 18
-   FROM --platform=linux/amd64 node:16-alpine AS builder
+Caso tenha alguma sugestão de alteração, você pode mandar pelo próprio site no widget no canto inferior direito e escrever por lá o seu feedback.
 
-   ARG DATABASE_URL
-   ARG NEXT_PUBLIC_CLIENTVAR
+Caso você seja um programador e queira ajudar no desenvolvimento, basta seguir o próximo tópico, que será explicado tudo que você deverá fazer para contribuir.
 
-   WORKDIR /app
-   COPY --from=deps /app/node_modules ./node_modules
-   COPY . .
+## Como posso contribuir no código?
 
-   # Next.js collects completely anonymous telemetry data about general usage.
-   # Learn more here: https://nextjs.org/telemetry
-   # Uncomment the following line in case you want to disable telemetry during the build.
-   # ENV NEXT_TELEMETRY_DISABLED 1
+Primeiro, você precisa ter o `node` instalado na sua versão LTS e o `yarn`
 
-   RUN \
-     if [ -f yarn.lock ]; then yarn build; \
-     elif [ -f package-lock.json ]; then npm run build; \
-     elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm run build; \
-     else echo "Lockfile not found." && exit 1; \
-     fi
+Após ter instalado os dois requisitos, é só continuar pelo seu terminal com os seguintes comandos:
 
-   ########################
-   #        RUNNER        #
-   ########################
+```bash
+# Clone o repositório 
+git clone https://github.com/nicholascostadev/transmidia-storytelling.git
 
-   # Production image, copy all the files and run next
-   # TODO: re-evaluate if emulation is still necessary after moving to node 18
-   FROM --platform=linux/amd64 node:16-alpine AS runner
-   # WORKDIR /usr/app
-   WORKDIR /app
+# Entre na pasta criada
+cd transmidia-storytelling
 
-   ENV NODE_ENV production
-   # Uncomment the following line in case you want to disable telemetry during runtime.
-   # ENV NEXT_TELEMETRY_DISABLED 1
+# Instale as dependências
+yarn install # ou apenas "yarn"
 
-   RUN addgroup --system --gid 1001 nodejs
-   RUN adduser --system --uid 1001 nextjs
+# Rode o servidor de desenvolvimento
+yarn dev
+```
 
-   COPY --from=builder /app/next.config.mjs ./
-   COPY --from=builder /app/public ./public
-   COPY --from=builder /app/package.json ./package.json
+Ainda é necessário configurar as variáveis de ambiente, então use o seguinte comando:
 
-   # Automatically leverage output traces to reduce image size
-   # https://nextjs.org/docs/advanced-features/output-file-tracing
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-   COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+```bash
+# dentro do projeto
+cp ./.env.example ./.env
+```
 
-   USER nextjs
+Agora complete o arquivo `.env` com as variáveis de ambiente que você não possui
 
-   EXPOSE 3000
+Caso você use o SQLite, deixe seu `model Account` no `schema.prisma` assim:
 
-   ENV PORT 3000
+```js
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-   CMD ["node", "server.js"]
-   ```
+    @@unique([provider, providerAccountId])
+}
+```
 
-  </details>
+_Obs.:_ Conceito importante para saber: o modelo `RegisteredUser` se refere a pessoas cadastradas para a pesquisa, já o `User` se refere a contas criadas(Google)
 
-5. To build and run this image locally, run:
+Após completar, tudo estará funcionando para rodar em desenvolvimento.
 
-   ```bash
-   docker build -t ct3a -e NEXT_PUBLIC_CLIENTVAR=clientvar .
-   docker run -p 3000:3000 -e DATABASE_URL="database_url_goes_here" ct3a
-   ```
+Para realizar a contribuição, crie uma branch nova e faça suas alterações por lá. Assim que tiver terminado, crie um pull-request com as alterações e eu irei verificá-las.
 
-6. You can also use a PaaS such as [Railway's](https://railway.app) automated [Dockerfile deployments](https://docs.railway.app/deploy/dockerfiles) to deploy your app.
+Pronto!
 
-### Docker Compose
+## Tecnologias Utilizadas
 
-You can also use docker compose to build the image and run the container.
+- [NextAuth](https://next-auth.js.org/)
+- [Nextjs](https://nextjs.org/)
+- [Prisma](https://www.prisma.io/)
+- [ChakraUI](https://chakra-ui.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [React Hook Form](https://react-hook-form.com/)
+- [zod](https://zod.dev/)
+- [TypeScript](https://typescriptlang.org/)
 
-1. Follow steps 1-4 above
+## Ideias de Features
 
-2. Create a `docker-compose.yml` file with the following:
+- [ ] Página de análise(pode ser "/analytics") no qual contenha gráficos sobre as pessoas cadastradas para a pesquisa, como:
+  - Gráfico por gênero.
+  - Gráfico por idade.
+  - Gráfico por conhecimento prévio.
+  - ...
+- [ ] Login com username e senha ao invés de só autenticação com o Google pra limitar o número de pessoas que podem fazer login na aplicação e tirar a dependência do Google.
 
-   <details>
-   <summary>docker-compose.yml</summary>
+# English
 
-   ```yaml
-   version: "3.9"
-   services:
-     app:
-       platform: "linux/amd64"
-       build:
-         context: .
-         dockerfile: Dockerfile
-         args:
-           NEXT_PUBLIC_CLIENTVAR: "clientvar"
-       working_dir: /app
-       ports:
-         - "3000:3000"
-       image: t3-app
-       environment:
-         - DATABASE_URL=database_url_goes_here
-   ```
+## What's Transmidia Storytelling?
 
-   </details>
+_Storytelling_  is just like the word, but now with just boring stories, but stories that manage to capture people's interest and focus, using both textual and audiovisual resources. Using this very powerful method to tell stories together with the media diversity, it becomes even more powerful.
 
-3. Run this using `docker compose up`.
+## About the project
 
-### Further reading
+Our project is about finding the right media and way to communicate about science. With the arrival of the COVID pandemic, what was heard the most was fake news, everything was very uncertain at the time and many people took the opportunity to spread misinformation, and people who wanted to spread the truth, ended up not having enough visibility.
 
-Here are some useful references you can further look into:
+This is just an example of how scientific dissemination was not and is not in its best form, by that time, there was lack of dissemination in the right way, that lead to much misinformation.
 
-- [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
-- [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/compose-file-v3/)
-- [Docker CLI reference](https://docs.docker.com/engine/reference/commandline/docker/)
-- [Docker Compose CLI reference](https://docs.docker.com/compose/reference/)
+### How would that work?
 
-## Useful resources
+We will conduct an entirely voluntary survey, which people will register through our website.
 
-Here are some resources that we commonly refer to:
+Through our research we hope to get enough data to help people who aim to disseminate science, data such as:
 
-- [Protecting routes with Next-Auth.js](https://next-auth.js.org/configuration/nextjs#unstable_getserversession)
+- Best place to talk about it and how to talk, eg:
+  - COVID - Instagram, using a more comic style, not too formal
+  - Obesity - YouTube, using a more serious style
+  - People aged > 30 years tend to prefer Instagram as a media for consuming scientific content. Possible reasons:
+    - They don't have much time in your day to read long texts, so they prefer shorter and more direct content.
+
+### What is our goal with the project?
+
+As much as this can become profitable, it is not our goal at the moment, we have a much greater objective than money can do, education must be the main motivation for many things, and our project does not escape that.
+
+Getting our beautiful science to be disseminated in the right way for everyone is just one part of a great world of goals that we have to fulfill as people.
+
+We hope you join us on this journey, your participation means a lot to us!
+
+### Routes available
+
+#### Public routes
+
+- /
+  - ![Landing page](readmeAssets/transmidia-landing.png)
+- /participate
+  - ![Participate page](readmeAssets/participatePage.jpg)
+- /admin
+  - ![Admin / Login page](readmeAssets/adminPage.jpg)
+
+#### Private routes
+
+- /admin/dashboard
+  - ![Dashboard Image](readmeAssets/dashboardImage.jpg)
+- /answers/[userId]
+  - ![Answers page](readmeAssets/answersPage.jpg)
+- /admin/manageusers
+  - ![Manage Users Dashboard](readmeAssets/manageusersTable.jpg)
+
+### Will the code be open forever?
+
+Yes, the reason we are doing this is for education itself, so nothing better than making available the way we managed to carry out the project.
+
+### Can I contribute to the project with what I know?
+
+Of course you can, both programming and scientific.
+
+If you have any suggestions for changes, you can send them through the website in the widget in the lower right corner and write your feedback there.
+
+If you are a programmer and want to help with development, just follow the next topic, which will explain everything you should do to contribute.
+
+## How can I contribute to the code?
+
+First, you need to have `node` installed on your LTS version and `yarn`
+
+Once you have installed the two requirements, just continue through your terminal with the following commands:
+
+```bash
+# Clone the repository
+git clone https://github.com/nicholascostadev/transmidia-storytelling.git
+
+# Go to the cloned folder
+cd transmidia-storytelling
+
+# Install the dependencies
+yarn install # ou apenas "yarn"
+
+# Run the development server
+yarn dev
+```
+
+It is still necessary to configure the environment variables, so use the following command:
+
+```bash
+# inside the project
+cp ./.env.example ./.env
+```
+
+Now complete the `.env` file with the environment variables you don't have
+
+If you use SQLite, leave your `Account` model in `schema.prisma` like this:
+
+```js
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+```
+
+_Note:_ Important concept to know: the `RegisteredUser` model refers to people registered for the survey, while the `User` refers to accounts created (Google)
+
+After completing, everything will be ready to run in development.
+
+To make the contribution, create a new branch and make your changes there. Once you're done, create a pull-request with the changes and I'll verify them.
+
+Ready!
+
+## Technologies Used
+
+- [NextAuth](https://next-auth.js.org/)
+- [Nextjs](https://nextjs.org/)
+- [Prisma](https://www.prisma.io/)
+- [ChakraUI](https://chakra-ui.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [React Hook Form](https://react-hook-form.com/)
+- [zod](https://zod.dev/)
+- [TypeScript](https://typescriptlang.org/)
+
+## Feature ideas
+
+- [ ] Analysis page(maybe "/analytics") where there would be charts about users that registered for the research, like:
+  - Graph by gender.
+  - Graph by age.
+  - Graph by previous knowledge.
+  - ...
+- [ ] Login with username and password instead of authentication only with Google for limiting the number of people that can log in and also remove the Google dependency to the project.

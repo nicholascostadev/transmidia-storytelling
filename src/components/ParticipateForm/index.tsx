@@ -56,7 +56,7 @@ export const ParticipateForm = () => {
   const toast = useToast()
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
-  const disabeldBg = useColorModeValue('blackAlpha.300', 'whiteAlpha.200')
+  const disabledBg = useColorModeValue('blackAlpha.300', 'whiteAlpha.200')
 
   const {
     register,

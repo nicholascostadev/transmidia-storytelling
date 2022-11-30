@@ -123,9 +123,10 @@ export default function NotAllowed() {
             encontrar, por favor verifique sua caixa de spam e promoções.
           </Text>
           <Text fontSize={['sm', 'lg', 'xl']}>
-            Caso não tenha recebebido o e-mail de confirmação, entre em contato
+            Caso não tenha recebido o e-mail de confirmação, entre em contato
             com a nossa equipe através do ícone de envelope no canto inferior
-            direito da página. Estaremos em total disposição em ajudar você.
+            direito da página e selecione o seu problema. Estaremos em total
+            disposição para ajudar você.
           </Text>
           <ChakraLink
             as={Link}

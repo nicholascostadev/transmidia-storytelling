@@ -54,7 +54,7 @@ Esperamos que você acompanhe a gente nessa jornada, sua participação signific
 - /
   - ![Landing page](readmeAssets/transmidia-landing.jpg)
 - /participate
-  - ![Página de participar](readmeAssets/participatePage.jpg)
+  - ![Pagina de participar](https://user-images.githubusercontent.com/86835927/204885408-e6ca91c3-81ee-4847-af8e-4819e670c441.png)
 - /admin
   - ![Página de Admin / Login](readmeAssets/adminPage.jpg)
 
@@ -197,7 +197,7 @@ We hope you join us on this journey, your participation means a lot to us!
 - /
   - ![Landing page](readmeAssets/transmidia-landing.jpg)
 - /participate
-  - ![Participate page](readmeAssets/participatePage.jpg)
+  - ![Participate Page](https://user-images.githubusercontent.com/86835927/204885408-e6ca91c3-81ee-4847-af8e-4819e670c441.png)
 - /admin
   - ![Admin / Login page](readmeAssets/adminPage.jpg)
 

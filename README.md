@@ -1,7 +1,7 @@
 
 # Transmidia Storytelling
 
-![Transmidia Storytelling website landing page](readmeAssets/transmidia-landing.png)
+![Transmidia Storytelling website landing page](readmeAssets/transmidia-landing.jpg)
 
 |      Português      |      English      |
 |---------------------|-------------------|
@@ -52,7 +52,7 @@ Esperamos que você acompanhe a gente nessa jornada, sua participação signific
 #### Rotas públicas
 
 - /
-  - ![Landing page](readmeAssets/transmidia-landing.png)
+  - ![Landing page](readmeAssets/transmidia-landing.jpg)
 - /participate
   - ![Página de participar](readmeAssets/participatePage.jpg)
 - /admin
@@ -195,7 +195,7 @@ We hope you join us on this journey, your participation means a lot to us!
 #### Public routes
 
 - /
-  - ![Landing page](readmeAssets/transmidia-landing.png)
+  - ![Landing page](readmeAssets/transmidia-landing.jpg)
 - /participate
   - ![Participate page](readmeAssets/participatePage.jpg)
 - /admin

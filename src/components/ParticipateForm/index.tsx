@@ -49,6 +49,11 @@ const parsedStates = JSON.parse(JSON.stringify(statesCities))
   .estados as StatesAndCities['estados']
 
 export const ParticipateForm = () => {
+  // variable that will be removed when we launch the app (there may be a better
+  // way of doing so, maybe using a .env variable or something, but right now,
+  // it does the work it's supposed to do)
+  const isLaunched = false
+
   const registerMutation = trpc.registeredUser.register.useMutation()
   const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()
   const [formStep, setFormStep] = useState(1)
@@ -99,8 +104,6 @@ export const ParticipateForm = () => {
   const handlePrevStep = () => {
     if (formStep - 1 >= 1) setFormStep((prev) => prev - 1)
   }
-
-  const isLaunched = false
 
   function handleRegister(data: FormData) {
     // disabled right now(code is working fine) since it's not supposed
@@ -284,9 +287,9 @@ export const ParticipateForm = () => {
                 bg={'purple.400'}
                 // right now it's disabled because we don't have the terms of use
                 _disabled={{
-                  bg: disabeldBg,
+                  bg: disabledBg,
                   _hover: {
-                    bg: disabeldBg,
+                    bg: disabledBg,
                   },
                   cursor: 'not-allowed',
                 }}
@@ -411,9 +414,9 @@ export const ParticipateForm = () => {
                   !acceptedTerms || !isValid || formStep !== 2 || !isLaunched
                 }
                 _disabled={{
-                  bg: disabeldBg,
+                  bg: disabledBg,
                   _hover: {
-                    bg: disabeldBg,
+                    bg: disabledBg,
                   },
                   cursor: 'not-allowed',
                 }}

@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Input } from '../../components/Input'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
-import { useLoggedInfo } from '../../hooks/useLoggedInfo'
+import { useLoggedInfo } from '../../hooks'
 
 const signInSchema = z.object({
   username: z

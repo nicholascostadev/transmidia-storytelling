@@ -19,7 +19,7 @@ import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
 import { UserTable } from '../../../components/pages/userCPF/UserTable'
 import { trpc } from '../../../utils/trpc'
-import { useLoggedInfo } from '../../../hooks/useLoggedInfo'
+import { useLoggedInfo } from '../../../hooks'
 
 export default function Answers() {
   const { query } = useRouter()

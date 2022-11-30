@@ -23,8 +23,7 @@ import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsers
 import { Search } from '../../components/Search'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { useLoggedInfo } from '../../hooks/useLoggedInfo'
-import { useDebounceQuery } from '../../hooks/useDebounceQuery'
+import { useDebounceQuery, useLoggedInfo } from '../../hooks'
 
 export default function ManageUsers() {
   const { userInfo, isAdmin, isLoading } = useLoggedInfo()

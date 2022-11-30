@@ -25,8 +25,7 @@ import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 import { Search } from '../../components/Search'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { useLoggedInfo } from '../../hooks/useLoggedInfo'
-import { useDebounceQuery } from '../../hooks/useDebounceQuery'
+import { useLoggedInfo, useDebounceQuery } from '../../hooks'
 
 export default function Dashboard() {
   const { userInfo, isLoading, canSeeDashboard } = useLoggedInfo()

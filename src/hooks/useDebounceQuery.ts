@@ -5,6 +5,7 @@ import {
 } from '@root/reducers/queryReducer'
 import { useRouter } from 'next/router'
 import { useEffect, useReducer } from 'react'
+
 import { TFilter } from '../../@types/queryFilter'
 
 /**

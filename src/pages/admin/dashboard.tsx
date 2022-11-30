@@ -14,7 +14,6 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
-import type { RegisteredUser } from '@prisma/client'
 import { useRouter } from 'next/router'
 import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
 import { useEffect, useState } from 'react'
@@ -23,9 +22,11 @@ import { NotAllowed } from '../../components/NotAllowed'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { DashboardTable } from '../../components/pages/Dashboard/DashboardTable'
 import { Search } from '../../components/Search'
+import { useDebounceQuery, useLoggedInfo } from '../../hooks'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { useLoggedInfo, useDebounceQuery } from '../../hooks'
+
+import type { RegisteredUser } from '@prisma/client'
 
 export default function Dashboard() {
   const { userInfo, isLoading, canSeeDashboard } = useLoggedInfo()

@@ -15,12 +15,13 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, Moon, SignOut, Sun, List } from 'phosphor-react'
+import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
+
 import { ContactWidget } from '../components/ContactWidget'
 
 export default function NotAllowed() {
   const { data: userSession } = useSession()
-  const { toggleColorMode: toggleMode } = useColorMode()
+  const { toggleColorMode } = useColorMode()
   const SwitchIcon = useColorModeValue(Moon, Sun)
   const text = useColorModeValue('dark', 'light')
 
@@ -70,7 +71,7 @@ export default function NotAllowed() {
                       base: '0',
                       md: '3',
                     }}
-                    onClick={toggleMode}
+                    onClick={toggleColorMode}
                     icon={<SwitchIcon />}
                   />
                   {userSession && (

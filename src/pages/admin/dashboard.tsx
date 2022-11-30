@@ -38,7 +38,6 @@ export default function Dashboard() {
 
   const backgroundColor = useColorModeValue('gray.100', '')
 
-  // debounce effect when searching
   const { changeQuery, changeFilter, filterState } = useDebounceQuery(resetPage)
 
   // FIXME: FIX THIS Typing
@@ -62,11 +61,6 @@ export default function Dashboard() {
       keepPreviousData: true,
     },
   )
-
-  const toggleApprovalMutation =
-    trpc.registeredUser.toggleApproval.useMutation()
-
-  const deleteUserMutation = trpc.registeredUser.deleteUser.useMutation()
 
   const hasMorePages =
     infiniteUsers.hasNextPage ||
@@ -154,9 +148,7 @@ export default function Dashboard() {
           >
             <DashboardTable
               setUsersToShow={setUsersToShow}
-              toggleApprovalMutation={toggleApprovalMutation}
               usersToShow={usersToShow}
-              deleteUserMutation={deleteUserMutation}
               isAdmin={userInfo?.permission === 'admin'}
             />
           </Box>

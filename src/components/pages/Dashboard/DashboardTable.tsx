@@ -33,27 +33,27 @@ import { CaretRight, Check, Swap, Trash } from 'phosphor-react'
 import { Dispatch, SetStateAction } from 'react'
 import { formatApproval } from '../../../utils/formatters'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { trpc } from '@root/utils/trpc'
 
 interface DashboardTableProps {
   usersToShow: RegisteredUser[]
   setUsersToShow: Dispatch<SetStateAction<RegisteredUser[]>>
-  deleteUserMutation: any
-  toggleApprovalMutation: any
   isAdmin: boolean
 }
 
 export const DashboardTable = ({
   usersToShow,
   setUsersToShow,
-  toggleApprovalMutation,
-  deleteUserMutation,
   isAdmin,
 }: DashboardTableProps) => {
   const toast = useToast()
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const [parent] = useAutoAnimate<HTMLTableSectionElement>()
-  const { mutate: toggleApproval, isLoading } = toggleApprovalMutation
-  const { mutate: deleteUser } = deleteUserMutation
+
+  const { mutate: toggleApproval, isLoading: isTogglingApproval } =
+    trpc.registeredUser.toggleApproval.useMutation()
+  const { mutate: deleteUser, isLoading: isDeletingRegisteredUser } =
+    trpc.registeredUser.deleteUser.useMutation()
 
   function handleToggleApproval(userId: string, approvedStatus: boolean) {
     return () => {
@@ -214,7 +214,7 @@ export const DashboardTable = ({
                                     user.id,
                                     user.approved,
                                   )}
-                                  isLoading={isLoading}
+                                  isLoading={isTogglingApproval}
                                 >
                                   Sim
                                 </Button>
@@ -280,7 +280,7 @@ export const DashboardTable = ({
                                   leftIcon={<Check />}
                                   colorScheme="purple"
                                   onClick={() => handleDeleteUser(user.id)}
-                                  isLoading={deleteUserMutation?.isLoading}
+                                  isLoading={isDeletingRegisteredUser}
                                 >
                                   Sim
                                 </Button>

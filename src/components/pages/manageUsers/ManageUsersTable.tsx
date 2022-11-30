@@ -19,15 +19,13 @@ import { useSession } from 'next-auth/react'
 import { useRef } from 'react'
 import { type TUserPossiblePermissions } from '@root/utils/permissionsUtils'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { trpc } from '@root/utils/trpc'
+
 interface ManageUsersTableProps {
   users: User[]
-  permissionMutate: any
 }
 
-export const ManageUsersTable = ({
-  users,
-  permissionMutate,
-}: ManageUsersTableProps) => {
+export const ManageUsersTable = ({ users }: ManageUsersTableProps) => {
   const toast = useToast()
   const toastIdRef = useRef<any>()
   const { data } = useSession()
@@ -36,6 +34,9 @@ export const ManageUsersTable = ({
   const backgroundColor = useColorModeValue('white', 'gray.900')
   const borderColor = useColorModeValue('gray.100', 'gray.700')
   const shadow = useColorModeValue('sm', '')
+
+  const { mutate: changeUserPermission } =
+    trpc.user.changePermission.useMutation()
 
   const formatPermission = (permission: string) => {
     return permission === 'admin' ? 'Administrador' : 'Nenhuma'
@@ -52,13 +53,13 @@ export const ManageUsersTable = ({
       })
     }
 
-    permissionMutate.mutate(
+    changeUserPermission(
       {
         id: userId,
         newPermission: permission,
       },
       {
-        onError: (error: any) => {
+        onError: (error) => {
           if (toastIdRef.current)
             toast.update(toastIdRef.current, {
               title: 'Erro.',
@@ -69,7 +70,7 @@ export const ManageUsersTable = ({
               position: 'top-right',
             })
         },
-        onSuccess: (response: any) => {
+        onSuccess: (response) => {
           if (toastIdRef.current)
             toast.update(toastIdRef.current, {
               title: 'Alterado.',

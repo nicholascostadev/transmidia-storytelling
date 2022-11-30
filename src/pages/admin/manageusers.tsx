@@ -66,8 +66,6 @@ export default function ManageUsers() {
     }
   }, [infiniteUsers.data?.pages, page])
 
-  const permissionMutate = trpc.user.changePermission.useMutation()
-
   const hasMorePages = infiniteUsers.hasNextPage || lastAvailablePage > page
 
   // only admins can manage users permissions for security reasons
@@ -100,7 +98,7 @@ export default function ManageUsers() {
             changeFilter={changeFilter}
           />
 
-          <ManageUsersTable users={users} permissionMutate={permissionMutate} />
+          <ManageUsersTable users={users} />
 
           <Flex justify="space-between" w="1200px" maxW="100%">
             <Flex justify="center" alignItems="center">

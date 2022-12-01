@@ -17,9 +17,9 @@ import { useState } from 'react'
 import { GeneralizedErrorPage } from '../../../components/GeneralizedErrorPage'
 import { NotAllowed } from '../../../components/NotAllowed'
 import { DashboardHeader } from '../../../components/pages/Dashboard/DashboardHeader'
-import { UserTable } from '../../../components/pages/userCPF/UserTable'
-import { trpc } from '../../../utils/trpc'
+import { UserTable } from '../../../components/pages/userId/UserTable'
 import { useLoggedInfo } from '../../../hooks'
+import { trpc } from '../../../utils/trpc'
 
 export default function Answers() {
   const { query } = useRouter()

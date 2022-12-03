@@ -13,13 +13,11 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react'
-import { User } from '@prisma/client'
-
-import { useSession } from 'next-auth/react'
-import { useRef } from 'react'
-import { type TUserPossiblePermissions } from '@root/utils/permissionsUtils'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { User } from '@prisma/client'
+import { TUserPossiblePermissions } from '@root/utils/permissionsUtils'
 import { trpc } from '@root/utils/trpc'
+import { useSession } from 'next-auth/react'
 
 interface ManageUsersTableProps {
   users: User[]
@@ -27,7 +25,6 @@ interface ManageUsersTableProps {
 
 export const ManageUsersTable = ({ users }: ManageUsersTableProps) => {
   const toast = useToast()
-  const toastIdRef = useRef<any>()
   const { data } = useSession()
   const [parent] = useAutoAnimate<HTMLTableSectionElement>()
 
@@ -60,32 +57,31 @@ export const ManageUsersTable = ({ users }: ManageUsersTableProps) => {
       },
       {
         onError: (error) => {
-          if (toastIdRef.current)
-            toast.update(toastIdRef.current, {
-              title: 'Erro.',
-              description: error.message,
-              status: 'error',
-              duration: 3000,
-              isClosable: true,
-              position: 'top-right',
-            })
+          toast({
+            title: 'Erro.',
+            description: error.message,
+            status: 'error',
+            duration: 3000,
+            isClosable: true,
+            position: 'top-right',
+          })
         },
         onSuccess: (response) => {
-          if (toastIdRef.current)
-            toast.update(toastIdRef.current, {
-              title: 'Alterado.',
-              description: `A permissão do usuário ${
-                response.name
-              } foi alterada para ${formatPermission(
-                response.permission,
-              )} com sucesso`,
-              status: 'success',
-              duration: 3000,
-              isClosable: true,
-            })
+          toast({
+            title: 'Alterado.',
+            description: `A permissão do usuário ${
+              response.name
+            } foi alterada para ${formatPermission(
+              response.permission,
+            )} com sucesso`,
+            status: 'success',
+            duration: 3000,
+            position: 'top-right',
+            isClosable: true,
+          })
         },
         onSettled: () => {
-          toastIdRef.current = toast({
+          toast({
             title: 'Enviando...',
             description: (
               <Center>
@@ -93,6 +89,7 @@ export const ManageUsersTable = ({ users }: ManageUsersTableProps) => {
               </Center>
             ),
             status: 'info',
+            duration: 1000,
             position: 'top-right',
           })
         },

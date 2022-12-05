@@ -7,18 +7,16 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
-import { useRouter } from 'next/router'
 import { ArrowCounterClockwise } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
 import { ManageUsersTable } from '../../components/pages/manageUsers/ManageUsersTable'
 import { Search } from '../../components/Search'
-import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
-import { useDebounceQuery, useLoggedInfo } from '../../hooks'
 import { PaginationButtons } from '@root/components/PaginationButtons'
 import { PaginationPageInfo } from '@root/components/PaginationPageInfo'
+import { useFilter, useDebouncedQuery, useLoggedInfo } from '@root/hooks'
 
 export default function ManageUsers() {
   const { userInfo, isAdmin, isLoading } = useLoggedInfo()
@@ -26,22 +24,18 @@ export default function ManageUsers() {
   const [page, setPage] = useState(1)
 
   // debounce effect when searching
-  const { changeQuery, changeFilter, filterState } = useDebounceQuery()
+  const { debounced, query } = useDebouncedQuery()
+  const { filter, handleFilterChange } = useFilter()
 
   const backgroundColor = useColorModeValue('gray.100', '')
-
-  const router = useRouter()
-  // We pick the current query string from the router instead of `useState()`
-  // Allows for reloading the page to see the same search results & to link to it
-  const q = stringOrNull(router.query.q)?.trim()
 
   const [users, setUsers] = useState([] as User[])
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
   const infiniteUsers = trpc.user.getInfiniteUsers.useInfiniteQuery(
     {
       limit: itemsPerPage,
-      query: q,
-      filter: filterState.filter,
+      query,
+      filter,
     },
     {
       refetchOnWindowFocus: false,
@@ -101,10 +95,9 @@ export default function ManageUsers() {
       >
         <Stack w="1300px" maxW="100%" mx="auto">
           <Search
-            currentQuery={filterState.query}
-            changeQuery={changeQuery}
-            filter={filterState.filter}
-            changeFilter={changeFilter}
+            filterField={filter.field}
+            handleFilterChange={handleFilterChange}
+            handleChangeQuery={debounced}
           />
 
           <ManageUsersTable users={users} />

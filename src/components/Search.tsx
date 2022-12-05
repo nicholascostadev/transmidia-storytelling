@@ -34,7 +34,7 @@ export const Search = ({
   const shadow = useColorModeValue('sm', 'none')
   const router = useRouter()
 
-  const isOnManageRoute = router.asPath.includes('manageusers')
+  const isOnManageRoute = router.asPath.includes('/manageusers')
 
   return (
     <Flex

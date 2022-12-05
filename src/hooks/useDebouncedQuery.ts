@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
-export const useDebouncedQuery = () => {
+export const useDebouncedQuery = (timeInMs: number = 500) => {
   const [query, setQuery] = useState('')
   const debounced = useDebouncedCallback((value: string) => {
     setQuery(value)
-  }, 500)
+  }, timeInMs)
 
   return { debounced, query }
 }

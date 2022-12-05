@@ -11,23 +11,26 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react'
+import { TFilter } from '@root/../@types/queryFilter'
 import { useRouter } from 'next/router'
 import { MagnifyingGlass } from 'phosphor-react'
-
-import type { TFilter } from '../../@types/queryFilter'
+import { DebouncedState } from 'use-debounce'
 
 interface SearchProps {
-  currentQuery: string
-  changeQuery: (query: string) => void
-  filter: TFilter
-  changeFilter: (filter: TFilter) => void
+  handleChangeQuery: DebouncedState<(value: string) => void>
+  handleFilterChange: (
+    filter: TFilter['field'],
+    approval: 'none' | 'approved' | 'unapproved',
+  ) => void
+  filterField: TFilter['field']
+  filterApproval?: boolean
 }
 
 export const Search = ({
-  currentQuery,
-  changeQuery,
-  filter,
-  changeFilter,
+  handleChangeQuery,
+  handleFilterChange,
+  filterField,
+  filterApproval,
 }: SearchProps) => {
   const borderColor = useColorModeValue('gray.100', 'gray.700')
   const backgroundColor = useColorModeValue('white', 'gray.900')
@@ -35,6 +38,13 @@ export const Search = ({
   const router = useRouter()
 
   const isOnManageRoute = router.asPath.includes('/manageusers')
+
+  const approvalString =
+    filterApproval === undefined
+      ? 'none'
+      : filterApproval
+      ? 'approved'
+      : 'unapproved'
 
   return (
     <Flex
@@ -48,10 +58,9 @@ export const Search = ({
       <InputGroup variant="flushed">
         <Input
           placeholder={`Procure pelo ${
-            filter.field === 'email' ? 'email' : 'nome'
+            filterField === 'email' ? 'email' : 'nome'
           } de um usuário`}
-          value={currentQuery}
-          onChange={(e) => changeQuery(e.target.value)}
+          onChange={(e) => handleChangeQuery(e.target.value)}
         />
         <InputLeftElement>
           <MagnifyingGlass />
@@ -97,11 +106,11 @@ export const Search = ({
               display="flex"
               flexDir={isOnManageRoute ? 'row' : 'column'}
               gap="2"
-              onChange={(value: TFilter['field']) => {
-                changeFilter({ ...filter, field: value })
-              }}
+              onChange={(field: TFilter['field']) =>
+                handleFilterChange(field, approvalString)
+              }
               defaultValue="email"
-              value={filter.field}
+              value={filterField}
             >
               <Radio value="email">Email</Radio>
               <Radio value="name">Nome</Radio>
@@ -118,24 +127,14 @@ export const Search = ({
                   flexDir="column"
                   gap="2"
                   defaultValue="none"
-                  onChange={(value: string) => {
-                    if (value !== 'none') {
-                      changeFilter({
-                        ...filter,
-                        approval: value === 'approved',
-                      })
-                    } else {
-                      changeFilter({
-                        ...filter,
-                        approval: undefined,
-                      })
-                    }
+                  onChange={(value: 'none' | 'approved' | 'unapproved') => {
+                    handleFilterChange(filterField, value)
                   }}
                   value={
-                    filter.approval
-                      ? 'approved'
-                      : typeof filter.approval === 'undefined'
+                    typeof filterApproval === 'undefined'
                       ? 'none'
+                      : filterApproval
+                      ? 'approved'
                       : 'unapproved'
                   }
                 >

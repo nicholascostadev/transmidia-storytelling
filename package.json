@@ -39,6 +39,7 @@
     "react-scroll": "^1.8.8",
     "react-typed": "^1.2.0",
     "superjson": "1.9.1",
+    "use-debounce": "^9.0.2",
     "yarn": "^1.22.19",
     "zod": "^3.18.0"
   },

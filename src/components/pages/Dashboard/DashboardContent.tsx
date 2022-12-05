@@ -10,13 +10,11 @@ import { RegisteredUser } from '@prisma/client'
 import { PaginationButtons } from '@root/components/PaginationButtons'
 import { PaginationPageInfo } from '@root/components/PaginationPageInfo'
 import { Search } from '@root/components/Search'
-import { useDebounceQuery } from '@root/hooks'
-import { stringOrNull } from '@root/utils/stringOrNull'
 import { trpc } from '@root/utils/trpc'
-import { useRouter } from 'next/router'
 import { ArrowCounterClockwise } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { DashboardTable } from './DashboardTable'
+import { useDebouncedQuery, useFilter } from '../../../hooks'
 
 interface DashboardContentProps {
   isAdmin: boolean
@@ -26,20 +24,20 @@ export const DashboardContent = ({ isAdmin }: DashboardContentProps) => {
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
 
+  // Dark and Light mode colors
   const borderColor = useColorModeValue('gray.100', 'gray.700')
   const backgroundColor = useColorModeValue('gray.100', '')
 
   const [lastAvailablePage, setLastAvailablePage] = useState(1)
-  const { query } = useRouter()
-  const q = stringOrNull(query.q)?.trim()
 
-  const { changeQuery, changeFilter, filterState } = useDebounceQuery(resetPage)
+  const { debounced, query: querySt } = useDebouncedQuery()
+  const { filter, handleFilterChange } = useFilter()
 
   const infiniteUsers: any = trpc.registeredUser.infiniteUsers.useInfiniteQuery(
     {
       limit: itemsPerPage,
-      query: q,
-      filter: filterState.filter,
+      query: querySt,
+      filter,
     },
     {
       refetchOnWindowFocus: false,
@@ -112,10 +110,10 @@ export const DashboardContent = ({ isAdmin }: DashboardContentProps) => {
     >
       <Stack w="1200px" maxW="100%" mx="auto">
         <Search
-          currentQuery={filterState.query}
-          changeQuery={changeQuery}
-          filter={filterState.filter}
-          changeFilter={changeFilter}
+          handleChangeQuery={debounced}
+          filterApproval={filter.approval}
+          filterField={filter.field}
+          handleFilterChange={handleFilterChange}
         />
         <Box
           maxW="100%"

@@ -1,21 +1,14 @@
 import {
-  ButtonGroup,
   Center,
   Flex,
-  FormLabel,
   IconButton,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
   Spinner,
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react'
 import { User } from '@prisma/client'
 import { useRouter } from 'next/router'
-import { ArrowCounterClockwise, CaretLeft, CaretRight } from 'phosphor-react'
+import { ArrowCounterClockwise } from 'phosphor-react'
 import { useEffect, useState } from 'react'
 import { DashboardHeader } from '../../components/pages/Dashboard/DashboardHeader'
 import { NotAllowed } from '../../components/NotAllowed'
@@ -24,6 +17,8 @@ import { Search } from '../../components/Search'
 import { stringOrNull } from '../../utils/stringOrNull'
 import { trpc } from '../../utils/trpc'
 import { useDebounceQuery, useLoggedInfo } from '../../hooks'
+import { PaginationButtons } from '@root/components/PaginationButtons'
+import { PaginationPageInfo } from '@root/components/PaginationPageInfo'
 
 export default function ManageUsers() {
   const { userInfo, isAdmin, isLoading } = useLoggedInfo()
@@ -81,6 +76,20 @@ export default function ManageUsers() {
     )
   }
 
+  const handleGotoPrevPage = () => {
+    if (page <= 0) return
+
+    setPage((prev) => prev - 1)
+  }
+
+  const handleGotoNextPage = () => {
+    infiniteUsers.fetchNextPage()
+    if (!hasMorePages) return
+
+    setPage((page) => page + 1)
+    setLastAvailablePage(page + 1)
+  }
+
   return (
     <>
       <DashboardHeader permission={userInfo?.permission} />
@@ -101,24 +110,11 @@ export default function ManageUsers() {
           <ManageUsersTable users={users} />
 
           <Flex justify="space-between" w="1200px" maxW="100%">
-            <Flex justify="center" alignItems="center">
-              <FormLabel>Itens por página</FormLabel>
-              <NumberInput
-                w="20"
-                defaultValue={itemsPerPage}
-                min={1}
-                max={20}
-                value={itemsPerPage}
-                onChange={(_, valueAsNumber) => setItemsPerPage(valueAsNumber)}
-                size="sm"
-              >
-                <NumberInputField />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </Flex>
+            <PaginationPageInfo
+              itemsPerPage={itemsPerPage}
+              changeItemsPerPage={(value) => setItemsPerPage(value)}
+            />
+
             <IconButton
               size="sm"
               icon={<ArrowCounterClockwise />}
@@ -130,33 +126,12 @@ export default function ManageUsers() {
               isLoading={infiniteUsers.isRefetching || infiniteUsers.isLoading}
             />
 
-            <ButtonGroup size="sm">
-              <IconButton
-                as={CaretLeft}
-                disabled={page === 1}
-                cursor="pointer"
-                onClick={() => {
-                  setPage((page) => {
-                    return page > 1 ? page - 1 : page
-                  })
-                }}
-                aria-label="Previous page icon"
-              />
-              <IconButton
-                as={CaretRight}
-                disabled={!hasMorePages}
-                cursor="pointer"
-                onClick={() => {
-                  infiniteUsers.fetchNextPage()
-
-                  if (hasMorePages) {
-                    setPage((page) => page + 1)
-                    setLastAvailablePage(page + 1)
-                  }
-                }}
-                aria-label="Next page icon"
-              />
-            </ButtonGroup>
+            <PaginationButtons
+              currentPage={page}
+              hasMorePages={hasMorePages}
+              handleGotoPrevPage={handleGotoPrevPage}
+              handleGotoNextPage={handleGotoNextPage}
+            />
           </Flex>
         </Stack>
       </Center>

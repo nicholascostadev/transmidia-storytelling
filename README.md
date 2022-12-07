@@ -67,17 +67,17 @@ Esperamos que você acompanhe a gente nessa jornada, sua participação signific
 - /admin/manageusers
   - ![Gerenciamento de usuários](readmeAssets/manageusersTable.jpg)
 
-### O código será aberto para sempre?
+<!-- ### O código será aberto para sempre?
 
-Sim, a razão de estarmos fazendo isso é pela própria educação, então nada melhor que disponibilizar a maneira de como conseguimos realizar o projeto.
+Sim, a razão de estarmos fazendo isso é pela própria educação, então nada melhor que disponibilizar a maneira de como conseguimos realizar o projeto. -->
 
-### Posso contribuir para o projeto com o que sei?
+<!-- ### Posso contribuir para o projeto com o que sei?
 
 Claro que você pode, tanto no âmbito da programação quanto o científico.
 
 Caso tenha alguma sugestão de alteração, você pode mandar pelo próprio site no widget no canto inferior direito e escrever por lá o seu feedback.
 
-Caso você seja um programador e queira ajudar no desenvolvimento, basta seguir o próximo tópico, que será explicado tudo que você deverá fazer para contribuir.
+Caso você seja um programador e queira ajudar no desenvolvimento, basta seguir o próximo tópico, que será explicado tudo que você deverá fazer para contribuir. -->
 
 ## Como posso contribuir no código?
 
@@ -210,17 +210,17 @@ We hope you join us on this journey, your participation means a lot to us!
 - /admin/manageusers
   - ![Manage Users Dashboard](readmeAssets/manageusersTable.jpg)
 
-### Will the code be open forever?
+<!-- ### Will the code be open forever?
 
-Yes, the reason we are doing this is for education itself, so nothing better than making available the way we managed to carry out the project.
+Yes, the reason we are doing this is for education itself, so nothing better than making available the way we managed to carry out the project. -->
 
-### Can I contribute to the project with what I know?
+<!-- ### Can I contribute to the project with what I know?
 
 Of course you can, both programming and scientific.
 
 If you have any suggestions for changes, you can send them through the website in the widget in the lower right corner and write your feedback there.
 
-If you are a programmer and want to help with development, just follow the next topic, which will explain everything you should do to contribute.
+If you are a programmer and want to help with development, just follow the next topic, which will explain everything you should do to contribute. -->
 
 ## How can I contribute to the code?
 

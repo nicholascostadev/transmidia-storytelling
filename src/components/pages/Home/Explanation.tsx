@@ -51,7 +51,7 @@ export const Explanation = () => {
               width={600}
               height={400}
               src="/images/medias.svg"
-              alt="Person with social media icons around"
+              alt="Pessoa com ícones de mídias sociais ao redor"
             />
           </Center>
           <Stack flex="1" spacing="1rem" maxW={'100%'} minH="400px">

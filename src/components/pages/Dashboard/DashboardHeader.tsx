@@ -83,7 +83,7 @@ export const DashboardHeader = ({
                     <ChakraCustomImage
                       lineHeight={0}
                       src="/images/healthlab-logo.svg"
-                      alt=""
+                      alt="HealthLab logo"
                       height={35}
                       width={30}
                     />

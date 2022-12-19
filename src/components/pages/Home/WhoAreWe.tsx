@@ -56,7 +56,7 @@ export const WhoAreWe = () => {
         <ChakraCustomImage
           display={['none', 'none', 'initial']}
           src="/images/virus.svg"
-          alt=""
+          alt="Ilustração de um Vírus"
           width={200}
           height={200}
         />
@@ -83,7 +83,7 @@ export const WhoAreWe = () => {
         <ChakraCustomImage
           src="/images/science1.svg"
           display={['none', 'none', 'initial']}
-          alt=""
+          alt="Ilustração representando a ciência"
           width={200}
           height={200}
         />
@@ -110,7 +110,7 @@ export const WhoAreWe = () => {
         <ChakraCustomImage
           src="/images/science2.svg"
           display={['none', 'none', 'initial']}
-          alt=""
+          alt="Ilustração de um átomo, representando a ciência"
           width={200}
           height={200}
         />

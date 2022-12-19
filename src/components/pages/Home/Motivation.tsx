@@ -108,7 +108,7 @@ export const Motivation = () => {
             width={600}
             height={400}
             src="/images/readbooks.svg"
-            alt="Person 500pxwith social media icons around"
+            alt="Pessoa com ícones de mídias sociais ao redor"
           />
         </Center>
       </Grid>

@@ -28,7 +28,7 @@ export const Participate = () => {
             position="absolute"
             top="0"
             left="0"
-            alt=""
+            alt="Person pointing to a board as about to teach something"
             zIndex={1}
           />
           <Grid

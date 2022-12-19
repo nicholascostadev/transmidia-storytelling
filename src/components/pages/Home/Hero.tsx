@@ -216,7 +216,11 @@ export const Hero = () => {
                   >
                     <Image
                       src={images[i] as string}
-                      alt={i === 0 ? "Ilustração de um cientista" : "Ilustração de uma pessoa obesa" }
+                      alt={
+                        i === 0
+                          ? 'Ilustração de um cientista'
+                          : 'Ilustração de uma pessoa obesa'
+                      }
                       width={700}
                       height={700}
                       style={{

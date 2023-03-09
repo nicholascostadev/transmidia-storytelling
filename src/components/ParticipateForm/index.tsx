@@ -52,7 +52,7 @@ export const ParticipateForm = () => {
   // variable that will be removed when we launch the app (there may be a better
   // way of doing so, maybe using a .env variable or something, but right now,
   // it does the work it's supposed to do)
-  const isLaunched = false
+  const isLaunched = true
 
   const registerMutation = trpc.registeredUser.register.useMutation()
   const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()

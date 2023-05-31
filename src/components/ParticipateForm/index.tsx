@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   ButtonGroup,
   Center,
@@ -29,11 +28,7 @@ import { FormData, validation } from '../../../@types/formValidation'
 import statesCities from '../../utils/city-states.json'
 import { trpc } from '../../utils/trpc'
 import { Input } from '../Input'
-import {
-  firstStepInputs,
-  genderOptions,
-  secondStepInputs,
-} from './formStepInputs'
+import { firstStepInputs, genderOptions } from './formStepInputs'
 
 export interface Estado {
   sigla: string
@@ -55,12 +50,13 @@ export const ParticipateForm = () => {
   const isLaunched = true
 
   const registerMutation = trpc.registeredUser.register.useMutation()
-  const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()
+  // const { mutate: sendConfirmationEmail } = trpc.email.sendMail.useMutation()
   const [formStep, setFormStep] = useState(1)
   const router = useRouter()
   const toast = useToast()
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [possibleCities, setPossibleCities] = useState<string[]>(['Acrelândia'])
+  const [otherSexValue, setOtherSexValue] = useState('')
   const disabledBg = useColorModeValue('blackAlpha.300', 'whiteAlpha.200')
 
   const {
@@ -76,17 +72,16 @@ export const ParticipateForm = () => {
       age: 18,
       state: 'AC',
       city: 'Acrelândia',
-      academic: 'ensino-fundamental',
-      gender: 'MASCULINO',
-      occupation: 'estudante',
+      gender: 'prefer-not-to-classify',
+      occupation: 'no-occupation',
     },
     reValidateMode: 'onChange',
     mode: 'all',
   })
 
   const inputBg = useColorModeValue('initial', 'gray.800')
-  const notRequiredInputs = ['disabilities', 'previousKnowledge']
   const currentState = watch('state')
+  const currentSex = watch('sex')
 
   // TODO: Refactor this, should be using a useMemo, no need for effect here
   // probably
@@ -111,37 +106,39 @@ export const ParticipateForm = () => {
 
     if (!isLaunched) return data
 
-    registerMutation.mutate(data, {
-      onError: (err) => {
-        toast({
-          title: 'Erro.',
-          description:
-            'Erro ao registrar. Você está se registrando novamente sem querer?',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        console.error({ err })
+    registerMutation.mutate(
+      { ...data },
+      {
+        onError: () => {
+          toast({
+            title: 'Erro.',
+            description:
+              'Erro ao registrar. Você está se registrando novamente sem querer?',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+            position: 'top-right',
+          })
+        },
+        onSuccess: () => {
+          toast({
+            title: 'Registrado.',
+            description: 'Você foi registrado com sucesso!',
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+            position: 'top-right',
+          })
+          // sendConfirmationEmail({
+          //   email: data.email,
+          //   userId: data.id,
+          //   name: data.name,
+          // })
+          router.push('/thankyou')
+          reset()
+        },
       },
-      onSuccess: (data) => {
-        toast({
-          title: 'Registrado.',
-          description: 'Você foi registrado com sucesso!',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-          position: 'top-right',
-        })
-        sendConfirmationEmail({
-          email: data.email,
-          userId: data.id,
-          name: data.name,
-        })
-        router.push('/thankyou')
-        reset()
-      },
-    })
+    )
   }
 
   const formStepContainer = {
@@ -150,6 +147,8 @@ export const ParticipateForm = () => {
       x: 0,
     },
   }
+
+  console.log(errors)
 
   return (
     <Fade in={true} transition={{ enter: { duration: 1.5 } }}>
@@ -170,14 +169,21 @@ export const ParticipateForm = () => {
           <Heading>Cadastro</Heading>
           <Divider />
         </Center>
-        <Flex position="relative" h={{ base: '560px', md: '520px' }}>
-          <Box
+        <Flex
+          position="relative"
+          h={{
+            base: formStep === 1 ? '560px' : '620px',
+            md: formStep === 1 ? '520px' : '600px',
+          }}
+        >
+          <Stack
             as={motion.div}
             position="absolute"
             w="full"
             variants={formStepContainer}
             initial="hidden"
             animate={formStep === 1 ? 'show' : 'hidden'}
+            h="full"
           >
             {firstStepInputs.map(({ title, field, type }) => {
               if (field === 'cpf') {
@@ -271,11 +277,7 @@ export const ParticipateForm = () => {
                 </Select>
               </FormControl>
             </Flex>
-            <ButtonGroup
-              display="flex"
-              justifyContent="flex-end"
-              alignSelf="flex-end"
-            >
+            <ButtonGroup display="flex" alignSelf="flex-end" mt="auto!">
               <Button
                 type="button"
                 alignItems="center"
@@ -301,29 +303,56 @@ export const ParticipateForm = () => {
                 Próximo
               </Button>
             </ButtonGroup>
-          </Box>
-          <Box
+          </Stack>
+          <Stack
             as={motion.div}
             variants={formStepContainer}
             initial="hidden"
             animate={formStep === 2 ? 'show' : 'hidden'}
             position="absolute"
             w="full"
+            h="full"
           >
-            {secondStepInputs.map(({ title, field, type }) => {
-              return (
-                <Input
-                  label={title}
-                  bg={inputBg}
-                  error={errors[field]}
-                  key={field}
-                  isRequired={!notRequiredInputs.find((item) => item === field)}
-                  type={type}
-                  isDisabled={formStep !== 2}
-                  {...register(field)}
-                />
-              )
-            })}
+            <FormLabel>Você possui deficiência?</FormLabel>
+            <Select
+              {...register('hasDisabilities')}
+              isDisabled={formStep !== 2}
+            >
+              <option value="yes">Sim</option>
+              <option value="no">Não</option>
+            </Select>
+            <FormLabel>
+              Já consumiu algum conteúdo de ciência antes deste questionário?
+            </FormLabel>
+            <Select
+              {...register('previousExperience')}
+              isDisabled={formStep !== 2}
+            >
+              <option value="yes">Sim</option>
+              <option value="no">Não</option>
+            </Select>
+
+            <FormLabel>Qual seu sexo?</FormLabel>
+            <Select {...register('sex')} isDisabled={formStep !== 2}>
+              <option value="male">Masculino</option>
+              <option value="female">Feminino</option>
+              <option value="other">Outro</option>
+            </Select>
+            {currentSex === 'other' && (
+              <Input
+                label="Nos diga, por favor"
+                bg={inputBg}
+                error={errors.sex}
+                flex="1"
+                type="text"
+                inputMode="text"
+                isDisabled={formStep !== 2}
+                value={otherSexValue}
+                variant="outline"
+                onChange={(e) => setOtherSexValue(e.target.value)}
+                name="otherSex"
+              />
+            )}
             <FormLabel>Gênero</FormLabel>
             <Select
               {...register('gender')}
@@ -336,22 +365,20 @@ export const ParticipateForm = () => {
                 </option>
               ))}
             </Select>
+
             <FormLabel>Qual o seu nível de escolaridade?</FormLabel>
             <Select
-              {...register('academic')}
+              {...register('occupation')}
               variant="outline"
               isDisabled={formStep !== 2}
             >
-              <option value="ensino-fundamental">
-                Ensino Fundamental Completo
+              <option value="student">
+                Estudante (iniciação científica, graduação, especialização e
+                pós-graduação)
               </option>
-              <option value="ensino-medio">Ensino Médio Completo</option>
-              <option value="ensino-superior">Ensino Superior Completo</option>
-            </Select>
-            <FormLabel>Qual a sua ocupação atual?</FormLabel>
-            <Select {...register('occupation')} isDisabled={formStep !== 2}>
-              <option value="estudante">Estudante</option>
-              <option value="profissional">Profissional</option>
+              <option value="part-time-job">Trabalho tempo parcial</option>
+              <option value="full-time-job">Trabalho tempo integral</option>
+              <option value="no-occupation">Sem ocupação profissional</option>
             </Select>
             <Checkbox
               onChange={(e) => setAcceptedTerms(e.target.checked)}
@@ -375,7 +402,7 @@ export const ParticipateForm = () => {
                     href={'/participate/terms'}
                     color="blue.400"
                   >
-                    termos de consentimento
+                    termos de consentimento{' '}
                   </ChakraLink>
                 ) : (
                   <ChakraLink color="blue.400">
@@ -386,7 +413,7 @@ export const ParticipateForm = () => {
               </Text>
             </Checkbox>
 
-            <ButtonGroup display="flex" justifyContent="flex-end">
+            <ButtonGroup display="flex" justifyContent="flex-end" mt="auto!">
               <Button
                 type="button"
                 alignItems="center"
@@ -426,7 +453,7 @@ export const ParticipateForm = () => {
                 Participar
               </Button>
             </ButtonGroup>
-          </Box>
+          </Stack>
         </Flex>
       </Stack>{' '}
     </Fade>

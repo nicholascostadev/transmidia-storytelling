@@ -42,6 +42,8 @@ export const UserTable = ({
 }: UserTableProps) => {
   const toast = useToast()
 
+  console.log({ userInfo })
+
   const toggleApprovalMutation =
     trpc.registeredUser.toggleApproval.useMutation()
 

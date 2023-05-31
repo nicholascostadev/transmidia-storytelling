@@ -1,5 +1,4 @@
 import { RegisteredUser } from '@prisma/client'
-import { GENDER_OPTIONS } from '@root/server/back-utils/formatters'
 import { validation } from '@root/server/back-utils/validation'
 import { z } from 'zod'
 import { adminModRouter, adminRouter, publicProcedure, router } from '../trpc'
@@ -8,53 +7,19 @@ export const registeredUserRouter = router({
   register: publicProcedure
     .input(validation)
     .mutation(async ({ ctx, input }) => {
-      const academic = input.academic
-        .split('-')
-        .join(' ')
-        .split('')
-        .map((letter, index) => (index === 0 ? letter.toUpperCase() : letter))
-        .join('')
-      const noDisabilities = input.disabilities === '' || !input.disabilities
-      const noPrevKnowledge =
-        input.previousKnowledge === '' || !input.previousKnowledge
-
-      type FormattedData = Omit<
-        RegisteredUser,
-        | 'id'
-        | 'created_at'
-        | 'confirmedEmail'
-        | 'school_level'
-        | 'approved'
-        | 'prev_knowledge'
-      > & {
-        previousKnowledge: string
-        academic: string
-      }
-
-      const formattedData: FormattedData = {
-        ...input,
-        academic,
-        disabilities: noDisabilities ? 'Nenhuma' : input.disabilities!,
-        previousKnowledge: noPrevKnowledge
-          ? 'Nenhum'
-          : input.previousKnowledge!,
-        gender: GENDER_OPTIONS[input.gender],
-        cpf: input.cpf.replace(/\D/g, ''),
-      }
-
       return await ctx.prisma.registeredUser.create({
         data: {
-          email: formattedData.email,
-          name: formattedData.name,
-          cpf: formattedData.cpf,
-          city: formattedData.city,
-          state: formattedData.state,
-          age: formattedData.age,
-          disabilities: formattedData.disabilities,
-          prev_knowledge: formattedData.previousKnowledge,
-          gender: formattedData.gender,
-          school_level: formattedData.academic,
-          occupation: formattedData.occupation,
+          email: input.email,
+          name: input.name,
+          cpf: input.cpf,
+          city: input.city,
+          state: input.state,
+          age: input.age,
+          hasDisabilities: input.hasDisabilities,
+          prev_experiences: input.previousExperience,
+          gender: input.gender,
+          occupation: input.occupation,
+          sex: input.sex === 'other' ? input?.otherSex : input.sex,
         },
       })
     }),

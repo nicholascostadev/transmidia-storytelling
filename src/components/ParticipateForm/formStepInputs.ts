@@ -21,38 +21,31 @@ export const firstStepInputs = [
   },
 ] as const
 
-export const secondStepInputs = [
+export const genderOptions = [
   {
-    title: 'Possui alguma deficiência?',
-    field: 'disabilities',
-    type: 'string',
+    title: 'Mulher cisgênera',
+    value: 'woman-cisgender',
   },
   {
-    title: 'Possui conhecimento prévio na área científica?',
-    field: 'previousKnowledge',
-    type: 'string',
+    title: 'Homem cisgênero',
+    value: 'man-cisgender',
+  },
+  {
+    title: 'Mulher transexual/transgênera',
+    value: 'woman-transgender',
+  },
+  {
+    title: 'Homem transexual/transgênero',
+    value: 'man-transgender',
+  },
+  {
+    title: 'Não binário',
+    value: 'non-binary',
+  },
+  {
+    title: 'Prefiro não me classificar',
+    value: 'prefer-not-to-classify',
   },
 ] as const
 
-export const genderOptions = [
-  {
-    title: 'Masculino',
-    value: 'MASCULINO',
-  },
-  {
-    title: 'Feminino',
-    value: 'FEMININO',
-  },
-  {
-    title: 'Não-binário',
-    value: 'NAO_BINARIO',
-  },
-  {
-    title: 'Outros',
-    value: 'OUTROS',
-  },
-  {
-    title: 'Prefiro não responder',
-    value: 'PREFIRO_NAO_DIZER',
-  },
-] as const
+export const genderValues = genderOptions.map((option) => option.value)

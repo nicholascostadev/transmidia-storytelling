@@ -15,7 +15,7 @@ import {
 import { signOut, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { CaretLeft, List, Moon, SignOut, Sun } from 'phosphor-react'
+import { CaretLeft, Moon, SignOut, Sun } from 'phosphor-react'
 
 import { ContactWidget } from '../components/ContactWidget'
 
@@ -41,7 +41,7 @@ export default function NotAllowed() {
           <chakra.div h="4.5rem" mx="auto" maxW="1200px">
             <>
               <Flex
-                p={['6', '0']}
+                p={['6', '6', '6', '6', '0']}
                 w="full"
                 h="full"
                 align="center"
@@ -93,14 +93,6 @@ export default function NotAllowed() {
                       Sign In
                     </Button>
                   )}
-                  <IconButton
-                    aria-label={'Open menu'}
-                    display={{
-                      base: 'flex',
-                      md: 'none',
-                    }}
-                    icon={<List />}
-                  />
                 </Flex>
               </Flex>
             </>
@@ -119,15 +111,19 @@ export default function NotAllowed() {
           <Text fontSize={['2xl', '2xl', '3xl']} color="green.400">
             Muito obrigado por fazer a diferença na divulgação científica
           </Text>
-          <Text fontSize={['sm', 'lg', 'xl']}>
+          {/* <Text fontSize={['sm', 'lg', 'xl']}>
             Você receberá um e-mail de confirmação em breve. Se você não o
             encontrar, por favor verifique sua caixa de spam e promoções.
-          </Text>
-          <Text fontSize={['sm', 'lg', 'xl']}>
+          </Text> */}
+          {/* <Text fontSize={['sm', 'lg', 'xl']}>
             Caso não tenha recebido o e-mail de confirmação, entre em contato
             com a nossa equipe através do ícone de envelope no canto inferior
             direito da página e selecione o seu problema. Estaremos em total
             disposição para ajudar você.
+          </Text> */}
+          <Text fontSize={['sm', 'lg', 'xl']}>
+            Assim que começarmos nossa captação iremos enviar um e-mail para
+            você, então fique atento.
           </Text>
           <ChakraLink
             as={Link}

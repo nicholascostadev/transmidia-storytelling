@@ -78,7 +78,7 @@ export const Header = () => {
       >
         <chakra.div
           h="4.5rem"
-          p={['6', '0']}
+          p={['6', '6', '6', '6', '0']}
           mx="auto"
           display="flex"
           maxW="1200px"

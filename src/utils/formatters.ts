@@ -16,19 +16,11 @@ export enum TABLE_TITLES {
   city = 'Cidade',
   state = 'Estado',
   age = 'Idade',
-  disabilities = 'Deficiência',
-  prev_knowledge = 'Conhecimento prévio',
-  school_level = 'Escolaridade',
+  sex = 'Sexo',
+  prev_experiences = 'Experiências prévias',
+  hasDisabilities = 'Possui deficiência?',
   occupation = 'Ocupação',
   approved = 'Estado de Aprovação',
   created_at = 'Data de registro',
   gender = 'Gênero',
-}
-
-export enum GENDER_OPTIONS {
-  'MASCULINO' = 'Masculino',
-  'FEMININO' = 'Feminino',
-  'NAO_BINARIO' = 'Não Binário',
-  'OUTROS' = 'Outros',
-  'PREFIRO_NAO_DIZER' = 'Prefiro não dizer',
 }

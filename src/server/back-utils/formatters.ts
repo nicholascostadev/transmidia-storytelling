@@ -24,11 +24,3 @@ export enum TABLE_TITLES {
   created_at = 'Data de registro',
   gender = 'Gênero',
 }
-
-export enum GENDER_OPTIONS {
-  'MASCULINO' = 'Masculino',
-  'FEMININO' = 'Feminino',
-  'NAO_BINARIO' = 'Não Binário',
-  'OUTROS' = 'Outros',
-  'PREFIRO_NAO_DIZER' = 'Prefiro não dizer',
-}

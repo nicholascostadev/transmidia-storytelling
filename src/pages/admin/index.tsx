@@ -125,7 +125,9 @@ export default function AdminSignIn() {
                 justifyContent="center"
                 alignItems="center"
                 color="blue.400"
-                href="/participate"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfBo8-HhD5rPZZ6l4vMisPyZh52ANfDYhroCNM8t_2l8evtGA/viewform?usp=sharing"
+                target="_blank"
+                rel="noreferrer"
                 as={Link}
               >
                 <CaretLeft size={20} />

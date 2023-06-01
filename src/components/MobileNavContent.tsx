@@ -41,7 +41,9 @@ export const MobileNavContent = ({ mobileNav }: MobileNavContentProps) => {
       />
       <Button
         as={Link}
-        href="/participate"
+        href="https://docs.google.com/forms/d/e/1FAIpQLSfBo8-HhD5rPZZ6l4vMisPyZh52ANfDYhroCNM8t_2l8evtGA/viewform?usp=sharing"
+        target="_blank"
+        rel="noreferrer"
         w="full"
         variant="ghost"
         colorScheme="purple"

@@ -159,7 +159,9 @@ export const Hero = () => {
             pessoa de forma única.{' '}
             <Link
               as={NextLink}
-              href="/participate"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfBo8-HhD5rPZZ6l4vMisPyZh52ANfDYhroCNM8t_2l8evtGA/viewform?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
               fontWeight="bold"
               bgGradient={textGradientWithDir()}
               bgClip="text"
@@ -182,7 +184,9 @@ export const Hero = () => {
               >
                 <Button
                   as={NextLink}
-                  href="/participate"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfBo8-HhD5rPZZ6l4vMisPyZh52ANfDYhroCNM8t_2l8evtGA/viewform?usp=sharing"
+                  target="_blank"
+                  rel="noreferrer"
                   colorScheme="pink"
                   maxW="xs"
                   size="lg"

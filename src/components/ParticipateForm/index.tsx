@@ -399,7 +399,9 @@ export const ParticipateForm = () => {
                 {formStep === 2 ? (
                   <ChakraLink
                     as={Link}
-                    href={'/participate/terms'}
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSfBo8-HhD5rPZZ6l4vMisPyZh52ANfDYhroCNM8t_2l8evtGA/viewform?usp=sharing"
+                    target="_blank"
+                    rel="noreferrer"
                     color="blue.400"
                   >
                     termos de consentimento{' '}

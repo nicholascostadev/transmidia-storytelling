@@ -109,7 +109,7 @@ export const Hero = () => {
             bgGradient={textGradientWithDir()}
             bgClip="text"
             ref={textRef}
-            strings={['Varíola dos Macacos?', 'Obesidade?']}
+            strings={['Canabidiol?', 'Obesidade?']}
             backDelay={2000}
             typeSpeed={40}
             fontFamily="'Nunito', sans-serif"

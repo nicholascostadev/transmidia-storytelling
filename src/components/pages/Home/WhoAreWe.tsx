@@ -184,7 +184,7 @@ export const WhoAreWe = () => {
             >
               <Avatar size="2xl" src={`${teamImagesDir}/raphael.jpeg`} />
               <Box>
-                <Text textAlign="center">Raphael</Text>
+                <Text textAlign="center">Raphael Rangel</Text>
                 <Text fontSize="xs" textAlign="center" color="gray.200">
                   Biomédico, habilitado em imunologia, saúde pública e
                   virologia. Mba em liderança, inovação e gestao 4.0 PUC. Mestre
